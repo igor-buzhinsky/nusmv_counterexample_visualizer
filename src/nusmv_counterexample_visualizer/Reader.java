@@ -25,6 +25,7 @@ class Reader {
     private Counterexample ce;
     final List<VerificationResult> result = new ArrayList<>();
     private final boolean fillValueCache;
+    private int lineNum;
 
     Reader(boolean fillValueCache) {
         this.fillValueCache = fillValueCache;
@@ -44,6 +45,7 @@ class Reader {
     }
 
     void nextLine(String line) throws IOException {
+        lineNum++;
         if (line.startsWith("-- specification ")) {
             finalizeCounterexample();
             strOriginalF = line.replaceAll("  +", " ");
@@ -98,7 +100,11 @@ class Reader {
         } else if (line.startsWith("    ")) {
             if (ce != null) {
                 final String[] tokens = line.substring(4).split(" = ");
-                ce.addValue(tokens[0], tokens[1]);
+                if (tokens.length != 2) {
+                    System.err.println("Erroneous input at line " + lineNum + ", skipping.");
+                } else {
+                    ce.addValue(tokens[0], tokens[1]);
+                }
             }
         }
     }
