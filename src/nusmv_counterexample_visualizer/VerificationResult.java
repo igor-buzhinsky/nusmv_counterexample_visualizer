@@ -11,20 +11,18 @@ import java.util.stream.Collectors;
  */
 class VerificationResult {
     final String strOriginalF;
-    final LTLFormula originalF;
-    final LTLFormula f;
+    private final LTLFormula originalF;
     final Counterexample ce;
-    final Set<Clause> causalSet;
+    private final Set<Clause> causalSet;
     final Set<VarNameClause> varNameCausalSet;
     final Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache = new HashMap<>();
 
-    VerificationResult(String strOriginalF, LTLFormula originalF, LTLFormula f, Counterexample ce,
+    VerificationResult(String strOriginalF, LTLFormula originalF, LTLFormula normalizedF, Counterexample ce,
                        boolean fillValueCache) {
         this.strOriginalF = strOriginalF;
         this.originalF = originalF;
-        this.f = f;
         this.ce = ce;
-        causalSet = ce != null ? ce.causalSet(f) : new HashSet<>();
+        causalSet = ce != null ? ce.causalSet(normalizedF) : new HashSet<>();
         varNameCausalSet = new HashSet<>();
         varNameCausalSet.addAll(causalSet.stream().map(Clause::toVarNameClause).collect(Collectors.toList()));
         if (ce != null && fillValueCache) {
@@ -50,6 +48,6 @@ class VerificationResult {
                 list.add(ce.graphicalAnnotatedToString(formulaValueCache, originalF, causalSet, i, highlightSet));
             }
         }
-        return new AnnotationData(strOriginalF, list, ce, causalSet, originalF, formulaValueCache);
+        return new AnnotationData(list, ce);
     }
 }

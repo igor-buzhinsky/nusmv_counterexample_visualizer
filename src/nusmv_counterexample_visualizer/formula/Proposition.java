@@ -11,9 +11,9 @@ import java.util.*;
  */
 public class Proposition extends LTLFormula {
     public final String varName;
-    public final String operator;
-    public final String constant;
-    public final Proposition originalVersion;
+    private final String operator;
+    private final String constant;
+    private final Proposition originalVersion;
 
     private Proposition(String varName, String operator, String constant, Proposition originalVersion) {
         this.varName = varName;

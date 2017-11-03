@@ -14,7 +14,7 @@ public class Clause {
         this.p = p;
     }
 
-    public VarNameClause toVarNameClause() {
+    VarNameClause toVarNameClause() {
         return new VarNameClause(position, p.varName);
     }
 

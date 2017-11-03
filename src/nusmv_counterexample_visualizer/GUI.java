@@ -74,7 +74,7 @@ public class GUI extends JFrame {
         rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.PAGE_AXIS));
         setContentPane(rootPanel);
         try {
-            annotations = AnnotationData.graphicalAnnotation(input, highlightSet);
+            annotations = AnnotationData.graphicalAnnotation(input);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -436,7 +436,6 @@ public class GUI extends JFrame {
                     }
                 }
                 fastUpdateAnnotationPanel();
-                //JOptionPane.showMessageDialog(null, hyperLink.getDescription());
             }
         });
 

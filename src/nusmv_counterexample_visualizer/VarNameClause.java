@@ -4,10 +4,10 @@ package nusmv_counterexample_visualizer;
  * Created by buzhinsky on 9/3/17.
  */
 public class VarNameClause {
-    final int position;
-    final String varName;
+    private final int position;
+    private final String varName;
 
-    public VarNameClause(int position, String varName) {
+    VarNameClause(int position, String varName) {
         this.position = position;
         this.varName = varName;
     }
