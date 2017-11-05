@@ -137,9 +137,9 @@ public class BinaryOperator extends LTLFormula {
         newLines.add(" " + leftAnnotation.get(0) + nChars(' ', name.length() + 2) + rightAnnotation.get(0) + " ");
         newLines.add(par(leftAnnotation.get(1) + " " + name + " " + rightAnnotation.get(1)));
         for (int i = 2; i < leftAnnotation.size(); i++) {
-            newLines.add("┃" + leftAnnotation.get(i) + nChars(' ', name.length() + 2) + rightAnnotation.get(i) + "┃");
+            newLines.add("║" + leftAnnotation.get(i) + nChars(' ', name.length() + 2) + rightAnnotation.get(i) + "║");
         }
-        newLines.add("┗" + nChars(value ? 'T' : 'F', newLines.get(0).length() - 2) + "┛");
+        newLines.add("╚" + nChars(value ? 'T' : 'F', newLines.get(0).length() - 2) + "╝");
         if (newLines.stream().map(String::length).distinct().collect(Collectors.toList()).size() > 1) {
             newLines.forEach(System.err::println);
             throw new RuntimeException();
@@ -169,12 +169,12 @@ public class BinaryOperator extends LTLFormula {
         final boolean highlight = highlightSet.contains(Pair.of(this, position));
 
         for (int i = 1; i < leftAnnotation.size(); i++) {
-            newLines.add(visualizeValue("┃", value, url, highlight) + leftAnnotation.get(i)
+            newLines.add(visualizeValue("║", value, url, highlight) + leftAnnotation.get(i)
                     + nStrings("&nbsp;", name.length() + 2) + rightAnnotation.get(i)
-                    + visualizeValue("┃", value, url, highlight));
+                    + visualizeValue("║", value, url, highlight));
         }
 
-        newLines.add(visualizeValue("┗" + nChars(value ? 'T' : 'F', lengthWithoutTags(newLines.get(0)) - 2) + "┛",
+        newLines.add(visualizeValue("╚" + nChars(value ? 'T' : 'F', lengthWithoutTags(newLines.get(0)) - 2) + "╝",
                 value, url, highlight));
 
         if (newLines.stream().map(LTLFormula::lengthWithoutTags).distinct().collect(Collectors.toList()).size() > 1) {

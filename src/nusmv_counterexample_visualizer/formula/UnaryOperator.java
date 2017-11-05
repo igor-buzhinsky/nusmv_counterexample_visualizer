@@ -130,9 +130,9 @@ public class UnaryOperator extends LTLFormula {
         newLines.add(nChars(' ', name.length() + 1) + argumentAnnotation.get(0) + " ");
         newLines.add(name + par(argumentAnnotation.get(1)));
         for (int i = 2; i < argumentAnnotation.size(); i++) {
-            newLines.add("┃" + nChars(' ', name.length()) + argumentAnnotation.get(i) + "┃");
+            newLines.add("║" + nChars(' ', name.length()) + argumentAnnotation.get(i) + "║");
         }
-        newLines.add("┗" + nChars(value ? 'T' : 'F', newLines.get(0).length() - 2) + "┛");
+        newLines.add("╚" + nChars(value ? 'T' : 'F', newLines.get(0).length() - 2) + "╝");
         if (newLines.stream().map(String::length).distinct().collect(Collectors.toList()).size() > 1) {
             newLines.forEach(System.err::println);
             throw new RuntimeException();
@@ -154,11 +154,11 @@ public class UnaryOperator extends LTLFormula {
         final boolean highlight = highlightSet.contains(Pair.of(this, position));
 
         for (int i = 1; i < argumentAnnotation.size(); i++) {
-            newLines.add(visualizeValue("┃", value, url, highlight) + nStrings("&nbsp;", name.length())
-                    + argumentAnnotation.get(i) + visualizeValue("┃", value, url, highlight));
+            newLines.add(visualizeValue("║", value, url, highlight) + nStrings("&nbsp;", name.length())
+                    + argumentAnnotation.get(i) + visualizeValue("║", value, url, highlight));
         }
 
-        newLines.add(visualizeValue("┗" + nChars(value ? 'T' : 'F', lengthWithoutTags(newLines.get(0)) - 2) + "┛",
+        newLines.add(visualizeValue("╚" + nChars(value ? 'T' : 'F', lengthWithoutTags(newLines.get(0)) - 2) + "╝",
                 value, url, highlight));
         if (newLines.stream().map(LTLFormula::lengthWithoutTags).distinct().collect(Collectors.toList()).size() > 1) {
             newLines.forEach(System.err::println);

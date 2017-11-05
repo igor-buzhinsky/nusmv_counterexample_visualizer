@@ -87,7 +87,6 @@ public class GUI extends JFrame {
     private JScrollPane annotationScrollPane;
     private JScrollPane valueScrollPane;
     private JCheckBox compactCheckbox;
-    private JCheckBox asciiCheckbox;
 
     private java.util.List<VerificationResult> annotations = null;
     private int currentSpec = -1;
@@ -174,11 +173,8 @@ public class GUI extends JFrame {
         compactCheckbox.setText("Compact annotations");
         compactCheckbox.addItemListener(e -> fastUpdateAnnotationPanel());
         panel.add(compactCheckbox);
-
-        asciiCheckbox = new JCheckBox();
-        asciiCheckbox.setText("ASCII annotations");
-        asciiCheckbox.addItemListener(e -> fastUpdateAnnotationPanel());
-        panel.add(asciiCheckbox);
+        panel.add(new JPanel());
+        panel.add(new JPanel());
 
         final JButton aboutButton = new JButton("About");
 
@@ -206,7 +202,6 @@ public class GUI extends JFrame {
                 "polynomial algorithm from: I. Beer, S. Ben-David, H. Chockler, A. Orni,",
                 "R. Trefler. Explaining counterexamples using causality. Computer",
                 "Aided Verification, pp. 94-108, 2009. Springer Berlin/Heidelberg."
-
         );
 
         aboutButton.addActionListener(e -> JOptionPane.showMessageDialog(this, String.join("\n", lines), "About",
@@ -251,18 +246,13 @@ public class GUI extends JFrame {
                 panel.add(spacing);
             }
             final JPanel innerPanel = new JPanel();
-            BoxLayout layout = new BoxLayout(innerPanel, BoxLayout.X_AXIS);
-
-            //layout.setAlignment(FlowLayout.LEFT);
+            final BoxLayout layout = new BoxLayout(innerPanel, BoxLayout.X_AXIS);
             innerPanel.setLayout(layout);
-
             final JEditorPane textField = new JEditorPane();
             textField.setContentType("text/html");
             textField.setText(wrap("pos = " + i + "<br>" + (i < annotation.ce.getLoopPosition()
                     ? "prefix&nbsp;&nbsp;&nbsp;" : "loop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")));
             textField.setEditable(false);
-            //textField.setFont(textField.getFont().deriveFont((float) FONT_SIZE));
-            //textField.setSize(50, 20);
             textField.setMaximumSize(new Dimension(120, Integer.MAX_VALUE));
             textField.setBackground(Color.getHSBColor(1f, 0, 0.95f));
             innerPanel.add(textField);
@@ -282,9 +272,6 @@ public class GUI extends JFrame {
         final AnnotationData annotation = annotations.get(currentSpec).result(highlightSet);
         for (int i = 0; i < annotation.annotations.size(); i++) {
             String strAnnotation = annotation.annotations.get(i);
-            if (asciiCheckbox.isSelected()) {
-                strAnnotation = strAnnotation.replace("┃", "|").replace("┗", "\\").replace("┛", "/");
-            }
             if (compactCheckbox.isSelected()) {
                 final String[] lines = strAnnotation.split("<br>", 3);
                 strAnnotation = lines[0] + "<br>" + lines[1];

@@ -25,10 +25,6 @@ public class Main {
             usage = "show truth values of subformulas for each position of a counterexample")
     private boolean annotateFormulas;
 
-    @Option(name = "--asciiCharacters", handler = BooleanOptionHandler.class,
-            usage = "replace non-ASCII characters")
-    private boolean asciiCharacters;
-
     private void run(String[] args) throws IOException {
         if (parseArgs(args)) {
             launcher();
@@ -65,11 +61,8 @@ public class Main {
         reader.finalizeCounterexample();
         try (BufferedWriter out = new BufferedWriter(new FileWriter(output))) {
             for (VerificationResult result : reader.result) {
-                String s = result.result(allVars, annotateFormulas);
-                if (asciiCharacters) {
-                    s = s.replace("▅", "_").replace("┃", "|").replace("┗", "\\")
-                            .replace("┛", "/").replace("▐", "*").replace("▌", "*");
-                }
+                String s = result.result(allVars, annotateFormulas)
+                        .replace("▅", "_").replace("▐", "*").replace("▌", "*");
                 out.write(s);
             }
         }
