@@ -166,7 +166,11 @@ public class Counterexample {
         loopPosition = length;
     }
 
-    Integer getLoopPosition() {
+    void setEmergencyLoopPosition() {
+        loopPosition = length - 1;
+    }
+
+    Integer loopPosition() {
         return loopPosition;
     }
 
@@ -201,17 +205,6 @@ public class Counterexample {
         return p.calculate(values.get(p.varName).get(position));
     }
 
-    private final Map<LTLFormula, UnaryOperator> xCache = new HashMap<>();
-
-    private UnaryOperator x(LTLFormula f) {
-        UnaryOperator result = xCache.get(f);
-        if (result == null) {
-            result = new UnaryOperator("X", f);
-            xCache.put(f, result);
-        }
-        return result;
-    }
-
     private Set<Clause> union(Set<Clause> left, Set<Clause> right) {
         final Set<Clause> result = new LinkedHashSet<>(left);
         result.addAll(right);
@@ -231,14 +224,15 @@ public class Counterexample {
                         : Collections.singleton(new Clause(i, p.getOriginalVersion()));
             } else if (f instanceof UnaryOperator) {
                 final UnaryOperator o = (UnaryOperator) f;
+                final LTLFormula phi = o.argument;
                 switch (o.name) {
                     case "X":
-                        result = i < k ? c(i + 1, o.argument) : Collections.emptySet();
+                        result = i < k ? c(i + 1, phi) : Collections.emptySet();
                         break;
                     case "G":
-                        if (!val(i, o.argument)) {
-                            result = c(i, o.argument);
-                        } else if (i >= k || val(i, x(o))) {
+                        if (!val(i, phi)) {
+                            result = c(i, phi);
+                        } else if (i >= k || val(i + 1, o)) {
                             result = Collections.emptySet();
                         } else {
                             result = c(i + 1, o);
@@ -249,22 +243,22 @@ public class Counterexample {
                 }
             } else if (f instanceof BinaryOperator) {
                 final BinaryOperator o = (BinaryOperator) f;
+                final LTLFormula phi = o.leftArgument;
+                final LTLFormula psi = o.rightArgument;
                 switch (o.name) {
                     case "&":
-                        result = union(c(i, o.leftArgument), c(i, o.rightArgument));
+                        result = union(c(i, phi), c(i, psi));
                         break;
                     case "|":
-                        result = !val(i, o.leftArgument) && !val(i, o.rightArgument)
-                            ? union(c(i, o.leftArgument), c(i, o.rightArgument))
-                            : Collections.emptySet();
+                        result = !val(i, phi) && !val(i, psi) ? union(c(i, phi), c(i, psi)) : Collections.emptySet();
                         break;
                     case "U":
-                        if (!val(i, o.leftArgument) && !val(i, o.rightArgument)) {
-                            result = union(c(i, o.rightArgument), c(i, o.leftArgument));
-                        } else if (i == k && val(i, o.leftArgument) && !val(i, o.rightArgument)) {
-                            result = c(i, o.rightArgument);
-                        } else if (i < k && val(i, o.leftArgument) && !val(i, o.rightArgument) && !val(i, x(o))) {
-                            result = union(c(i, o.rightArgument), c(i + 1, o));
+                        if (!val(i, phi) && !val(i, psi)) {
+                            result = union(c(i, psi), c(i, phi));
+                        } else if (i == k && val(i, phi) && !val(i, psi)) {
+                            result = c(i, psi);
+                        } else if (i < k && val(i, phi) && !val(i, psi) && !val(i + 1, o)) {
+                            result = union(c(i, psi), c(i + 1, o));
                         } else {
                             result = Collections.emptySet();
                         }

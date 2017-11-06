@@ -250,7 +250,7 @@ public class GUI extends JFrame {
             innerPanel.setLayout(layout);
             final JEditorPane textField = new JEditorPane();
             textField.setContentType("text/html");
-            textField.setText(wrap("pos = " + i + "<br>" + (i < annotation.ce.getLoopPosition()
+            textField.setText(wrap("pos = " + i + "<br>" + (i < annotation.ce.loopPosition()
                     ? "prefix&nbsp;&nbsp;&nbsp;" : "loop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")));
             textField.setEditable(false);
             textField.setMaximumSize(new Dimension(120, Integer.MAX_VALUE));

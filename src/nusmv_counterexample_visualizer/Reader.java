@@ -35,6 +35,11 @@ class Reader {
         if (f != null) {
             if (ce != null) {
                 ce.padMissing();
+                if (ce.loopPosition() == null) {
+                    System.err.println("Warning: for property " + originalF +
+                            ", looping the last state since a finite counterexample was given.");
+                    ce.setEmergencyLoopPosition();
+                }
                 ce.setImportant(f.variableSet());
             }
             result.add(new VerificationResult(strOriginalF, originalF, f, ce, fillValueCache));
