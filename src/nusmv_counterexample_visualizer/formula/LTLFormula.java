@@ -135,7 +135,7 @@ public abstract class LTLFormula {
     }
 
     static int lengthWithoutTags(String s) {
-        return s.replaceAll("</?(font|a)[^>]*>","").replaceAll("&(nbsp|lt|gt);", " ").length();
+        return s.replaceAll("</?(font|a|i|b)[^>]*>","").replaceAll("&(nbsp|lt|gt);", " ").length();
     }
 
     static String visualizeValue(String s, boolean value, String url, boolean highlight) {
@@ -149,7 +149,12 @@ public abstract class LTLFormula {
     }
 
     private static String visualizeImportance(String s, boolean important) {
-        return important ? ("<font bgcolor=yellow>" + s + "</font>") : s;
+        return important ? ("<font bgcolor=yellow><i>" + s + "</i></font>") : s;
     }
 
+    public static String visualizeImportanceInTable(String s, boolean important) {
+        s = visualizeImportance(s, important);
+        //return important ? ("<b>" + s + "</b>") : s;
+        return s;
+    }
 }

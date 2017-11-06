@@ -91,11 +91,9 @@ public class Counterexample {
         for (int i = 0; i < length; i++) {
             data[i][0] = i + " " + (i >= loopPosition ? "loop" : "prefix");
             for (String varName : vars) {
-                String value = values.get(varName).get(i);
-                if (causalSet.contains(new VarNameClause(i, varName))) {
-                    value = "<font bgcolor=yellow>" + value + "</font>";
-                }
-                data[i][varNameToColumn.get(varName)] = "<html>" + value + "</html>";
+                data[i][varNameToColumn.get(varName)] = "<html>" +
+                        LTLFormula.visualizeImportanceInTable(values.get(varName).get(i),
+                                causalSet.contains(new VarNameClause(i, varName))) + "</html>";
             }
         }
         final JTable table = new JTable(data, columns);

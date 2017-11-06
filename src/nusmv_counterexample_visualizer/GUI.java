@@ -315,26 +315,28 @@ public class GUI extends JFrame {
                 final boolean value = cache.get(Pair.of(position, f));
                 highlightSet.add(Pair.of(f, position));
                 final Set<Integer> processedPositions = new HashSet<>();
+
                 if (f instanceof UnaryOperator) {
                     final LTLFormula arg = ((UnaryOperator) f).argument;
+                    final Consumer<Integer> add = p -> highlightSet.add(Pair.of(arg, p));
                     switch (((UnaryOperator) f).name) {
                         case "!":
-                            highlightSet.add(Pair.of(arg, position));
+                            add.accept(position);
                             break;
                         case "X":
-                            highlightSet.add(Pair.of(arg, result.ce.shiftPosition(position + 1)));
+                            add.accept(result.ce.shiftPosition(position + 1));
                             break;
                         case "G":
                             loop(position, processedPositions, result, p -> {
                                 if (value || !cache.get(Pair.of(p, arg))) {
-                                    highlightSet.add(Pair.of(arg, p));
+                                    add.accept(p);
                                 }
                             }, p -> false, p -> {}, p -> {});
                             break;
                         case "F":
                             loop(position, processedPositions, result, p -> {
                                 if (!value || cache.get(Pair.of(p, arg))) {
-                                    highlightSet.add(Pair.of(arg, p));
+                                    add.accept(p);
                                 }
                             }, p -> false, p -> {}, p -> {});
                             break;
@@ -344,59 +346,53 @@ public class GUI extends JFrame {
                     final LTLFormula rightArg = ((BinaryOperator) f).rightArgument;
                     final boolean leftValue = cache.get(Pair.of(position, leftArg));
                     final boolean rightValue = cache.get(Pair.of(position, rightArg));
+                    final Consumer<Integer> addLeft = p -> highlightSet.add(Pair.of(leftArg, p));
+                    final Consumer<Integer> addRight = p -> highlightSet.add(Pair.of(rightArg, p));
                     switch (((BinaryOperator) f).name) {
                         case "&":
                             if (value || !leftValue) {
-                                highlightSet.add(Pair.of(leftArg, position));
+                                addLeft.accept(position);
                             }
                             if (value || !rightValue) {
-                                highlightSet.add(Pair.of(rightArg, position));
+                                addRight.accept(position);
                             }
                             break;
                         case "|":
                             if (!value || leftValue) {
-                                highlightSet.add(Pair.of(leftArg, position));
+                                addLeft.accept(position);
                             }
                             if (!value || rightValue) {
-                                highlightSet.add(Pair.of(rightArg, position));
+                                addRight.accept(position);
                             }
                             break;
                         case "->":
                             if (!value || !leftValue) {
-                                highlightSet.add(Pair.of(leftArg, position));
+                                addLeft.accept(position);
                             }
                             if (!value || rightValue) {
-                                highlightSet.add(Pair.of(rightArg, position));
+                                addRight.accept(position);
                             }
                             break;
                         case "<->":
-                            highlightSet.add(Pair.of(leftArg, position));
-                            highlightSet.add(Pair.of(rightArg, position));
+                            addLeft.accept(position);
+                            addRight.accept(position);
                             break;
                         case "U": // complementary to V
                             if (value) {
                                 loop(position, processedPositions, result, p -> {},
-                                        p -> cache.get(Pair.of(p, rightArg)),
-                                        p -> highlightSet.add(Pair.of(rightArg, p)),
-                                        p -> highlightSet.add(Pair.of(leftArg, p)));
+                                        p -> cache.get(Pair.of(p, rightArg)), addRight, addLeft);
                             } else {
-                                loop(position, processedPositions, result,
-                                        p -> highlightSet.add(Pair.of(rightArg, p)),
-                                        p -> !cache.get(Pair.of(p, leftArg)),
-                                        p -> highlightSet.add(Pair.of(leftArg, p)), p -> {});
+                                loop(position, processedPositions, result, addRight,
+                                        p -> !cache.get(Pair.of(p, leftArg)), addLeft, p -> {});
                             }
                             break;
                         case "V": // complementary to U
                             if (value) {
-                                loop(position, processedPositions, result,
-                                        p -> highlightSet.add(Pair.of(rightArg, p)),
-                                        p -> cache.get(Pair.of(p, leftArg)),
-                                        p -> highlightSet.add(Pair.of(leftArg, p)), p -> {});
+                                loop(position, processedPositions, result, addRight,
+                                        p -> cache.get(Pair.of(p, leftArg)), addLeft, p -> {});
                             } else {
                                 loop(position, processedPositions, result, p -> {},
-                                        p -> !cache.get(Pair.of(p, rightArg)),
-                                        p -> highlightSet.add(Pair.of(rightArg, p)),
-                                        p -> highlightSet.add(Pair.of(leftArg, p)));
+                                        p -> !cache.get(Pair.of(p, rightArg)), addRight, addLeft);
                             }
                             break;
                     }
