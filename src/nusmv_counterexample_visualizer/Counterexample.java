@@ -5,6 +5,8 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import javax.swing.*;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -19,25 +21,6 @@ public class Counterexample {
 
     public int length() {
         return length;
-    }
-
-    private void writeTo(Counterexample other, int index) {
-        for (String varName : vars) {
-            other.addValue(varName, values.get(varName).get(index));
-        }
-    }
-
-    private Counterexample unwrap(int times) {
-        final Counterexample result = new Counterexample();
-        for (int i = 0; i < loopPosition; i++) {
-            writeTo(result, i);
-        }
-        for (int j = 0; j < times; j++) {
-            for (int i = loopPosition; i < length; i++) {
-                writeTo(result, i);
-            }
-        }
-        return result;
     }
 
     public int shiftPosition(int position) {
@@ -213,8 +196,9 @@ public class Counterexample {
 
     private Set<Clause> c(int i, LTLFormula f) {
         Set<Clause> result = causalSetCache.get(Pair.of(i, f));
+        final Set<Integer> processedPositions = new HashSet<>();
+        final Set<Clause> res = new HashSet<>();
         if (result == null) {
-            final int k = length - 1;
             if (f instanceof TrueFormula || f instanceof FalseFormula) {
                 result = Collections.emptySet();
             } else if (f instanceof Proposition) {
@@ -227,16 +211,11 @@ public class Counterexample {
                 final LTLFormula phi = o.argument;
                 switch (o.name) {
                     case "X":
-                        result = i < k ? c(i + 1, phi) : Collections.emptySet();
+                        result = c(shiftPosition(i + 1), phi);
                         break;
                     case "G":
-                        if (!val(i, phi)) {
-                            result = c(i, phi);
-                        } else if (i >= k || val(i + 1, o)) {
-                            result = Collections.emptySet();
-                        } else {
-                            result = c(i + 1, o);
-                        }
+                        loop(i, processedPositions, p -> {}, p -> !val(p, phi), p -> res.addAll(c(p, phi)), p -> {});
+                        result = res;
                         break;
                     default:
                         throw new RuntimeException("Unexpected operator " + o.name);
@@ -253,15 +232,9 @@ public class Counterexample {
                         result = !val(i, phi) && !val(i, psi) ? union(c(i, phi), c(i, psi)) : Collections.emptySet();
                         break;
                     case "U":
-                        if (!val(i, phi) && !val(i, psi)) {
-                            result = union(c(i, psi), c(i, phi));
-                        } else if (i == k && val(i, phi) && !val(i, psi)) {
-                            result = c(i, psi);
-                        } else if (i < k && val(i, phi) && !val(i, psi) && !val(i + 1, o)) {
-                            result = union(c(i, psi), c(i + 1, o));
-                        } else {
-                            result = Collections.emptySet();
-                        }
+                        loop(i, processedPositions, p -> res.addAll(c(p, psi)), p -> !val(p, phi) && !val(p, psi),
+                                p -> res.addAll(c(p, phi)), p -> {});
+                        result = res;
                         break;
                     default:
                         throw new RuntimeException("Unexpected operator " + o.name);
@@ -275,7 +248,23 @@ public class Counterexample {
     }
 
     Set<Clause> causalSet(LTLFormula f) {
-        return unwrap(f.length() + 1).c(0, f).stream().map(c -> new Clause(shiftPosition(c.position), c.p))
+        return c(0, f).stream().map(c -> new Clause(shiftPosition(c.position), c.p))
                 .collect(Collectors.toSet());
+    }
+
+    void loop(int initialPosition, Set<Integer> processedPositions,
+              Consumer<Integer> unconditionalAction, Predicate<Integer> terminationCondition,
+              Consumer<Integer> terminationAction, Consumer<Integer> otherAction) {
+        int i = initialPosition;
+        while (processedPositions.add(i)) {
+            unconditionalAction.accept(i);
+            if (terminationCondition.test(i)) {
+                terminationAction.accept(i);
+                break;
+            } else {
+                otherAction.accept(i);
+            }
+            i = shiftPosition(i + 1);
+        }
     }
 }

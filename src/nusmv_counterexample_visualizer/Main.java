@@ -61,9 +61,8 @@ public class Main {
         reader.finalizeCounterexample();
         try (BufferedWriter out = new BufferedWriter(new FileWriter(output))) {
             for (VerificationResult result : reader.result) {
-                String s = result.result(allVars, annotateFormulas)
-                        .replace("▅", "_").replace("▐", "*").replace("▌", "*");
-                out.write(s);
+                out.write(result.result(allVars, annotateFormulas)
+                        .replace("▅", "_").replace("▐", "*").replace("▌", "*"));
             }
         }
         System.out.println();

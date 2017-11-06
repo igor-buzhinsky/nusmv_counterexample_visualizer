@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 /**
  * Created by buzhinsky on 10/16/17.
@@ -327,14 +326,14 @@ public class GUI extends JFrame {
                             add.accept(result.ce.shiftPosition(position + 1));
                             break;
                         case "G":
-                            loop(position, processedPositions, result, p -> {
+                            result.ce.loop(position, processedPositions, p -> {
                                 if (value || !cache.get(Pair.of(p, arg))) {
                                     add.accept(p);
                                 }
                             }, p -> false, p -> {}, p -> {});
                             break;
                         case "F":
-                            loop(position, processedPositions, result, p -> {
+                            result.ce.loop(position, processedPositions, p -> {
                                 if (!value || cache.get(Pair.of(p, arg))) {
                                     add.accept(p);
                                 }
@@ -379,19 +378,19 @@ public class GUI extends JFrame {
                             break;
                         case "U": // complementary to V
                             if (value) {
-                                loop(position, processedPositions, result, p -> {},
+                                result.ce.loop(position, processedPositions, p -> {},
                                         p -> cache.get(Pair.of(p, rightArg)), addRight, addLeft);
                             } else {
-                                loop(position, processedPositions, result, addRight,
+                                result.ce.loop(position, processedPositions, addRight,
                                         p -> !cache.get(Pair.of(p, leftArg)), addLeft, p -> {});
                             }
                             break;
                         case "V": // complementary to U
                             if (value) {
-                                loop(position, processedPositions, result, addRight,
+                                result.ce.loop(position, processedPositions, addRight,
                                         p -> cache.get(Pair.of(p, leftArg)), addLeft, p -> {});
                             } else {
-                                loop(position, processedPositions, result, p -> {},
+                                result.ce.loop(position, processedPositions, p -> {},
                                         p -> !cache.get(Pair.of(p, rightArg)), addRight, addLeft);
                             }
                             break;
@@ -406,21 +405,5 @@ public class GUI extends JFrame {
         panel.add(pane, BorderLayout.CENTER);
 
         return panel;
-    }
-
-    private static void loop(int initialPosition, Set<Integer> processedPositions, VerificationResult result,
-                                  Consumer<Integer> unconditionalAction, Predicate<Integer> terminationCondition,
-                                  Consumer<Integer> terminationAction, Consumer<Integer> otherAction) {
-        int i = initialPosition;
-        while (processedPositions.add(i)) {
-            unconditionalAction.accept(i);
-            if (terminationCondition.test(i)) {
-                terminationAction.accept(i);
-                break;
-            } else {
-                otherAction.accept(i);
-            }
-            i = result.ce.shiftPosition(i + 1);
-        }
     }
 }
