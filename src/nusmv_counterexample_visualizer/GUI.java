@@ -197,8 +197,8 @@ public class GUI extends JFrame {
                 "steps are provided. The values which are present in the LTL formula",
                 "are shown on the left. Important values are hightlighted.",
                 "",
-                "Highlighting of important atomic propositions is implemented according to the",
-                "polynomial algorithm from: I. Beer, S. Ben-David, H. Chockler, A. Orni,",
+                "Highlighting of important atomic propositions is implemented according to",
+                "the polynomial algorithm from: I. Beer, S. Ben-David, H. Chockler, A. Orni,",
                 "R. Trefler. Explaining counterexamples using causality. Computer",
                 "Aided Verification, pp. 94-108, 2009. Springer Berlin/Heidelberg."
         );

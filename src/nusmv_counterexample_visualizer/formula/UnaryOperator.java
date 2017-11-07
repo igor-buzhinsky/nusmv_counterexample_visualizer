@@ -168,11 +168,6 @@ public class UnaryOperator extends LTLFormula {
     }
 
     @Override
-    public int length() {
-        return argument.length() + (name.equals("!") ? 0 : 1);
-    }
-
-    @Override
     public void fillCache(Counterexample ce, Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache) {
         baseFillCache(ce, formulaValueCache, argument);
     }

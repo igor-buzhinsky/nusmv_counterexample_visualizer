@@ -38,11 +38,6 @@ public class BinaryOperator extends LTLFormula {
         return result;
     }
 
-    @Override
-    public int length() {
-        return leftArgument.length() + rightArgument.length() + (name.equals("U") || name.equals("V") ? 1 : 0);
-    }
-
     private LTLFormula recursion(Function<LTLFormula, LTLFormula> baseFunction, String specialName,
                                  Function<BinaryOperator, LTLFormula> transformation) {
         final LTLFormula processedLeft = baseFunction.apply(leftArgument);

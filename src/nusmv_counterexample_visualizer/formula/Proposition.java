@@ -96,11 +96,6 @@ public class Proposition extends LTLFormula {
     }
 
     @Override
-    public int length() {
-        return 0;
-    }
-
-    @Override
     public LTLFormula removeFuture() {
         return this;
     }

@@ -29,8 +29,6 @@ public abstract class LTLFormula {
 
     public abstract Set<String> variableSet();
 
-    public abstract int length();
-
     public abstract LTLFormula removeFuture();
 
     public abstract LTLFormula removeRelease();
