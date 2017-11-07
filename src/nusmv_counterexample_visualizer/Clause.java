@@ -6,8 +6,8 @@ import nusmv_counterexample_visualizer.formula.Proposition;
  * Created by buzhinsky on 9/3/17.
  */
 public class Clause {
-    final int position;
-    final Proposition p;
+    private final int position;
+    private final Proposition p;
 
     public Clause(int position, Proposition p) {
         this.position = position;

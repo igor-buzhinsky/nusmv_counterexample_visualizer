@@ -27,6 +27,8 @@ public abstract class LTLFormula {
         return "(" + text + ")";
     }
 
+    public abstract boolean isPastTime();
+
     public abstract Set<String> variableSet();
 
     public abstract LTLFormula removeFuture();
@@ -115,6 +117,22 @@ public abstract class LTLFormula {
         return new BinaryOperator("U", left, right);
     }
 
+    LTLFormula once(LTLFormula other) {
+        return new UnaryOperator("O", other);
+    }
+
+    LTLFormula historically(LTLFormula other) {
+        return new UnaryOperator("H", other);
+    }
+
+    LTLFormula prevY(LTLFormula other) {
+        return new UnaryOperator("Y", other);
+    }
+
+    LTLFormula prevZ(LTLFormula other) {
+        return new UnaryOperator("Z", other);
+    }
+
     boolean walk(Counterexample ce, int position, boolean defaultValue,
                   Function<Integer, Boolean> returnFalsePredicate, Function<Integer, Boolean> returnTruePredicate) {
         final boolean[] checkedPositions = new boolean[ce.length()];
@@ -128,6 +146,19 @@ public abstract class LTLFormula {
             }
             checkedPositions[curPosition] = true;
             curPosition = ce.shiftPosition(curPosition + 1);
+        }
+        return defaultValue;
+    }
+
+    boolean walkBack(int position, boolean defaultValue, Function<Integer, Boolean> returnFalsePredicate,
+                     Function<Integer, Boolean> returnTruePredicate) {
+        for (int curPosition = position; curPosition >= 0; curPosition--) {
+            if (returnFalsePredicate.apply(curPosition)) {
+                return false;
+            }
+            if (returnTruePredicate.apply(curPosition)) {
+                return true;
+            }
         }
         return defaultValue;
     }

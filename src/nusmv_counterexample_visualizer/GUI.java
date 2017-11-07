@@ -14,6 +14,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -316,27 +317,36 @@ public class GUI extends JFrame {
 
                 if (f instanceof UnaryOperator) {
                     final LTLFormula arg = ((UnaryOperator) f).argument;
-                    final Consumer<Integer> add = p -> highlightSet.add(Pair.of(arg, p));
+                    final BiConsumer<Boolean, Integer> add = (cond, p) -> {
+                        if (cond) {
+                            highlightSet.add(Pair.of(arg, p));
+                        }
+                    };
                     switch (((UnaryOperator) f).name) {
                         case "!":
-                            add.accept(position);
+                            add.accept(true, position);
                             break;
                         case "X":
-                            add.accept(result.ce.shiftPosition(position + 1));
+                            add.accept(true, result.ce.shiftPosition(position + 1));
                             break;
                         case "G":
-                            result.ce.loop(position, p -> {
-                                if (value || !cache.get(Pair.of(p, arg))) {
-                                    add.accept(p);
-                                }
-                            }, p -> false, p -> {}, p -> {});
+                            result.ce.loop(position, p -> add.accept(value || !cache.get(Pair.of(p, arg)), p),
+                                    p -> false, p -> {}, p -> {});
                             break;
                         case "F":
-                            result.ce.loop(position, p -> {
-                                if (!value || cache.get(Pair.of(p, arg))) {
-                                    add.accept(p);
-                                }
-                            }, p -> false, p -> {}, p -> {});
+                            result.ce.loop(position, p -> add.accept(!value || cache.get(Pair.of(p, arg)), p),
+                                    p -> false, p -> {}, p -> {});
+                            break;
+                        case "Y": case "Z":
+                            add.accept(position > 0, position - 1);
+                            break;
+                        case "H":
+                            result.ce.loopBack(position, p -> add.accept(value || !cache.get(Pair.of(p, arg)), p),
+                                    p -> false, p -> {}, p -> {});
+                            break;
+                        case "O":
+                            result.ce.loopBack(position, p -> add.accept(!value || cache.get(Pair.of(p, arg)), p),
+                                    p -> false, p -> {}, p -> {});
                             break;
                     }
                 } else if (f instanceof BinaryOperator) {

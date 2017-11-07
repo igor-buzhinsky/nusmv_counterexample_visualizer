@@ -18,6 +18,11 @@ public class FalseFormula extends LTLFormula {
     }
 
     @Override
+    public boolean isPastTime() {
+        return false;
+    }
+
+    @Override
     public Set<String> variableSet() {
         return new TreeSet<>();
     }

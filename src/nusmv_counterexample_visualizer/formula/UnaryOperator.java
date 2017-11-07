@@ -4,10 +4,7 @@ import nusmv_counterexample_visualizer.Clause;
 import nusmv_counterexample_visualizer.Counterexample;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -27,6 +24,11 @@ public class UnaryOperator extends LTLFormula {
     @Override
     public String toString() {
         return name + par(argument.toString());
+    }
+
+    @Override
+    public boolean isPastTime() {
+        return Arrays.asList("Y", "Z", "O", "H").contains(name) || argument.isPastTime();
     }
 
     @Override
@@ -78,6 +80,10 @@ public class UnaryOperator extends LTLFormula {
                 case "F": return global(not(o.argument).toNNF());
                 case "X": return next(not(o.argument).toNNF());
                 case "!": return o.argument.toNNF();
+                case "H": return once(not(o.argument).toNNF());
+                case "O": return historically(not(o.argument).toNNF());
+                case "Y": return prevZ(not(o.argument).toNNF());
+                case "Z": return prevY(not(o.argument).toNNF());
                 default: throw new RuntimeException("Unknown unary operator " + o.name);
             }
         } else if (argument instanceof BinaryOperator) {
@@ -110,6 +116,18 @@ public class UnaryOperator extends LTLFormula {
                     break;
                 case "!":
                     value = !argument.compute(ce, position, formulaValueCache);
+                    break;
+                case "Y":
+                    value = position != 0 && argument.compute(ce, position - 1, formulaValueCache);
+                    break;
+                case "Z":
+                    value = position == 0 || argument.compute(ce, position - 1, formulaValueCache);
+                    break;
+                case "O":
+                    value = walkBack(position, false, p -> false, p -> argument.compute(ce, p, formulaValueCache));
+                    break;
+                case "H":
+                    value = walkBack(position, true, p -> !argument.compute(ce, p, formulaValueCache), p -> false);
                     break;
                 default:
                     throw new RuntimeException("Unknown unary operator " + name);

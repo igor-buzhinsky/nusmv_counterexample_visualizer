@@ -32,6 +32,11 @@ public class BinaryOperator extends LTLFormula {
     }
 
     @Override
+    public boolean isPastTime() {
+        return leftArgument.isPastTime() || rightArgument.isPastTime();
+    }
+
+    @Override
     public Set<String> variableSet() {
         final Set<String> result = leftArgument.variableSet();
         result.addAll(rightArgument.variableSet());

@@ -19,14 +19,28 @@ public class Counterexample {
     private int length = 0;
     private Integer loopPosition = null;
 
+    private int loopLen() {
+        return length - loopPosition;
+    }
+
     public int length() {
         return length;
     }
 
+    void unwindLoopOnce() {
+        final int loopLen = loopLen();
+        for (int i = loopPosition; i < length; i++) {
+            for (String var : vars) {
+                values.get(var).add(values.get(var).get(i));
+            }
+        }
+        loopPosition += loopLen;
+        length += loopLen;
+    }
+
     public int shiftPosition(int position) {
-        final int loopLen = length - loopPosition;
         while (position >= length) {
-            position -= loopLen;
+            position -= loopLen();
         }
         return position;
     }
@@ -181,7 +195,7 @@ public class Counterexample {
     private final Map<Pair<Integer, LTLFormula>, Set<Clause>> causalSetCache = new HashMap<>();
 
     private boolean val(int position, LTLFormula f) {
-        return (f instanceof TrueFormula) || !(f instanceof FalseFormula) && c(position, f).isEmpty();
+        return c(position, f).isEmpty();
     }
 
     private boolean label(int position, Proposition p) {
@@ -194,12 +208,18 @@ public class Counterexample {
         return result;
     }
 
+    /*
+     * null clauses indicate false value caused not by clauses
+     * thus, val can be defined simpler
+     */
     private Set<Clause> c(int i, LTLFormula f) {
         Set<Clause> result = causalSetCache.get(Pair.of(i, f));
         final Set<Clause> res = new HashSet<>();
         if (result == null) {
-            if (f instanceof TrueFormula || f instanceof FalseFormula) {
+            if (f instanceof TrueFormula) {
                 result = Collections.emptySet();
+            } else if (f instanceof FalseFormula) {
+                result = Collections.singleton(null);
             } else if (f instanceof Proposition) {
                 final Proposition p = (Proposition) f;
                 result = label(i, p)
@@ -212,12 +232,26 @@ public class Counterexample {
                     case "X":
                         result = c(shiftPosition(i + 1), phi);
                         break;
+                    case "Y":
+                        result = i > 0 ? c(i - 1, phi) : Collections.singleton(null);
+                        break;
+                    case "Z":
+                        result = i > 0 ? c(i - 1, phi) : Collections.emptySet();
+                        break;
                     case "G":
                         loop(i, p -> {}, p -> !val(p, phi), p -> res.addAll(c(p, phi)), p -> {});
                         result = res;
                         break;
+                    case "H":
+                        loopBack(i, p -> {}, p -> !val(p, phi), p -> res.addAll(c(p, phi)), p -> {});
+                        result = res;
+                        break;
+                    case "O":
+                        loopBack(i, p -> {}, p -> val(p, phi), p -> res.clear(), p -> res.addAll(c(p, phi)));
+                        result = res;
+                        break;
                     default:
-                        throw new RuntimeException("Unexpected operator " + o.name);
+                        throw new RuntimeException("Unexpected unary operator " + o.name);
                 }
             } else if (f instanceof BinaryOperator) {
                 final BinaryOperator o = (BinaryOperator) f;
@@ -236,7 +270,7 @@ public class Counterexample {
                         result = res;
                         break;
                     default:
-                        throw new RuntimeException("Unexpected operator " + o.name);
+                        throw new RuntimeException("Unexpected binary operator " + o.name);
                 }
             } else {
                 throw new RuntimeException("Unexpected formula class!");
@@ -247,7 +281,9 @@ public class Counterexample {
     }
 
     Set<Clause> causalSet(LTLFormula f) {
-        return c(0, f).stream().map(c -> new Clause(shiftPosition(c.position), c.p)).collect(Collectors.toSet());
+        final Set<Clause> set = c(0, f);
+        set.remove(null);
+        return set;
     }
 
     void loop(int initialPosition, Consumer<Integer> unconditionalAction, Predicate<Integer> terminationCondition,
@@ -263,6 +299,19 @@ public class Counterexample {
                 otherAction.accept(i);
             }
             i = shiftPosition(i + 1);
+        }
+    }
+
+    void loopBack(int initialPosition, Consumer<Integer> unconditionalAction, Predicate<Integer> terminationCondition,
+              Consumer<Integer> terminationAction, Consumer<Integer> otherAction) {
+        for (int i = initialPosition; i >= 0; i--) {
+            unconditionalAction.accept(i);
+            if (terminationCondition.test(i)) {
+                terminationAction.accept(i);
+                break;
+            } else {
+                otherAction.accept(i);
+            }
         }
     }
 }

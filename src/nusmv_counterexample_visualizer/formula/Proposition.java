@@ -23,6 +23,11 @@ public class Proposition extends LTLFormula {
         registerFormula(this);
     }
 
+    @Override
+    public boolean isPastTime() {
+        return false;
+    }
+
     public Proposition getOriginalVersion() {
         return originalVersion == null ? this : originalVersion;
     }

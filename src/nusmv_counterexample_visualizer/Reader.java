@@ -36,9 +36,14 @@ class Reader {
             if (ce != null) {
                 ce.padMissing();
                 if (ce.loopPosition() == null) {
+                    ce.setEmergencyLoopPosition();
                     System.err.println("Warning: for property " + originalF +
                             ", looping the last state since a finite counterexample was given.");
-                    ce.setEmergencyLoopPosition();
+                }
+                if (f.isPastTime()) {
+                    ce.unwindLoopOnce();
+                    System.err.println("Info: for past-time property " + originalF +
+                            ", the loop has been unwound once.");
                 }
                 ce.setImportant(f.variableSet());
             }
