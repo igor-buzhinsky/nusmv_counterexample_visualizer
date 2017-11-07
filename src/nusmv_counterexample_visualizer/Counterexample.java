@@ -196,7 +196,6 @@ public class Counterexample {
 
     private Set<Clause> c(int i, LTLFormula f) {
         Set<Clause> result = causalSetCache.get(Pair.of(i, f));
-        final Set<Integer> processedPositions = new HashSet<>();
         final Set<Clause> res = new HashSet<>();
         if (result == null) {
             if (f instanceof TrueFormula || f instanceof FalseFormula) {
@@ -214,7 +213,7 @@ public class Counterexample {
                         result = c(shiftPosition(i + 1), phi);
                         break;
                     case "G":
-                        loop(i, processedPositions, p -> {}, p -> !val(p, phi), p -> res.addAll(c(p, phi)), p -> {});
+                        loop(i, p -> {}, p -> !val(p, phi), p -> res.addAll(c(p, phi)), p -> {});
                         result = res;
                         break;
                     default:
@@ -232,7 +231,7 @@ public class Counterexample {
                         result = !val(i, phi) && !val(i, psi) ? union(c(i, phi), c(i, psi)) : Collections.emptySet();
                         break;
                     case "U":
-                        loop(i, processedPositions, p -> res.addAll(c(p, psi)), p -> !val(p, phi) && !val(p, psi),
+                        loop(i, p -> res.addAll(c(p, psi)), p -> !val(p, phi) && !val(p, psi),
                                 p -> res.addAll(c(p, phi)), p -> {});
                         result = res;
                         break;
@@ -248,13 +247,12 @@ public class Counterexample {
     }
 
     Set<Clause> causalSet(LTLFormula f) {
-        return c(0, f).stream().map(c -> new Clause(shiftPosition(c.position), c.p))
-                .collect(Collectors.toSet());
+        return c(0, f).stream().map(c -> new Clause(shiftPosition(c.position), c.p)).collect(Collectors.toSet());
     }
 
-    void loop(int initialPosition, Set<Integer> processedPositions,
-              Consumer<Integer> unconditionalAction, Predicate<Integer> terminationCondition,
+    void loop(int initialPosition, Consumer<Integer> unconditionalAction, Predicate<Integer> terminationCondition,
               Consumer<Integer> terminationAction, Consumer<Integer> otherAction) {
+        final Set<Integer> processedPositions = new HashSet<>();
         int i = initialPosition;
         while (processedPositions.add(i)) {
             unconditionalAction.accept(i);

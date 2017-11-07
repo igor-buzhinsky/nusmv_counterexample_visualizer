@@ -313,7 +313,6 @@ public class GUI extends JFrame {
                 final Map<Pair<Integer, LTLFormula>, Boolean> cache = result.formulaValueCache;
                 final boolean value = cache.get(Pair.of(position, f));
                 highlightSet.add(Pair.of(f, position));
-                final Set<Integer> processedPositions = new HashSet<>();
 
                 if (f instanceof UnaryOperator) {
                     final LTLFormula arg = ((UnaryOperator) f).argument;
@@ -326,14 +325,14 @@ public class GUI extends JFrame {
                             add.accept(result.ce.shiftPosition(position + 1));
                             break;
                         case "G":
-                            result.ce.loop(position, processedPositions, p -> {
+                            result.ce.loop(position, p -> {
                                 if (value || !cache.get(Pair.of(p, arg))) {
                                     add.accept(p);
                                 }
                             }, p -> false, p -> {}, p -> {});
                             break;
                         case "F":
-                            result.ce.loop(position, processedPositions, p -> {
+                            result.ce.loop(position, p -> {
                                 if (!value || cache.get(Pair.of(p, arg))) {
                                     add.accept(p);
                                 }
@@ -378,20 +377,20 @@ public class GUI extends JFrame {
                             break;
                         case "U": // complementary to V
                             if (value) {
-                                result.ce.loop(position, processedPositions, p -> {},
-                                        p -> cache.get(Pair.of(p, rightArg)), addRight, addLeft);
+                                result.ce.loop(position, p -> {}, p -> cache.get(Pair.of(p, rightArg)),
+                                        addRight, addLeft);
                             } else {
-                                result.ce.loop(position, processedPositions, addRight,
-                                        p -> !cache.get(Pair.of(p, leftArg)), addLeft, p -> {});
+                                result.ce.loop(position, addRight, p -> !cache.get(Pair.of(p, leftArg)),
+                                        addLeft, p -> {});
                             }
                             break;
                         case "V": // complementary to U
                             if (value) {
-                                result.ce.loop(position, processedPositions, addRight,
-                                        p -> cache.get(Pair.of(p, leftArg)), addLeft, p -> {});
+                                result.ce.loop(position, addRight, p -> cache.get(Pair.of(p, leftArg)),
+                                        addLeft, p -> {});
                             } else {
-                                result.ce.loop(position, processedPositions, p -> {},
-                                        p -> !cache.get(Pair.of(p, rightArg)), addRight, addLeft);
+                                result.ce.loop(position, p -> {}, p -> !cache.get(Pair.of(p, rightArg)),
+                                        addRight, addLeft);
                             }
                             break;
                     }
