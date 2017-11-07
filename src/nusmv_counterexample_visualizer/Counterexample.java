@@ -304,7 +304,7 @@ public class Counterexample {
 
     void loopBack(int initialPosition, Consumer<Integer> unconditionalAction, Predicate<Integer> terminationCondition,
               Consumer<Integer> terminationAction, Consumer<Integer> otherAction) {
-        for (int i = initialPosition; i >= 0; i--) {
+        for (int i = 0; i <= initialPosition; i++) {
             unconditionalAction.accept(i);
             if (terminationCondition.test(i)) {
                 terminationAction.accept(i);
