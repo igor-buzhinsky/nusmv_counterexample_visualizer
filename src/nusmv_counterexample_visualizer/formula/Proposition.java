@@ -24,8 +24,8 @@ public class Proposition extends LTLFormula {
     }
 
     @Override
-    public boolean isPastTime() {
-        return false;
+    public Pair<Integer, Integer> pastTimeLoopUnwindingRequired() {
+        return Pair.of(0, 0);
     }
 
     public Proposition getOriginalVersion() {

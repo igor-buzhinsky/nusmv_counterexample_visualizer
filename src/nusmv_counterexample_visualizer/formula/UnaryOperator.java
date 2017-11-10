@@ -27,8 +27,18 @@ public class UnaryOperator extends LTLFormula {
     }
 
     @Override
-    public boolean isPastTime() {
-        return Arrays.asList("Y", "Z", "O", "H").contains(name) || argument.isPastTime();
+    public Pair<Integer, Integer> pastTimeLoopUnwindingRequired() {
+        final Pair<Integer, Integer> argValues = argument.pastTimeLoopUnwindingRequired();
+        final int left = argValues.getLeft();
+        final int right = argValues.getRight();
+        switch (name) {
+            case "O": case "H":
+                return Pair.of(left, 1);
+            case "Y": case "Z":
+                return Pair.of(left + 1, right);
+            default:
+                return Pair.of(left, right);
+        }
     }
 
     @Override

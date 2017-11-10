@@ -27,15 +27,19 @@ public class Counterexample {
         return length;
     }
 
-    void unwindLoopOnce() {
-        final int loopLen = loopLen();
-        for (int i = loopPosition; i < length; i++) {
-            for (String var : vars) {
-                values.get(var).add(values.get(var).get(i));
-            }
+    void unwindLoop(int units, int loops) {
+        final int unwindTotal = units + loops * loopLen();
+        for (int i = 0; i < unwindTotal; i++) {
+            unwindUnit();
         }
-        loopPosition += loopLen;
-        length += loopLen;
+    }
+
+    private void unwindUnit() {
+        for (String var : vars) {
+            values.get(var).add(values.get(var).get(loopPosition));
+        }
+        length++;
+        loopPosition++;
     }
 
     public int shiftPosition(int position) {

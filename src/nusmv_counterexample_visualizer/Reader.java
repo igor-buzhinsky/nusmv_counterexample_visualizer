@@ -6,6 +6,7 @@ import nusmv_counterexample_visualizer.generated.ltlParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -40,10 +41,13 @@ class Reader {
                     System.err.println("Warning: for property " + originalF +
                             ", looping the last state since a finite counterexample was given.");
                 }
-                if (f.isPastTime()) {
-                    ce.unwindLoopOnce();
-                    System.err.println("Info: for past-time property " + originalF +
-                            ", the loop has been unwound once.");
+                final Pair<Integer, Integer> unwind = f.pastTimeLoopUnwindingRequired();
+                final int unwindUnits = unwind.getLeft();
+                final int unwindLoops = unwind.getRight();
+                if (unwindLoops > 0 || unwindUnits > 0) {
+                    ce.unwindLoop(unwindUnits, unwindLoops);
+                    System.err.println("Info: for past-time property " + originalF + ", the loop has been unwound: "
+                            + unwindUnits + " element(s) + " + unwindLoops + " loop(s).");
                 }
                 ce.setImportant(f.variableSet());
             }

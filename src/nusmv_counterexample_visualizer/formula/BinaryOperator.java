@@ -32,8 +32,11 @@ public class BinaryOperator extends LTLFormula {
     }
 
     @Override
-    public boolean isPastTime() {
-        return leftArgument.isPastTime() || rightArgument.isPastTime();
+    public Pair<Integer, Integer> pastTimeLoopUnwindingRequired() {
+        final Pair<Integer, Integer> leftValues = leftArgument.pastTimeLoopUnwindingRequired();
+        final Pair<Integer, Integer> rightValues = rightArgument.pastTimeLoopUnwindingRequired();
+        return Pair.of(Math.max(leftValues.getLeft(), rightValues.getLeft()),
+                Math.max(leftValues.getRight(), rightValues.getRight()));
     }
 
     @Override

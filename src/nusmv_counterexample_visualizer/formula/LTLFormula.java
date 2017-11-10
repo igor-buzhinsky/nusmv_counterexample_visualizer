@@ -27,7 +27,15 @@ public abstract class LTLFormula {
         return "(" + text + ")";
     }
 
-    public abstract boolean isPastTime();
+    /*
+     * For past-time LTL formulas, unwinding the loop to some extent may be required for subformula values to
+     * be fixed for each element of the loop (e.g. what is the predecessor of the first loop element?)
+     * Attempt of a solution:
+     * - presence of O or H requires the loop to be repeated once
+     * - multiple occurrence of O and H seem not to require more unwinding
+     * - each Y and Z require an additional element to be unwound.
+     */
+    public abstract Pair<Integer, Integer> pastTimeLoopUnwindingRequired();
 
     public abstract Set<String> variableSet();
 
