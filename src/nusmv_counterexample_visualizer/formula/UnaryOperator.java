@@ -29,16 +29,8 @@ public class UnaryOperator extends LTLFormula {
     @Override
     public Pair<Integer, Integer> pastTimeLoopUnwindingRequired() {
         final Pair<Integer, Integer> argValues = argument.pastTimeLoopUnwindingRequired();
-        final int left = argValues.getLeft();
-        final int right = argValues.getRight();
-        switch (name) {
-            case "O": case "H":
-                return Pair.of(left, 1);
-            case "Y": case "Z":
-                return Pair.of(left + 1, right);
-            default:
-                return Pair.of(left, right);
-        }
+        return Pair.of(argValues.getLeft() + (name.equals("Y") || name.equals("Z") ? 1 : 0),
+                argValues.getRight() + (name.equals("O") || name.equals("H") ? 1 : 0));
     }
 
     @Override

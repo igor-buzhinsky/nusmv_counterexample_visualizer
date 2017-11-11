@@ -3,7 +3,7 @@ package nusmv_counterexample_visualizer;
 /**
  * Created by buzhinsky on 9/3/17.
  */
-public class VarNameClause {
+class VarNameClause {
     private final int position;
     private final String varName;
 

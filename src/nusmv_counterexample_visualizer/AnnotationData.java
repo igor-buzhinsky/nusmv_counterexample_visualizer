@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * Created by buzhinsky on 10/17/17.
  */
-public class AnnotationData {
+class AnnotationData {
     final List<String> annotations;
     final Counterexample ce;
 

@@ -134,7 +134,7 @@ public class GUI extends JFrame {
         specTable.getColumnModel().getColumn(0).setMaxWidth(50);
         specTable.getColumnModel().getColumn(1).setMaxWidth(50);
         specTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        JScrollPane scrollPane = new JScrollPane(specTable);
+        final JScrollPane scrollPane = new JScrollPane(specTable);
         scrollPane.setPreferredSize(new Dimension(-1, 150));
         scrollPane.setMinimumSize(new Dimension(0, 150));
         scrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 150));
@@ -357,30 +357,20 @@ public class GUI extends JFrame {
                     final boolean rightValue = cache.get(Pair.of(position, rightArg));
                     final Consumer<Integer> addLeft = p -> highlightSet.add(Pair.of(leftArg, p));
                     final Consumer<Integer> addRight = p -> highlightSet.add(Pair.of(rightArg, p));
+                    final BiConsumer<Boolean, Integer> addLeftIf = (v, p) -> { if (v) { addLeft.accept(p); } };
+                    final BiConsumer<Boolean, Integer> addRightIf = (v, p) -> { if (v) { addRight.accept(p); } };
                     switch (((BinaryOperator) f).name) {
                         case "&":
-                            if (value || !leftValue) {
-                                addLeft.accept(position);
-                            }
-                            if (value || !rightValue) {
-                                addRight.accept(position);
-                            }
+                            addLeftIf.accept(value || !leftValue, position);
+                            addRightIf.accept(value || !rightValue, position);
                             break;
                         case "|":
-                            if (!value || leftValue) {
-                                addLeft.accept(position);
-                            }
-                            if (!value || rightValue) {
-                                addRight.accept(position);
-                            }
+                            addLeftIf.accept(!value || leftValue, position);
+                            addRightIf.accept(!value || rightValue, position);
                             break;
                         case "->":
-                            if (!value || !leftValue) {
-                                addLeft.accept(position);
-                            }
-                            if (!value || rightValue) {
-                                addRight.accept(position);
-                            }
+                            addLeftIf.accept(!value || !leftValue, position);
+                            addRightIf.accept(!value || rightValue, position);
                             break;
                         case "<->":
                             addLeft.accept(position);
