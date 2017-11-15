@@ -1,6 +1,7 @@
 package nusmv_counterexample_visualizer;
 
 import nusmv_counterexample_visualizer.formula.LTLFormula;
+import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
@@ -41,11 +42,11 @@ class VerificationResult {
         return sb.toString();
     }
 
-    AnnotationData result(Set<Pair<LTLFormula, Integer>> highlightSet) {
+    AnnotationData result(Set<Pair<LTLFormula, Integer>> highlightSet, HighlightingMode hm) {
         final List<String> list = new ArrayList<>();
         if (ce != null) {
             for (int i = 0; i < ce.length(); i++) {
-                list.add(ce.graphicalAnnotatedToString(formulaValueCache, originalF, causalSet, i, highlightSet));
+                list.add(ce.graphicalAnnotatedToString(formulaValueCache, originalF, causalSet, i, highlightSet, hm));
             }
         }
         return new AnnotationData(list, ce);

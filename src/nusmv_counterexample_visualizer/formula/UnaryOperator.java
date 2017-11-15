@@ -2,6 +2,7 @@ package nusmv_counterexample_visualizer.formula;
 
 import nusmv_counterexample_visualizer.Clause;
 import nusmv_counterexample_visualizer.Counterexample;
+import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
@@ -163,9 +164,10 @@ public class UnaryOperator extends LTLFormula {
     @Override
     public List<String> graphicalAnnotatedToString(int position,
                                           Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                          Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet) {
+                                          Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                   HighlightingMode hm) {
         final List<String> argumentAnnotation = argument.graphicalAnnotatedToString(position, formulaValueCache,
-                causalSet, highlightSet);
+                causalSet, highlightSet, hm);
         final boolean value = formulaValueCache.get(Pair.of(position, this));
         final List<String> newLines = new ArrayList<>();
         newLines.add(name + par(argumentAnnotation.get(0)));
@@ -174,11 +176,11 @@ public class UnaryOperator extends LTLFormula {
         final boolean highlight = highlightSet.contains(Pair.of(this, position));
 
         for (int i = 1; i < argumentAnnotation.size(); i++) {
-            newLines.add(visualizeValue("║", value, url, highlight) + nStrings("&nbsp;", name.length())
-                    + argumentAnnotation.get(i) + visualizeValue("║", value, url, highlight));
+            newLines.add(hm.visualizeValue("║", value, url, highlight) + nStrings("&nbsp;", name.length())
+                    + argumentAnnotation.get(i) + hm.visualizeValue("║", value, url, highlight));
         }
 
-        newLines.add(visualizeValue("╚" + nChars(value ? 'T' : 'F', lengthWithoutTags(newLines.get(0)) - 2) + "╝",
+        newLines.add(hm.visualizeValue("╚" + nChars(value ? 'T' : 'F', lengthWithoutTags(newLines.get(0)) - 2) + "╝",
                 value, url, highlight));
         if (newLines.stream().map(LTLFormula::lengthWithoutTags).distinct().collect(Collectors.toList()).size() > 1) {
             newLines.forEach(System.err::println);

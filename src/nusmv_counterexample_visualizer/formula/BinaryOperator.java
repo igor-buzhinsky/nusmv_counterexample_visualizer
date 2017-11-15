@@ -2,6 +2,7 @@ package nusmv_counterexample_visualizer.formula;
 
 import nusmv_counterexample_visualizer.Clause;
 import nusmv_counterexample_visualizer.Counterexample;
+import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -153,11 +154,12 @@ public class BinaryOperator extends LTLFormula {
     @Override
     public List<String> graphicalAnnotatedToString(int position,
                                           Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                          Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet) {
+                                          Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                          HighlightingMode hm) {
         final List<String> leftAnnotation = leftArgument.graphicalAnnotatedToString(position, formulaValueCache,
-                causalSet, highlightSet);
+                causalSet, highlightSet, hm);
         final List<String> rightAnnotation = rightArgument.graphicalAnnotatedToString(position, formulaValueCache,
-                causalSet, highlightSet);
+                causalSet, highlightSet, hm);
         while (leftAnnotation.size() > rightAnnotation.size()) {
             rightAnnotation.add(nStrings("&nbsp;", lengthWithoutTags(rightAnnotation.get(0))));
         }
@@ -172,12 +174,12 @@ public class BinaryOperator extends LTLFormula {
         final boolean highlight = highlightSet.contains(Pair.of(this, position));
 
         for (int i = 1; i < leftAnnotation.size(); i++) {
-            newLines.add(visualizeValue("║", value, url, highlight) + leftAnnotation.get(i)
+            newLines.add(hm.visualizeValue("║", value, url, highlight) + leftAnnotation.get(i)
                     + nStrings("&nbsp;", name.length() + 2) + rightAnnotation.get(i)
-                    + visualizeValue("║", value, url, highlight));
+                    + hm.visualizeValue("║", value, url, highlight));
         }
 
-        newLines.add(visualizeValue("╚" + nChars(value ? 'T' : 'F', lengthWithoutTags(newLines.get(0)) - 2) + "╝",
+        newLines.add(hm.visualizeValue("╚" + nChars(value ? 'T' : 'F', lengthWithoutTags(newLines.get(0)) - 2) + "╝",
                 value, url, highlight));
 
         if (newLines.stream().map(LTLFormula::lengthWithoutTags).distinct().collect(Collectors.toList()).size() > 1) {

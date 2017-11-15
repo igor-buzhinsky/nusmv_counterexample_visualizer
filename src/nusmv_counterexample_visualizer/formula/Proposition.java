@@ -2,6 +2,7 @@ package nusmv_counterexample_visualizer.formula;
 
 import nusmv_counterexample_visualizer.Clause;
 import nusmv_counterexample_visualizer.Counterexample;
+import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
@@ -151,9 +152,10 @@ public class Proposition extends LTLFormula {
     @Override
     public List<String> graphicalAnnotatedToString(int position,
                                           Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                          Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet) {
+                                          Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                   HighlightingMode hm) {
         return graphicalAnnotateString(prettyToString().replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
                 formulaValueCache.get(Pair.of(position, this)), causalSet.contains(new Clause(position, this)),
-                highlightSet.contains(Pair.of(this, position)));
+                highlightSet.contains(Pair.of(this, position)), hm);
     }
 }

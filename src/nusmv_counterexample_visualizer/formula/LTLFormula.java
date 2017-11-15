@@ -2,6 +2,7 @@ package nusmv_counterexample_visualizer.formula;
 
 import nusmv_counterexample_visualizer.Clause;
 import nusmv_counterexample_visualizer.Counterexample;
+import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
@@ -78,7 +79,8 @@ public abstract class LTLFormula {
 
     public abstract List<String> graphicalAnnotatedToString(int position,
                                                    Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                                   Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet);
+                                                   Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                   HighlightingMode hm);
 
     List<String> annotateString(String str, boolean value, boolean important) {
         final String firstLine = nChars(important ? '▅' : ' ', str.length());
@@ -86,9 +88,10 @@ public abstract class LTLFormula {
         return new ArrayList<>(Arrays.asList(firstLine, str, thirdLine));
     }
 
-    List<String> graphicalAnnotateString(String str, boolean value, boolean important, boolean highlight) {
-        final String firstLine = visualizeImportance(str, important);
-        final String secondLine = visualizeValue(nChars(value ? 'T' : 'F', lengthWithoutTags(str)), value, null,
+    List<String> graphicalAnnotateString(String str, boolean value, boolean important, boolean highlight,
+                                         HighlightingMode hm) {
+        final String firstLine = hm.visualizeImportance(str, important);
+        final String secondLine = hm.visualizeValue(nChars(value ? 'T' : 'F', lengthWithoutTags(str)), value, null,
                 highlight);
         return new ArrayList<>(Arrays.asList(firstLine, secondLine));
     }
@@ -172,26 +175,6 @@ public abstract class LTLFormula {
     }
 
     static int lengthWithoutTags(String s) {
-        return s.replaceAll("</?(font|a|i|b)[^>]*>","").replaceAll("&(nbsp|lt|gt);", " ").length();
-    }
-
-    static String visualizeValue(String s, boolean value, String url, boolean highlight) {
-        final String color = value && highlight ? "color=green bgcolor=yellow"
-                : value ? "color=green bgcolor=#eeffee"
-                : highlight ? "color=red bgcolor=yellow" : "color=red bgcolor=#ffeeee";
-        if (url != null) {
-            s = "<a href=" + url + " style='text-decoration:none'>" + s + "</a>";
-        }
-        return "<font " + color + ">" + s + "</font>";
-    }
-
-    private static String visualizeImportance(String s, boolean important) {
-        return important ? ("<font bgcolor=yellow><i>" + s + "</i></font>") : s;
-    }
-
-    public static String visualizeImportanceInTable(String s, boolean important) {
-        s = visualizeImportance(s, important);
-        //return important ? ("<b>" + s + "</b>") : s;
-        return s;
+        return s.replaceAll("</?\\w+[^>]*>","").replaceAll("&(nbsp|lt|gt);", " ").length();
     }
 }

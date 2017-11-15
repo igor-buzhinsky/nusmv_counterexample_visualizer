@@ -1,6 +1,7 @@
 package nusmv_counterexample_visualizer;
 
 import nusmv_counterexample_visualizer.formula.*;
+import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.swing.*;
@@ -71,7 +72,7 @@ public class Counterexample {
         sb.append("\n");
     }
 
-    JTable graphicalValueTable(Set<VarNameClause> causalSet) {
+    JTable graphicalValueTable(Set<VarNameClause> causalSet, HighlightingMode hm) {
         final Map<String, Integer> varNameToColumn = new HashMap<>();
         int j = 1;
         for (String varName : importantVars) {
@@ -93,7 +94,7 @@ public class Counterexample {
             data[i][0] = i + " " + (i >= loopPosition ? "loop" : "prefix");
             for (String varName : vars) {
                 data[i][varNameToColumn.get(varName)] = "<html>" +
-                        LTLFormula.visualizeImportanceInTable(values.get(varName).get(i),
+                        hm.visualizeImportanceInTable(values.get(varName).get(i),
                                 causalSet.contains(new VarNameClause(i, varName))) + "</html>";
             }
         }
@@ -136,10 +137,11 @@ public class Counterexample {
     }
 
     String graphicalAnnotatedToString(Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache, LTLFormula f,
-                             Set<Clause> causalSet, int step, Set<Pair<LTLFormula, Integer>> highlightSet) {
+                             Set<Clause> causalSet, int step, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                      HighlightingMode hm) {
         final StringBuilder sb = new StringBuilder();
         if (formulaValueCache != null && f != null) {
-            for (String line : f.graphicalAnnotatedToString(step, formulaValueCache, causalSet, highlightSet)) {
+            for (String line : f.graphicalAnnotatedToString(step, formulaValueCache, causalSet, highlightSet, hm)) {
                 sb.append(line).append("<br>");
             }
         }

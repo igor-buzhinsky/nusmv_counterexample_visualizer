@@ -3,6 +3,7 @@ package nusmv_counterexample_visualizer;
 import nusmv_counterexample_visualizer.formula.BinaryOperator;
 import nusmv_counterexample_visualizer.formula.LTLFormula;
 import nusmv_counterexample_visualizer.formula.UnaryOperator;
+import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
@@ -93,6 +94,7 @@ public class GUI extends JFrame {
     private final Set<Pair<LTLFormula, Integer>> highlightSet = new HashSet<>();
     private final java.util.List<JTextPane> annotationPanels = new ArrayList<>();
     private final java.util.List<String> annotationTexts = new ArrayList<>();
+    private HighlightingMode hm = HighlightingMode.modes().iterator().next();
 
     private final static int FONT_SIZE = 20;
 
@@ -173,7 +175,18 @@ public class GUI extends JFrame {
         compactCheckbox.setText("Compact annotations");
         compactCheckbox.addItemListener(e -> fastUpdateAnnotationPanel());
         panel.add(compactCheckbox);
-        panel.add(new JPanel());
+
+        final JComboBox<String> box = new JComboBox<>();
+        for (HighlightingMode hm : HighlightingMode.modes()) {
+            box.addItem(hm.name() + " highlighting");
+        }
+        box.addItemListener(e -> {
+            hm = HighlightingMode.get(box.getSelectedItem().toString().replaceAll(" highlighting$", ""));
+            updateAnnotationPanel();
+            updateValueTable();
+        });
+        panel.add(box);
+
         panel.add(new JPanel());
 
         final JButton aboutButton = new JButton("About");
@@ -214,7 +227,7 @@ public class GUI extends JFrame {
 
     private void updateValueTable() {
         final JTable table = currentSpec >= 0 && annotations.get(currentSpec).ce != null
-                ? annotations.get(currentSpec).ce.graphicalValueTable(annotations.get(currentSpec).varNameCausalSet)
+                ? annotations.get(currentSpec).ce.graphicalValueTable(annotations.get(currentSpec).varNameCausalSet, hm)
                 : new JTable();
         valueScrollPane.setViewportView(table);
     }
@@ -238,7 +251,7 @@ public class GUI extends JFrame {
 
         annotationPanels.clear();
         annotationTexts.clear();
-        final AnnotationData annotation = annotations.get(currentSpec).result(highlightSet);
+        final AnnotationData annotation = annotations.get(currentSpec).result(highlightSet, hm);
 
         for (int i = 0; i < annotation.annotations.size(); i++) {
             if (i > 0) {
@@ -270,7 +283,7 @@ public class GUI extends JFrame {
     private void fastUpdateAnnotationPanel() {
         final int scrollX = annotationScrollPane.getHorizontalScrollBar().getValue();
         final int scrollY = annotationScrollPane.getVerticalScrollBar().getValue();
-        final AnnotationData annotation = annotations.get(currentSpec).result(highlightSet);
+        final AnnotationData annotation = annotations.get(currentSpec).result(highlightSet, hm);
         for (int i = 0; i < annotation.annotations.size(); i++) {
             String strAnnotation = annotation.annotations.get(i);
             if (compactCheckbox.isSelected()) {
