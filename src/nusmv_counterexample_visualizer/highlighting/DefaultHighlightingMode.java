@@ -34,9 +34,8 @@ class DefaultHighlightingMode extends HighlightingMode {
 
     @Override
     public List<String> shortGraphicalAnnotateString(String str, boolean value, boolean important) {
-        final String padding = (important ? "<font color=black bgcolor=yellow>" : "") + LTLFormula.nStrings(important ? "*" : "&nbsp", str.length())
-                + (important ? "</font>" : "");
-        return Arrays.asList(/*padding,*/ "<font bgcolor=" + (value ? "#ccffcc" : "#ffcccc") + ">" + str + "</font>",
-                padding);
+        return Arrays.asList("<font bgcolor=" + (value ? "#ccffcc" : "#ffcccc") + ">" + str + "</font>",
+                (important ? "<font color=black bgcolor=yellow>" : "") + LTLFormula.nStrings(important ? "*" : "&nbsp",
+                        LTLFormula.lengthWithoutTags(str)) + (important ? "</font>" : ""));
     }
 }

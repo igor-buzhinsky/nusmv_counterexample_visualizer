@@ -198,10 +198,11 @@ public class UnaryOperator extends LTLFormula {
         final List<String> argumentAnnotation = argument.shortGraphicalAnnotatedToString(position, formulaValueCache,
                 causalSet, highlightSet, hm);
         final boolean value = formulaValueCache.get(Pair.of(position, this));
-        final String padding = nStrings("&nbsp;", name.length() + 1) + argumentAnnotation.get(1) + "&nbsp;";
-        final String annotation = hm.shortGraphicalAnnotateString(name + "(", value, false).get(0)
-                + argumentAnnotation.get(0) + hm.shortGraphicalAnnotateString(")", value, false).get(0);
-        return Arrays.asList(/*padding,*/ annotation, padding);
+
+        final List<String> part1 = hm.shortGraphicalAnnotateString(name + "(", value, false);
+        final List<String> part3 = hm.shortGraphicalAnnotateString(")", value, false);
+        return Arrays.asList(part1.get(0) + argumentAnnotation.get(0) + part3.get(0),
+                part1.get(1) + argumentAnnotation.get(1) + part3.get(1));
     }
 
     @Override

@@ -197,13 +197,11 @@ public class BinaryOperator extends LTLFormula {
         final List<String> rightAnnotation = rightArgument.shortGraphicalAnnotatedToString(position, formulaValueCache,
                 causalSet, highlightSet, hm);
         final boolean value = formulaValueCache.get(Pair.of(position, this));
-        final String padding = "&nbsp;" + leftAnnotation.get(1) + nStrings("&nbsp;", name.length() + 2)
-                + rightAnnotation.get(1) + "&nbsp;";
-        final String annotation = hm.shortGraphicalAnnotateString("(", value, false).get(0)
-                + leftAnnotation.get(0)
-                + hm.shortGraphicalAnnotateString("&nbsp;" + name + "&nbsp;", value, false).get(0)
-                + rightAnnotation.get(0) + hm.shortGraphicalAnnotateString(")", value, false).get(0);
-        return Arrays.asList(/*padding,*/ annotation, padding);
+        final List<String> part1 = hm.shortGraphicalAnnotateString("(", value, false);
+        final List<String> part3 = hm.shortGraphicalAnnotateString("&nbsp;" + name + "&nbsp;", value, false);
+        final List<String> part5 = hm.shortGraphicalAnnotateString(")", value, false);
+        return Arrays.asList(part1.get(0) + leftAnnotation.get(0) + part3.get(0) + rightAnnotation.get(0) + part5.get(0),
+                part1.get(1) + leftAnnotation.get(1) + part3.get(1) + rightAnnotation.get(1) + part5.get(1));
     }
 
     @Override
