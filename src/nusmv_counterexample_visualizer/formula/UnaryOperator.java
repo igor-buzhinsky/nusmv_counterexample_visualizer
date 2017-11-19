@@ -162,11 +162,11 @@ public class UnaryOperator extends LTLFormula {
     }
 
     @Override
-    public List<String> graphicalAnnotatedToString(int position,
-                                          Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                          Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
-                                                   HighlightingMode hm) {
-        final List<String> argumentAnnotation = argument.graphicalAnnotatedToString(position, formulaValueCache,
+    public List<String> longGraphicalAnnotatedToString(int position,
+                                                       Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
+                                                       Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                       HighlightingMode hm) {
+        final List<String> argumentAnnotation = argument.longGraphicalAnnotatedToString(position, formulaValueCache,
                 causalSet, highlightSet, hm);
         final boolean value = formulaValueCache.get(Pair.of(position, this));
         final List<String> newLines = new ArrayList<>();
@@ -187,6 +187,21 @@ public class UnaryOperator extends LTLFormula {
             throw new RuntimeException();
         }
         return newLines;
+    }
+
+    @Override
+    public List<String> shortGraphicalAnnotatedToString(int position,
+                                                        Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
+                                                        Set<Clause> causalSet,
+                                                        Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                        HighlightingMode hm) {
+        final List<String> argumentAnnotation = argument.shortGraphicalAnnotatedToString(position, formulaValueCache,
+                causalSet, highlightSet, hm);
+        final boolean value = formulaValueCache.get(Pair.of(position, this));
+        final String padding = nStrings("&nbsp;", name.length() + 1) + argumentAnnotation.get(1) + "&nbsp;";
+        final String annotation = hm.shortGraphicalAnnotateString(name + "(", value, false).get(0)
+                + argumentAnnotation.get(0) + hm.shortGraphicalAnnotateString(")", value, false).get(0);
+        return Arrays.asList(/*padding,*/ annotation, padding);
     }
 
     @Override

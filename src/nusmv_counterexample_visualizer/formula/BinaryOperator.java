@@ -5,10 +5,7 @@ import nusmv_counterexample_visualizer.Counterexample;
 import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -152,13 +149,13 @@ public class BinaryOperator extends LTLFormula {
     }
 
     @Override
-    public List<String> graphicalAnnotatedToString(int position,
-                                          Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                          Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
-                                          HighlightingMode hm) {
-        final List<String> leftAnnotation = leftArgument.graphicalAnnotatedToString(position, formulaValueCache,
+    public List<String> longGraphicalAnnotatedToString(int position,
+                                                       Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
+                                                       Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                       HighlightingMode hm) {
+        final List<String> leftAnnotation = leftArgument.longGraphicalAnnotatedToString(position, formulaValueCache,
                 causalSet, highlightSet, hm);
-        final List<String> rightAnnotation = rightArgument.graphicalAnnotatedToString(position, formulaValueCache,
+        final List<String> rightAnnotation = rightArgument.longGraphicalAnnotatedToString(position, formulaValueCache,
                 causalSet, highlightSet, hm);
         while (leftAnnotation.size() > rightAnnotation.size()) {
             rightAnnotation.add(nStrings("&nbsp;", lengthWithoutTags(rightAnnotation.get(0))));
@@ -187,6 +184,26 @@ public class BinaryOperator extends LTLFormula {
             throw new RuntimeException();
         }
         return newLines;
+    }
+
+    @Override
+    public List<String> shortGraphicalAnnotatedToString(int position,
+                                                        Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
+                                                        Set<Clause> causalSet,
+                                                        Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                        HighlightingMode hm) {
+        final List<String> leftAnnotation = leftArgument.shortGraphicalAnnotatedToString(position, formulaValueCache,
+                causalSet, highlightSet, hm);
+        final List<String> rightAnnotation = rightArgument.shortGraphicalAnnotatedToString(position, formulaValueCache,
+                causalSet, highlightSet, hm);
+        final boolean value = formulaValueCache.get(Pair.of(position, this));
+        final String padding = "&nbsp;" + leftAnnotation.get(1) + nStrings("&nbsp;", name.length() + 2)
+                + rightAnnotation.get(1) + "&nbsp;";
+        final String annotation = hm.shortGraphicalAnnotateString("(", value, false).get(0)
+                + leftAnnotation.get(0)
+                + hm.shortGraphicalAnnotateString("&nbsp;" + name + "&nbsp;", value, false).get(0)
+                + rightAnnotation.get(0) + hm.shortGraphicalAnnotateString(")", value, false).get(0);
+        return Arrays.asList(/*padding,*/ annotation, padding);
     }
 
     @Override

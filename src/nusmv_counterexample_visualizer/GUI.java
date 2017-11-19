@@ -285,12 +285,12 @@ public class GUI extends JFrame {
         final int scrollY = annotationScrollPane.getVerticalScrollBar().getValue();
         final AnnotationData annotation = annotations.get(currentSpec).result(highlightSet, hm);
         for (int i = 0; i < annotation.annotations.size(); i++) {
-            String strAnnotation = annotation.annotations.get(i);
-            if (compactCheckbox.isSelected()) {
+            final String strAnnotation = wrap((compactCheckbox.isSelected() ? annotation.shortAnnotations
+                    : annotation.annotations) .get(i));
+            /*if (compactCheckbox.isSelected()) {
                 final String[] lines = strAnnotation.split("<br>", 3);
                 strAnnotation = lines[0] + "<br>" + lines[1];
-            }
-            strAnnotation = wrap(strAnnotation);
+            }*/
             final JTextPane panel = annotationPanels.get(i);
             final String previousText = annotationTexts.get(i);
             if (!previousText.equals(strAnnotation)) {

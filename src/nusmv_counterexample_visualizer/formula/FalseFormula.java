@@ -5,10 +5,7 @@ import nusmv_counterexample_visualizer.Counterexample;
 import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by buzhinsky on 10/20/17.
@@ -73,11 +70,19 @@ public class FalseFormula extends LTLFormula {
     }
 
     @Override
-    public List<String> graphicalAnnotatedToString(int position,
-                                                   Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                                   Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
-                                                   HighlightingMode hm) {
-        return graphicalAnnotateString(toString(), false, false, highlightSet.contains(Pair.of(this, position)), hm);
+    public List<String> longGraphicalAnnotatedToString(int position,
+                                                       Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
+                                                       Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                       HighlightingMode hm) {
+        return hm.longGraphicalAnnotateString(toString(), false, false, highlightSet.contains(Pair.of(this, position)));
+    }
+
+    @Override
+    public List<String> shortGraphicalAnnotatedToString(int position,
+                                                        Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
+                                                        Set<Clause> causalSet,
+                                                        Set<Pair<LTLFormula, Integer>> highlightSet, HighlightingMode hm) {
+        return hm.shortGraphicalAnnotateString(toString(), false, false);
     }
 
     @Override

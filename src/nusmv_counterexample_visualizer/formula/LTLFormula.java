@@ -60,13 +60,13 @@ public abstract class LTLFormula {
         }
     }
 
-    static String nChars(char c, int n) {
+    public static String nChars(char c, int n) {
         final char[] arr = new char[n];
         Arrays.fill(arr, c);
         return new String(arr);
     }
 
-    static String nStrings(String s, int n) {
+    public static String nStrings(String s, int n) {
         return String.join("", Collections.nCopies(n, s));
     }
 
@@ -77,23 +77,20 @@ public abstract class LTLFormula {
                                                    Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
                                                    Set<Clause> causalSet);
 
-    public abstract List<String> graphicalAnnotatedToString(int position,
-                                                   Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                                   Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
-                                                   HighlightingMode hm);
+    public abstract List<String> longGraphicalAnnotatedToString(int position,
+                                                                Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
+                                                                Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                                HighlightingMode hm);
+
+    public abstract List<String> shortGraphicalAnnotatedToString(int position,
+                                                                 Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
+                                                                 Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                                 HighlightingMode hm);
 
     List<String> annotateString(String str, boolean value, boolean important) {
         final String firstLine = nChars(important ? '▅' : ' ', str.length());
         final String thirdLine = nChars(value ? 'T' : 'F', str.length());
         return new ArrayList<>(Arrays.asList(firstLine, str, thirdLine));
-    }
-
-    List<String> graphicalAnnotateString(String str, boolean value, boolean important, boolean highlight,
-                                         HighlightingMode hm) {
-        final String firstLine = hm.visualizeImportance(str, important);
-        final String secondLine = hm.visualizeValue(nChars(value ? 'T' : 'F', lengthWithoutTags(str)), value, null,
-                highlight);
-        return new ArrayList<>(Arrays.asList(firstLine, secondLine));
     }
 
     LTLFormula not(LTLFormula other) {
@@ -174,7 +171,7 @@ public abstract class LTLFormula {
         return defaultValue;
     }
 
-    static int lengthWithoutTags(String s) {
+    public static int lengthWithoutTags(String s) {
         return s.replaceAll("</?\\w+[^>]*>","").replaceAll("&(nbsp|lt|gt);", " ").length();
     }
 }

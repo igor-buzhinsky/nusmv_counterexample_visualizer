@@ -96,6 +96,10 @@ public class Proposition extends LTLFormula {
         return toString();
     }
 
+    private String htmlToString() {
+        return prettyToString().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    }
+
     @Override
     public Set<String> variableSet() {
         return new TreeSet<>(Collections.singletonList(varName));
@@ -150,12 +154,21 @@ public class Proposition extends LTLFormula {
     }
 
     @Override
-    public List<String> graphicalAnnotatedToString(int position,
-                                          Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                          Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
-                                                   HighlightingMode hm) {
-        return graphicalAnnotateString(prettyToString().replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+    public List<String> longGraphicalAnnotatedToString(int position,
+                                                       Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
+                                                       Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                       HighlightingMode hm) {
+        return hm.longGraphicalAnnotateString(htmlToString(),
                 formulaValueCache.get(Pair.of(position, this)), causalSet.contains(new Clause(position, this)),
-                highlightSet.contains(Pair.of(this, position)), hm);
+                highlightSet.contains(Pair.of(this, position)));
+    }
+
+    @Override
+    public List<String> shortGraphicalAnnotatedToString(int position,
+                                                        Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
+                                                        Set<Clause> causalSet,
+                                                        Set<Pair<LTLFormula, Integer>> highlightSet, HighlightingMode hm) {
+        return hm.shortGraphicalAnnotateString(htmlToString(), formulaValueCache.get(Pair.of(position, this)),
+                causalSet.contains(new Clause(position, this)));
     }
 }

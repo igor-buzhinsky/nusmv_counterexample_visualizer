@@ -138,10 +138,13 @@ public class Counterexample {
 
     String graphicalAnnotatedToString(Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache, LTLFormula f,
                              Set<Clause> causalSet, int step, Set<Pair<LTLFormula, Integer>> highlightSet,
-                                      HighlightingMode hm) {
+                             HighlightingMode hm, boolean shortAnnotations) {
         final StringBuilder sb = new StringBuilder();
         if (formulaValueCache != null && f != null) {
-            for (String line : f.graphicalAnnotatedToString(step, formulaValueCache, causalSet, highlightSet, hm)) {
+            final List<String> lines = shortAnnotations
+                    ? f.shortGraphicalAnnotatedToString(step, formulaValueCache, causalSet, highlightSet, hm)
+                    : f.longGraphicalAnnotatedToString(step, formulaValueCache, causalSet, highlightSet, hm);
+            for (String line : lines) {
                 sb.append(line).append("<br>");
             }
         }

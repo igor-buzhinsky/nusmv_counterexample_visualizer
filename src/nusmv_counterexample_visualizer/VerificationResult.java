@@ -43,12 +43,16 @@ class VerificationResult {
     }
 
     AnnotationData result(Set<Pair<LTLFormula, Integer>> highlightSet, HighlightingMode hm) {
-        final List<String> list = new ArrayList<>();
+        final List<String> listLong = new ArrayList<>();
+        final List<String> listShort = new ArrayList<>();
         if (ce != null) {
             for (int i = 0; i < ce.length(); i++) {
-                list.add(ce.graphicalAnnotatedToString(formulaValueCache, originalF, causalSet, i, highlightSet, hm));
+                listLong.add(ce.graphicalAnnotatedToString(formulaValueCache, originalF, causalSet, i, highlightSet,
+                        hm, false));
+                listShort.add(ce.graphicalAnnotatedToString(formulaValueCache, originalF, causalSet, i, highlightSet,
+                        hm, true));
             }
         }
-        return new AnnotationData(list, ce);
+        return new AnnotationData(listLong, listShort, ce);
     }
 }

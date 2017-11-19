@@ -1,5 +1,7 @@
 package nusmv_counterexample_visualizer.highlighting;
 
+import nusmv_counterexample_visualizer.formula.LTLFormula;
+
 import java.util.*;
 
 /**
@@ -10,10 +12,19 @@ public abstract class HighlightingMode {
     abstract String visualizeValueNoUrl(String s, boolean value, boolean highlight);
     public abstract String visualizeImportance(String s, boolean important);
     public abstract String visualizeImportanceInTable(String s, boolean important);
+    public abstract List<String> shortGraphicalAnnotateString(String str, boolean value, boolean important);
 
     public String visualizeValue(String s, boolean value, String url, boolean highlight) {
         return visualizeValueNoUrl(url != null ? ("<a href=" + url + " style='text-decoration:none'>" + s + "</a>") : s,
                 value, highlight);
+    }
+
+    public List<String> longGraphicalAnnotateString(String str, boolean value, boolean important, boolean highlight) {
+        final String firstLine = visualizeImportance(str, important);
+        final String secondLine = visualizeValue(LTLFormula.nChars(value ? 'T' : 'F', LTLFormula.lengthWithoutTags(str)),
+                value, null,
+                highlight);
+        return new ArrayList<>(Arrays.asList(firstLine, secondLine));
     }
 
     private static final Map<String, HighlightingMode> ALL_MODES = new LinkedHashMap<>();
