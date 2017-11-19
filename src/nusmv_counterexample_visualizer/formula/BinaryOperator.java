@@ -2,6 +2,7 @@ package nusmv_counterexample_visualizer.formula;
 
 import nusmv_counterexample_visualizer.Clause;
 import nusmv_counterexample_visualizer.Counterexample;
+import nusmv_counterexample_visualizer.Util;
 import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -26,7 +27,7 @@ public class BinaryOperator extends LTLFormula {
 
     @Override
     public String toString() {
-        return par(leftArgument + " " + name + " " + rightArgument);
+        return Util.par(leftArgument + " " + name + " " + rightArgument);
     }
 
     @Override
@@ -128,19 +129,19 @@ public class BinaryOperator extends LTLFormula {
         final List<String> leftAnnotation = leftArgument.annotatedToString(position, formulaValueCache, causalSet);
         final List<String> rightAnnotation = rightArgument.annotatedToString(position, formulaValueCache, causalSet);
         while (leftAnnotation.size() > rightAnnotation.size()) {
-            rightAnnotation.add(nChars(' ', rightAnnotation.get(0).length()));
+            rightAnnotation.add(Util.nChars(' ', rightAnnotation.get(0).length()));
         }
         while (rightAnnotation.size() > leftAnnotation.size()) {
-            leftAnnotation.add(nChars(' ', leftAnnotation.get(0).length()));
+            leftAnnotation.add(Util.nChars(' ', leftAnnotation.get(0).length()));
         }
         final boolean value = formulaValueCache.get(Pair.of(position, this));
         final List<String> newLines = new ArrayList<>();
-        newLines.add(" " + leftAnnotation.get(0) + nChars(' ', name.length() + 2) + rightAnnotation.get(0) + " ");
-        newLines.add(par(leftAnnotation.get(1) + " " + name + " " + rightAnnotation.get(1)));
+        newLines.add(" " + leftAnnotation.get(0) + Util.nChars(' ', name.length() + 2) + rightAnnotation.get(0) + " ");
+        newLines.add(Util.par(leftAnnotation.get(1) + " " + name + " " + rightAnnotation.get(1)));
         for (int i = 2; i < leftAnnotation.size(); i++) {
-            newLines.add("║" + leftAnnotation.get(i) + nChars(' ', name.length() + 2) + rightAnnotation.get(i) + "║");
+            newLines.add("║" + leftAnnotation.get(i) + Util.nChars(' ', name.length() + 2) + rightAnnotation.get(i) + "║");
         }
-        newLines.add("╚" + nChars(value ? 'T' : 'F', newLines.get(0).length() - 2) + "╝");
+        newLines.add("╚" + Util.nChars(value ? 'T' : 'F', newLines.get(0).length() - 2) + "╝");
         if (newLines.stream().map(String::length).distinct().collect(Collectors.toList()).size() > 1) {
             newLines.forEach(System.err::println);
             throw new RuntimeException();
@@ -158,28 +159,28 @@ public class BinaryOperator extends LTLFormula {
         final List<String> rightAnnotation = rightArgument.longGraphicalAnnotatedToString(position, formulaValueCache,
                 causalSet, highlightSet, hm);
         while (leftAnnotation.size() > rightAnnotation.size()) {
-            rightAnnotation.add(nStrings("&nbsp;", lengthWithoutTags(rightAnnotation.get(0))));
+            rightAnnotation.add(Util.nStrings("&nbsp;", Util.lengthWithoutTags(rightAnnotation.get(0))));
         }
         while (rightAnnotation.size() > leftAnnotation.size()) {
-            leftAnnotation.add(nStrings("&nbsp;", lengthWithoutTags(leftAnnotation.get(0))));
+            leftAnnotation.add(Util.nStrings("&nbsp;", Util.lengthWithoutTags(leftAnnotation.get(0))));
         }
         final boolean value = formulaValueCache.get(Pair.of(position, this));
         final List<String> newLines = new ArrayList<>();
-        newLines.add(par(leftAnnotation.get(0) + "&nbsp;" + name + "&nbsp;" + rightAnnotation.get(0)));
+        newLines.add(Util.par(leftAnnotation.get(0) + "&nbsp;" + name + "&nbsp;" + rightAnnotation.get(0)));
 
         final String url = FORMULA_TO_INT.get(this) + ":" + position;
         final boolean highlight = highlightSet.contains(Pair.of(this, position));
 
         for (int i = 1; i < leftAnnotation.size(); i++) {
             newLines.add(hm.visualizeValue("║", value, url, highlight) + leftAnnotation.get(i)
-                    + nStrings("&nbsp;", name.length() + 2) + rightAnnotation.get(i)
+                    + Util.nStrings("&nbsp;", name.length() + 2) + rightAnnotation.get(i)
                     + hm.visualizeValue("║", value, url, highlight));
         }
 
-        newLines.add(hm.visualizeValue("╚" + nChars(value ? 'T' : 'F', lengthWithoutTags(newLines.get(0)) - 2) + "╝",
+        newLines.add(hm.visualizeValue("╚" + Util.nChars(value ? 'T' : 'F', Util.lengthWithoutTags(newLines.get(0)) - 2) + "╝",
                 value, url, highlight));
 
-        if (newLines.stream().map(LTLFormula::lengthWithoutTags).distinct().collect(Collectors.toList()).size() > 1) {
+        if (newLines.stream().map(Util::lengthWithoutTags).distinct().collect(Collectors.toList()).size() > 1) {
             newLines.forEach(System.err::println);
             throw new RuntimeException();
         }

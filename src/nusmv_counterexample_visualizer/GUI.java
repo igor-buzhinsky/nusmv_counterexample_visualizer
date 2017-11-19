@@ -276,6 +276,7 @@ public class GUI extends JFrame {
             annotationTexts.add("");
             panel.add(innerPanel);
         }
+
         annotationScrollPane.setViewportView(panel);
         fastUpdateAnnotationPanel();
     }
@@ -286,7 +287,7 @@ public class GUI extends JFrame {
         final AnnotationData annotation = annotations.get(currentSpec).result(highlightSet, hm);
         for (int i = 0; i < annotation.annotations.size(); i++) {
             final String strAnnotation = wrap((compactCheckbox.isSelected() ? annotation.shortAnnotations
-                    : annotation.annotations) .get(i));
+                    : annotation.annotations).get(i));
             /*if (compactCheckbox.isSelected()) {
                 final String[] lines = strAnnotation.split("<br>", 3);
                 strAnnotation = lines[0] + "<br>" + lines[1];

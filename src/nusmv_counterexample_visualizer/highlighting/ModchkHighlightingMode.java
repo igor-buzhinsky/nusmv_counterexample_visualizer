@@ -1,6 +1,6 @@
 package nusmv_counterexample_visualizer.highlighting;
 
-import nusmv_counterexample_visualizer.formula.LTLFormula;
+import nusmv_counterexample_visualizer.Util;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +36,7 @@ class ModchkHighlightingMode extends HighlightingMode {
     public List<String> shortGraphicalAnnotateString(String str, boolean value, boolean important) {
         final Function<String, String> bold = value ? s -> "<b>" + s + "</b>" : s -> s;
         return Arrays.asList("<font bgcolor=" + (value ? "#00ff00" : "white") + ">" + bold.apply(str) + "</font>",
-                "<font color=red>" + bold.apply(LTLFormula.nStrings(important ? "*" : "&nbsp",
-                        LTLFormula.lengthWithoutTags(str)) + "</font>"));
+                "<font color=red>" + bold.apply(Util.nStrings(important ? "*" : "&nbsp",
+                        Util.lengthWithoutTags(str)) + "</font>"));
     }
 }

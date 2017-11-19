@@ -2,6 +2,7 @@ package nusmv_counterexample_visualizer.formula;
 
 import nusmv_counterexample_visualizer.Clause;
 import nusmv_counterexample_visualizer.Counterexample;
+import nusmv_counterexample_visualizer.Util;
 import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -24,7 +25,7 @@ public class UnaryOperator extends LTLFormula {
 
     @Override
     public String toString() {
-        return name + par(argument.toString());
+        return name + Util.par(argument.toString());
     }
 
     @Override
@@ -148,12 +149,12 @@ public class UnaryOperator extends LTLFormula {
                 causalSet);
         final boolean value = formulaValueCache.get(Pair.of(position, this));
         final List<String> newLines = new ArrayList<>();
-        newLines.add(nChars(' ', name.length() + 1) + argumentAnnotation.get(0) + " ");
-        newLines.add(name + par(argumentAnnotation.get(1)));
+        newLines.add(Util.nChars(' ', name.length() + 1) + argumentAnnotation.get(0) + " ");
+        newLines.add(name + Util.par(argumentAnnotation.get(1)));
         for (int i = 2; i < argumentAnnotation.size(); i++) {
-            newLines.add("║" + nChars(' ', name.length()) + argumentAnnotation.get(i) + "║");
+            newLines.add("║" + Util.nChars(' ', name.length()) + argumentAnnotation.get(i) + "║");
         }
-        newLines.add("╚" + nChars(value ? 'T' : 'F', newLines.get(0).length() - 2) + "╝");
+        newLines.add("╚" + Util.nChars(value ? 'T' : 'F', newLines.get(0).length() - 2) + "╝");
         if (newLines.stream().map(String::length).distinct().collect(Collectors.toList()).size() > 1) {
             newLines.forEach(System.err::println);
             throw new RuntimeException();
@@ -170,19 +171,19 @@ public class UnaryOperator extends LTLFormula {
                 causalSet, highlightSet, hm);
         final boolean value = formulaValueCache.get(Pair.of(position, this));
         final List<String> newLines = new ArrayList<>();
-        newLines.add(name + par(argumentAnnotation.get(0)));
+        newLines.add(name + Util.par(argumentAnnotation.get(0)));
 
         final String url = FORMULA_TO_INT.get(this) + ":" + position;
         final boolean highlight = highlightSet.contains(Pair.of(this, position));
 
         for (int i = 1; i < argumentAnnotation.size(); i++) {
-            newLines.add(hm.visualizeValue("║", value, url, highlight) + nStrings("&nbsp;", name.length())
+            newLines.add(hm.visualizeValue("║", value, url, highlight) + Util.nStrings("&nbsp;", name.length())
                     + argumentAnnotation.get(i) + hm.visualizeValue("║", value, url, highlight));
         }
 
-        newLines.add(hm.visualizeValue("╚" + nChars(value ? 'T' : 'F', lengthWithoutTags(newLines.get(0)) - 2) + "╝",
+        newLines.add(hm.visualizeValue("╚" + Util.nChars(value ? 'T' : 'F', Util.lengthWithoutTags(newLines.get(0)) - 2) + "╝",
                 value, url, highlight));
-        if (newLines.stream().map(LTLFormula::lengthWithoutTags).distinct().collect(Collectors.toList()).size() > 1) {
+        if (newLines.stream().map(Util::lengthWithoutTags).distinct().collect(Collectors.toList()).size() > 1) {
             newLines.forEach(System.err::println);
             throw new RuntimeException();
         }

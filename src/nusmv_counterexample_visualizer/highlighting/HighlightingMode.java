@@ -1,6 +1,6 @@
 package nusmv_counterexample_visualizer.highlighting;
 
-import nusmv_counterexample_visualizer.formula.LTLFormula;
+import nusmv_counterexample_visualizer.Util;
 
 import java.util.*;
 
@@ -21,7 +21,7 @@ public abstract class HighlightingMode {
 
     public List<String> longGraphicalAnnotateString(String str, boolean value, boolean important, boolean highlight) {
         final String firstLine = visualizeImportance(str, important);
-        final String secondLine = visualizeValue(LTLFormula.nChars(value ? 'T' : 'F', LTLFormula.lengthWithoutTags(str)),
+        final String secondLine = visualizeValue(Util.nChars(value ? 'T' : 'F', Util.lengthWithoutTags(str)),
                 value, null,
                 highlight);
         return new ArrayList<>(Arrays.asList(firstLine, secondLine));

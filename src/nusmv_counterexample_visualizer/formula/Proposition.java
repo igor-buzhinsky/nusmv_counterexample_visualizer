@@ -158,9 +158,8 @@ public class Proposition extends LTLFormula {
                                                        Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
                                                        Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
                                                        HighlightingMode hm) {
-        return hm.longGraphicalAnnotateString(htmlToString(),
-                formulaValueCache.get(Pair.of(position, this)), causalSet.contains(new Clause(position, this)),
-                highlightSet.contains(Pair.of(this, position)));
+        return hm.longGraphicalAnnotateString(htmlToString(), formulaValueCache.get(Pair.of(position, this)),
+                causalSet.contains(new Clause(position, this)), highlightSet.contains(Pair.of(this, position)));
     }
 
     @Override

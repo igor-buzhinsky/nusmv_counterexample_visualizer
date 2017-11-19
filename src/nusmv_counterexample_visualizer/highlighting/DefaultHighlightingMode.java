@@ -1,6 +1,6 @@
 package nusmv_counterexample_visualizer.highlighting;
 
-import nusmv_counterexample_visualizer.formula.LTLFormula;
+import nusmv_counterexample_visualizer.Util;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +24,7 @@ class DefaultHighlightingMode extends HighlightingMode {
 
     @Override
     public String visualizeImportance(String s, boolean important) {
-        return important ? ("<font bgcolor=yellow><i>" + s + "</i></font>") : s;
+        return important ? ("<font bgcolor=yellow>" + s + "</font>") : s;
     }
 
     @Override
@@ -35,7 +35,7 @@ class DefaultHighlightingMode extends HighlightingMode {
     @Override
     public List<String> shortGraphicalAnnotateString(String str, boolean value, boolean important) {
         return Arrays.asList("<font bgcolor=" + (value ? "#ccffcc" : "#ffcccc") + ">" + str + "</font>",
-                (important ? "<font color=black bgcolor=yellow>" : "") + LTLFormula.nStrings(important ? "*" : "&nbsp",
-                        LTLFormula.lengthWithoutTags(str)) + (important ? "</font>" : ""));
+                (important ? "<font color=black bgcolor=yellow>" : "") + Util.nStrings(important ? "*" : "&nbsp",
+                        Util.lengthWithoutTags(str)) + (important ? "</font>" : ""));
     }
 }

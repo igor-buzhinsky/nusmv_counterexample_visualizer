@@ -2,6 +2,7 @@ package nusmv_counterexample_visualizer.formula;
 
 import nusmv_counterexample_visualizer.Clause;
 import nusmv_counterexample_visualizer.Counterexample;
+import nusmv_counterexample_visualizer.Util;
 import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -22,10 +23,6 @@ public abstract class LTLFormula {
 
     public static LTLFormula intToFormula(int index) {
         return INT_TO_FORMULA.get(index);
-    }
-
-    static String par(String text) {
-        return "(" + text + ")";
     }
 
     /*
@@ -60,16 +57,6 @@ public abstract class LTLFormula {
         }
     }
 
-    public static String nChars(char c, int n) {
-        final char[] arr = new char[n];
-        Arrays.fill(arr, c);
-        return new String(arr);
-    }
-
-    public static String nStrings(String s, int n) {
-        return String.join("", Collections.nCopies(n, s));
-    }
-
     public abstract boolean compute(Counterexample ce, int position,
                                     Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache);
 
@@ -88,8 +75,8 @@ public abstract class LTLFormula {
                                                                  HighlightingMode hm);
 
     List<String> annotateString(String str, boolean value, boolean important) {
-        final String firstLine = nChars(important ? '▅' : ' ', str.length());
-        final String thirdLine = nChars(value ? 'T' : 'F', str.length());
+        final String firstLine = Util.nChars(important ? '▅' : ' ', str.length());
+        final String thirdLine = Util.nChars(value ? 'T' : 'F', str.length());
         return new ArrayList<>(Arrays.asList(firstLine, str, thirdLine));
     }
 
@@ -141,7 +128,7 @@ public abstract class LTLFormula {
         return new UnaryOperator("Z", other);
     }
 
-    boolean walk(Counterexample ce, int position, boolean defaultValue,
+    static boolean walk(Counterexample ce, int position, boolean defaultValue,
                   Function<Integer, Boolean> returnFalsePredicate, Function<Integer, Boolean> returnTruePredicate) {
         final boolean[] checkedPositions = new boolean[ce.length()];
         int curPosition = position;
@@ -158,7 +145,7 @@ public abstract class LTLFormula {
         return defaultValue;
     }
 
-    boolean walkBack(int position, boolean defaultValue, Function<Integer, Boolean> returnFalsePredicate,
+    static boolean walkBack(int position, boolean defaultValue, Function<Integer, Boolean> returnFalsePredicate,
                      Function<Integer, Boolean> returnTruePredicate) {
         for (int curPosition = position; curPosition >= 0; curPosition--) {
             if (returnFalsePredicate.apply(curPosition)) {
@@ -169,9 +156,5 @@ public abstract class LTLFormula {
             }
         }
         return defaultValue;
-    }
-
-    public static int lengthWithoutTags(String s) {
-        return s.replaceAll("</?\\w+[^>]*>","").replaceAll("&(nbsp|lt|gt);", " ").length();
     }
 }

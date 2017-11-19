@@ -81,7 +81,8 @@ public class FalseFormula extends LTLFormula {
     public List<String> shortGraphicalAnnotatedToString(int position,
                                                         Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
                                                         Set<Clause> causalSet,
-                                                        Set<Pair<LTLFormula, Integer>> highlightSet, HighlightingMode hm) {
+                                                        Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                        HighlightingMode hm) {
         return hm.shortGraphicalAnnotateString(toString(), false, false);
     }
 
