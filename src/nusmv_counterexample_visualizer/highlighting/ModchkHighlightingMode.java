@@ -49,8 +49,8 @@ class ModchkHighlightingMode extends HighlightingMode {
             }
         } else {
             if (explanationHighlight) {
-                color = "white"; // grey
-                bgcolor = "#666666";
+                color = "white";
+                bgcolor = "#666666"; // grey
             } else {
                 color = "#999999"; // grey
                 bgcolor = "white";

@@ -85,8 +85,10 @@ public class GUI extends JFrame {
     }
 
     private JPanel rootPanel;
+    private JScrollPane propertyScrollPane;
     private JScrollPane annotationScrollPane;
     private JScrollPane valueScrollPane;
+    private JPanel lowerPanel;
     private JCheckBox compactCheckbox;
 
     private java.util.List<VerificationResult> annotations = null;
@@ -136,11 +138,10 @@ public class GUI extends JFrame {
         specTable.getColumnModel().getColumn(0).setMaxWidth(50);
         specTable.getColumnModel().getColumn(1).setMaxWidth(50);
         specTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        final JScrollPane scrollPane = new JScrollPane(specTable);
-        scrollPane.setPreferredSize(new Dimension(-1, 150));
-        scrollPane.setMinimumSize(new Dimension(0, 150));
-        scrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 150));
-        rootPanel.add(scrollPane);
+        propertyScrollPane = new JScrollPane(specTable);
+        //propertyScrollPane.setPreferredSize(new Dimension(-1, 150));
+        //propertyScrollPane.setMinimumSize(new Dimension(0, 150));
+        //propertyScrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 150));
 
         specTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         specTable.getSelectionModel().addListSelectionListener(e -> {
@@ -163,18 +164,18 @@ public class GUI extends JFrame {
         valueScrollPane.setPreferredSize(new Dimension(-1, 150));
         valueScrollPane.setMinimumSize(new Dimension(0, 150));
         valueScrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 150));
-        rootPanel.add(valueScrollPane);
     }
 
     private void createLowerPanel() {
-        final JPanel panel = new JPanel();
-        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
-        panel.setLayout(new GridLayout(1, 3));
+        lowerPanel = new JPanel();
+        //lowerPanel.setMinimumSize(new Dimension(1, 30));
+        //lowerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        lowerPanel.setLayout(new GridLayout(1, 3));
 
         compactCheckbox = new JCheckBox();
         compactCheckbox.setText("Compact annotations");
         compactCheckbox.addItemListener(e -> fastUpdateAnnotationPanel());
-        panel.add(compactCheckbox);
+        lowerPanel.add(compactCheckbox);
 
         final JComboBox<String> box = new JComboBox<>();
         for (HighlightingMode hm : HighlightingMode.modes()) {
@@ -185,9 +186,9 @@ public class GUI extends JFrame {
             updateAnnotationPanel();
             updateValueTable();
         });
-        panel.add(box);
+        lowerPanel.add(box);
 
-        panel.add(new JPanel());
+        lowerPanel.add(new JPanel());
 
         final JButton aboutButton = new JButton("About");
 
@@ -220,9 +221,7 @@ public class GUI extends JFrame {
 
         aboutButton.addActionListener(e -> JOptionPane.showMessageDialog(this, String.join("\n", lines), "About",
                 JOptionPane.INFORMATION_MESSAGE));
-        panel.add(aboutButton);
-
-        rootPanel.add(panel);
+        lowerPanel.add(aboutButton);
     }
 
     private void updateValueTable() {
@@ -237,12 +236,26 @@ public class GUI extends JFrame {
 
     private void addElements() {
         createSpecTable();
-
         annotationScrollPane = new JScrollPane();
-        rootPanel.add(annotationScrollPane);
-
         createValueTable();
         createLowerPanel();
+
+        final JSplitPane splitPane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, propertyScrollPane,
+                annotationScrollPane);
+
+        final JPanel auxPanel = new JPanel();
+        auxPanel.setLayout(new BorderLayout());
+        auxPanel.add(valueScrollPane, BorderLayout.CENTER);
+        auxPanel.add(lowerPanel, BorderLayout.SOUTH);
+
+        final JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPane1, auxPanel);
+
+        rootPanel.add(splitPane2);
+
+        splitPane1.setDividerLocation(150);
+        splitPane2.setResizeWeight(0);
+        splitPane2.setDividerLocation(550);
+        splitPane2.setResizeWeight(1);
     }
 
     private void updateAnnotationPanel() {
