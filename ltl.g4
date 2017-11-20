@@ -24,6 +24,10 @@ unary_operator_sign returns[String value]
     | NEXT { $value = "X"; }
     | GLOBALLY { $value = "G"; }
     | FUTURE { $value = "F"; }
+    | PREV_Y { $value = "Y"; }
+    | PREV_Z { $value = "Z"; }
+    | ONCE { $value = "O"; }
+    | HISTORICALLY { $value = "H"; }
     ;
 
 binary_operator_sign returns[String value]
@@ -85,8 +89,10 @@ formula returns[LTLFormula f]
 // operator sequences
 WS : (' ' | '\t' | ('\r'? '\n'))+ -> channel(HIDDEN);
 
-// temporal operators
+// LTL operators
 GLOBALLY : 'G'; FUTURE : 'F'; UNTIL : 'U'; RELEASE : 'V'; NEXT : 'X';
+// past-time LTL operators
+PREV_Y : 'Y'; PREV_Z : 'Z'; ONCE : 'O'; HISTORICALLY : 'H';
 
 // Boolean operators
 AND : '&'; OR : '|'; IMPLIES : '->'; NOT : '!';
