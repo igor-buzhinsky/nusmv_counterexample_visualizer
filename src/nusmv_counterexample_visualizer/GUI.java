@@ -71,7 +71,7 @@ public class GUI extends JFrame {
         rootPanel = new JPanel();
         setTitle("NuSMV LTL Counterexample Visualizer");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.PAGE_AXIS));
+        rootPanel.setLayout(new BorderLayout());
         setContentPane(rootPanel);
         try {
             annotations = AnnotationData.graphicalAnnotation(input);
@@ -107,7 +107,6 @@ public class GUI extends JFrame {
 
     private static void setLookAndFeel() {
         try {
-            //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                 | UnsupportedLookAndFeelException e) {
@@ -139,9 +138,6 @@ public class GUI extends JFrame {
         specTable.getColumnModel().getColumn(1).setMaxWidth(50);
         specTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         propertyScrollPane = new JScrollPane(specTable);
-        //propertyScrollPane.setPreferredSize(new Dimension(-1, 150));
-        //propertyScrollPane.setMinimumSize(new Dimension(0, 150));
-        //propertyScrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 150));
 
         specTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         specTable.getSelectionModel().addListSelectionListener(e -> {
@@ -161,16 +157,11 @@ public class GUI extends JFrame {
         final JTable table = new JTable();
         valueScrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        valueScrollPane.setPreferredSize(new Dimension(-1, 150));
-        valueScrollPane.setMinimumSize(new Dimension(0, 150));
-        valueScrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 150));
     }
 
     private void createLowerPanel() {
         lowerPanel = new JPanel();
-        //lowerPanel.setMinimumSize(new Dimension(1, 30));
-        //lowerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-        lowerPanel.setLayout(new GridLayout(1, 3));
+        lowerPanel.setLayout(new GridLayout(1, 4));
 
         compactCheckbox = new JCheckBox();
         compactCheckbox.setText("Compact annotations");
@@ -242,15 +233,10 @@ public class GUI extends JFrame {
 
         final JSplitPane splitPane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, propertyScrollPane,
                 annotationScrollPane);
-
-        final JPanel auxPanel = new JPanel();
-        auxPanel.setLayout(new BorderLayout());
-        auxPanel.add(valueScrollPane, BorderLayout.CENTER);
-        auxPanel.add(lowerPanel, BorderLayout.SOUTH);
-
-        final JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPane1, auxPanel);
+        final JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPane1, valueScrollPane);
 
         rootPanel.add(splitPane2);
+        rootPanel.add(lowerPanel, BorderLayout.SOUTH);
 
         splitPane1.setDividerLocation(150);
         splitPane2.setResizeWeight(0);
@@ -307,10 +293,6 @@ public class GUI extends JFrame {
         for (int i = 0; i < annotation.annotations.size(); i++) {
             final String strAnnotation = wrap((compactCheckbox.isSelected() ? annotation.shortAnnotations
                     : annotation.annotations).get(i));
-            /*if (compactCheckbox.isSelected()) {
-                final String[] lines = strAnnotation.split("<br>", 3);
-                strAnnotation = lines[0] + "<br>" + lines[1];
-            }*/
             final JTextPane panel = annotationPanels.get(i);
             final String previousText = annotationTexts.get(i);
             if (!previousText.equals(strAnnotation)) {
