@@ -23,20 +23,20 @@ class ModchkHighlightingMode extends HighlightingMode {
 
     @Override
     public String visualizeImportance(String s, boolean important) {
-        return important ? ("<span style='text-decoration: underline; background-color: yellow;'>"
-                + s + "</span>") : s;
+        return important ? ("<font bgcolor=#ccccff>" + s + "</font>") : s;
     }
 
     @Override
     public String visualizeImportanceInTable(String s, boolean important) {
-        return visualizeImportance(s, important);
+        return important ? ("<font bgcolor=blue>&nbsp;</font>" + s + "<font bgcolor=blue>&nbsp;</font>") : s;
     }
 
     @Override
     public List<String> shortGraphicalAnnotateString(String str, boolean value, boolean important) {
         final Function<String, String> bold = value ? s -> "<b>" + s + "</b>" : s -> s;
-        return Arrays.asList("<font bgcolor=" + (value ? "#00ff00" : "white") + ">" + bold.apply(str) + "</font>",
-                "<font color=red>" + bold.apply(Util.nStrings(important ? "*" : "&nbsp",
-                        Util.lengthWithoutTags(str)) + "</font>"));
+        final int len = Util.lengthWithoutTags(str);
+        return Arrays.asList((value ? "<font bgcolor=#ff9999>" : "<font color=#666666>") + bold.apply(str) + "</font>",
+                bold.apply(important ? ("<font color=blue>" + Util.nChars('^', len) + "</font>")
+                        : Util.nStrings("&nbsp", len)));
     }
 }

@@ -1,7 +1,9 @@
 package nusmv_counterexample_visualizer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by buzhinsky on 11/19/17.
@@ -23,5 +25,17 @@ public class Util {
 
     public static String par(String text) {
         return "(" + text + ")";
+    }
+
+    public static List<String> bind(List<?>... lists) {
+        final List<String> result = new ArrayList<>();
+        for (int i = 0; i < lists[0].size(); i++) {
+            final StringBuilder sb = new StringBuilder();
+            for (List<?> list : lists) {
+                sb.append(list.get(i));
+            }
+            result.add(sb.toString());
+        }
+        return result;
     }
 }

@@ -202,8 +202,7 @@ public class UnaryOperator extends LTLFormula {
 
         final List<String> part1 = hm.shortGraphicalAnnotateString(name + "(", value, false);
         final List<String> part3 = hm.shortGraphicalAnnotateString(")", value, false);
-        return Arrays.asList(part1.get(0) + argumentAnnotation.get(0) + part3.get(0),
-                part1.get(1) + argumentAnnotation.get(1) + part3.get(1));
+        return Util.bind(part1, argumentAnnotation, part3);
     }
 
     @Override

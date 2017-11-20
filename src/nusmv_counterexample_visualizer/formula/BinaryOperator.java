@@ -201,8 +201,7 @@ public class BinaryOperator extends LTLFormula {
         final List<String> part1 = hm.shortGraphicalAnnotateString("(", value, false);
         final List<String> part3 = hm.shortGraphicalAnnotateString("&nbsp;" + name + "&nbsp;", value, false);
         final List<String> part5 = hm.shortGraphicalAnnotateString(")", value, false);
-        return Arrays.asList(part1.get(0) + leftAnnotation.get(0) + part3.get(0) + rightAnnotation.get(0) + part5.get(0),
-                part1.get(1) + leftAnnotation.get(1) + part3.get(1) + rightAnnotation.get(1) + part5.get(1));
+        return Util.bind(part1, leftAnnotation, part3, rightAnnotation, part5);
     }
 
     @Override

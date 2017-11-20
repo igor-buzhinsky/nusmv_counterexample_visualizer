@@ -226,6 +226,9 @@ public class GUI extends JFrame {
     }
 
     private void updateValueTable() {
+        if (currentSpec == -1) {
+            return;
+        }
         final JTable table = currentSpec >= 0 && annotations.get(currentSpec).ce != null
                 ? annotations.get(currentSpec).ce.graphicalValueTable(annotations.get(currentSpec).varNameCausalSet, hm)
                 : new JTable();
@@ -282,6 +285,9 @@ public class GUI extends JFrame {
     }
 
     private void fastUpdateAnnotationPanel() {
+        if (currentSpec == -1) {
+            return;
+        }
         final int scrollX = annotationScrollPane.getHorizontalScrollBar().getValue();
         final int scrollY = annotationScrollPane.getVerticalScrollBar().getValue();
         final AnnotationData annotation = annotations.get(currentSpec).result(highlightSet, hm);
