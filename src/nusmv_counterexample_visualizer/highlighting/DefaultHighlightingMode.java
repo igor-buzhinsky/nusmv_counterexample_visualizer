@@ -33,8 +33,12 @@ class DefaultHighlightingMode extends HighlightingMode {
     }
 
     @Override
-    public List<String> shortGraphicalAnnotateString(String str, boolean value, boolean important) {
-        return Arrays.asList("<font bgcolor=" + (value ? "#ccffcc" : "#ffcccc") + ">" + str + "</font>",
+    public List<String> shortGraphicalAnnotateStringNoUrl(String str, boolean value, boolean important,
+                                                     boolean explanationHighlight) {
+        final String red = explanationHighlight ? "red" : "#ffaaaa";
+        final String green = explanationHighlight ? "green" : "#aaffaa";
+        final String fgcolor = explanationHighlight ? "white" : "black";
+        return Arrays.asList("<font color=" + fgcolor + " bgcolor=" + (value ? green : red) + ">" + str + "</font>",
                 (important ? "<font color=black bgcolor=yellow>" : "") + Util.nStrings(important ? "*" : "&nbsp",
                         Util.lengthWithoutTags(str)) + (important ? "</font>" : ""));
     }

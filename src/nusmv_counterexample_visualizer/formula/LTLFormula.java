@@ -157,4 +157,8 @@ public abstract class LTLFormula {
         }
         return defaultValue;
     }
+
+    String url(int position) {
+        return FORMULA_TO_INT.get(this) + ":" + position;
+    }
 }

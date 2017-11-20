@@ -166,8 +166,9 @@ public class Proposition extends LTLFormula {
     public List<String> shortGraphicalAnnotatedToString(int position,
                                                         Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
                                                         Set<Clause> causalSet,
-                                                        Set<Pair<LTLFormula, Integer>> highlightSet, HighlightingMode hm) {
+                                                        Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                        HighlightingMode hm) {
         return hm.shortGraphicalAnnotateString(htmlToString(), formulaValueCache.get(Pair.of(position, this)),
-                causalSet.contains(new Clause(position, this)));
+                causalSet.contains(new Clause(position, this)), null, highlightSet.contains(Pair.of(this, position)));
     }
 }

@@ -173,7 +173,7 @@ public class UnaryOperator extends LTLFormula {
         final List<String> newLines = new ArrayList<>();
         newLines.add(name + Util.par(argumentAnnotation.get(0)));
 
-        final String url = FORMULA_TO_INT.get(this) + ":" + position;
+        final String url = url(position);
         final boolean highlight = highlightSet.contains(Pair.of(this, position));
 
         for (int i = 1; i < argumentAnnotation.size(); i++) {
@@ -199,10 +199,10 @@ public class UnaryOperator extends LTLFormula {
         final List<String> argumentAnnotation = argument.shortGraphicalAnnotatedToString(position, formulaValueCache,
                 causalSet, highlightSet, hm);
         final boolean value = formulaValueCache.get(Pair.of(position, this));
-
-        final List<String> part1 = hm.shortGraphicalAnnotateString(name + "(", value, false);
-        final List<String> part3 = hm.shortGraphicalAnnotateString(")", value, false);
-        return Util.bind(part1, argumentAnnotation, part3);
+        final String url = url(position);
+        final boolean highlight = highlightSet.contains(Pair.of(this, position));
+        return Util.bind(hm.shortGraphicalAnnotateString(name + "(", value, false, url, highlight), argumentAnnotation,
+                hm.shortGraphicalAnnotateString(")", value, false, url, highlight));
     }
 
     @Override

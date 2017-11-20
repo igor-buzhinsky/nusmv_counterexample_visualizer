@@ -83,7 +83,8 @@ public class TrueFormula extends LTLFormula {
                                                         Set<Clause> causalSet,
                                                         Set<Pair<LTLFormula, Integer>> highlightSet,
                                                         HighlightingMode hm) {
-        return hm.shortGraphicalAnnotateString(toString(), true, false);
+        return hm.shortGraphicalAnnotateString(toString(), true, false, null,
+                highlightSet.contains(Pair.of(this, position)));
     }
 
     @Override

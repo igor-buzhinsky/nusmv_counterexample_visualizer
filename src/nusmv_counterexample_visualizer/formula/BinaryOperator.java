@@ -168,7 +168,7 @@ public class BinaryOperator extends LTLFormula {
         final List<String> newLines = new ArrayList<>();
         newLines.add(Util.par(leftAnnotation.get(0) + "&nbsp;" + name + "&nbsp;" + rightAnnotation.get(0)));
 
-        final String url = FORMULA_TO_INT.get(this) + ":" + position;
+        final String url = url(position);
         final boolean highlight = highlightSet.contains(Pair.of(this, position));
 
         for (int i = 1; i < leftAnnotation.size(); i++) {
@@ -198,10 +198,11 @@ public class BinaryOperator extends LTLFormula {
         final List<String> rightAnnotation = rightArgument.shortGraphicalAnnotatedToString(position, formulaValueCache,
                 causalSet, highlightSet, hm);
         final boolean value = formulaValueCache.get(Pair.of(position, this));
-        final List<String> part1 = hm.shortGraphicalAnnotateString("(", value, false);
-        final List<String> part3 = hm.shortGraphicalAnnotateString("&nbsp;" + name + "&nbsp;", value, false);
-        final List<String> part5 = hm.shortGraphicalAnnotateString(")", value, false);
-        return Util.bind(part1, leftAnnotation, part3, rightAnnotation, part5);
+        final String url = url(position);
+        final boolean highlight = highlightSet.contains(Pair.of(this, position));
+        return Util.bind(hm.shortGraphicalAnnotateString("(", value, false, url, highlight), leftAnnotation,
+                hm.shortGraphicalAnnotateString("&nbsp;" + name + "&nbsp;", value, false, url, highlight),
+                rightAnnotation, hm.shortGraphicalAnnotateString(")", value, false, url, highlight));
     }
 
     @Override

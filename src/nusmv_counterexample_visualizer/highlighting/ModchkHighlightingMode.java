@@ -32,11 +32,33 @@ class ModchkHighlightingMode extends HighlightingMode {
     }
 
     @Override
-    public List<String> shortGraphicalAnnotateString(String str, boolean value, boolean important) {
+    public List<String> shortGraphicalAnnotateStringNoUrl(String str, boolean value, boolean important,
+                                                     boolean explanationHighlight) {
         final Function<String, String> bold = value ? s -> "<b>" + s + "</b>" : s -> s;
         final int len = Util.lengthWithoutTags(str);
-        return Arrays.asList((value ? "<font bgcolor=#ff9999>" : "<font color=#666666>") + bold.apply(str) + "</font>",
-                bold.apply(important ? ("<font color=blue>" + Util.nChars('^', len) + "</font>")
-                        : Util.nStrings("&nbsp", len)));
+
+        final String color;
+        final String bgcolor;
+        if (value) {
+            if (explanationHighlight) {
+                color = "white";
+                bgcolor = "#ff0000"; // red
+            } else {
+                color = "black";
+                bgcolor = "#ff9999"; // red
+            }
+        } else {
+            if (explanationHighlight) {
+                color = "white"; // grey
+                bgcolor = "#666666";
+            } else {
+                color = "#999999"; // grey
+                bgcolor = "white";
+            }
+        }
+
+        return Arrays.asList("<font color=" + color + " bgcolor=" + bgcolor + ">" + bold.apply(str) + "</font>",
+                "<font color=blue>" + bold.apply(Util.nStrings(important ? "^" : "&nbsp", len)) + "</font>");
+
     }
 }

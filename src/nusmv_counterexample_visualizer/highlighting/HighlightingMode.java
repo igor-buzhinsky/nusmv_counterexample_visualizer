@@ -12,7 +12,15 @@ public abstract class HighlightingMode {
     abstract String visualizeValueNoUrl(String s, boolean value, boolean highlight);
     public abstract String visualizeImportance(String s, boolean important);
     public abstract String visualizeImportanceInTable(String s, boolean important);
-    public abstract List<String> shortGraphicalAnnotateString(String str, boolean value, boolean important);
+    public abstract List<String> shortGraphicalAnnotateStringNoUrl(String str, boolean value, boolean important,
+                                                              boolean explanationHighlight);
+
+    public List<String> shortGraphicalAnnotateString(String s, boolean value, boolean important, String url,
+                                                     boolean explanationHighlight) {
+        return shortGraphicalAnnotateStringNoUrl(url != null ? ("<a href=" + url + " style='text-decoration:none'>" + s
+                + "</a>") : s,
+            value, important, explanationHighlight);
+    }
 
     public String visualizeValue(String s, boolean value, String url, boolean highlight) {
         return visualizeValueNoUrl(url != null ? ("<a href=" + url + " style='text-decoration:none'>" + s + "</a>") : s,
