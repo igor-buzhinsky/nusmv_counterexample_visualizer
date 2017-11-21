@@ -1,6 +1,6 @@
 package nusmv_counterexample_visualizer.formula;
 
-import nusmv_counterexample_visualizer.Clause;
+import nusmv_counterexample_visualizer.Cause;
 import nusmv_counterexample_visualizer.Counterexample;
 import nusmv_counterexample_visualizer.Util;
 import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
@@ -125,7 +125,7 @@ public class BinaryOperator extends LTLFormula {
     @Override
     public List<String> annotatedToString(int position,
                                           Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                          Set<Clause> causalSet) {
+                                          Set<Cause> causalSet) {
         final List<String> leftAnnotation = leftArgument.annotatedToString(position, formulaValueCache, causalSet);
         final List<String> rightAnnotation = rightArgument.annotatedToString(position, formulaValueCache, causalSet);
         while (leftAnnotation.size() > rightAnnotation.size()) {
@@ -152,7 +152,7 @@ public class BinaryOperator extends LTLFormula {
     @Override
     public List<String> longGraphicalAnnotatedToString(int position,
                                                        Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                                       Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                       Set<Cause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
                                                        HighlightingMode hm) {
         final List<String> leftAnnotation = leftArgument.longGraphicalAnnotatedToString(position, formulaValueCache,
                 causalSet, highlightSet, hm);
@@ -190,7 +190,7 @@ public class BinaryOperator extends LTLFormula {
     @Override
     public List<String> shortGraphicalAnnotatedToString(int position,
                                                         Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                                        Set<Clause> causalSet,
+                                                        Set<Cause> causalSet,
                                                         Set<Pair<LTLFormula, Integer>> highlightSet,
                                                         HighlightingMode hm) {
         final List<String> leftAnnotation = leftArgument.shortGraphicalAnnotatedToString(position, formulaValueCache,

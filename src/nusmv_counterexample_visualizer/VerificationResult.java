@@ -13,8 +13,8 @@ class VerificationResult {
     final String strOriginalF;
     private final LTLFormula originalF;
     final Counterexample ce;
-    private final Set<Clause> causalSet;
-    final Set<VarNameClause> varNameCausalSet;
+    private final Set<Cause> causalSet;
+    final Set<VarNameCause> varNameCausalSet;
     final Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache = new HashMap<>();
 
     VerificationResult(String strOriginalF, LTLFormula originalF, LTLFormula normalizedF, Counterexample ce,
@@ -25,8 +25,8 @@ class VerificationResult {
         causalSet = ce != null ? ce.causalSet(normalizedF) : new HashSet<>();
         varNameCausalSet = new HashSet<>();
 
-        for (Clause clause : causalSet) {
-            varNameCausalSet.addAll(clause.toVarNameClauses());
+        for (Cause cause : causalSet) {
+            varNameCausalSet.addAll(cause.toVarNameClauses());
         }
 
         if (ce != null && fillValueCache) {

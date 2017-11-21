@@ -187,30 +187,40 @@ public class GUI extends JFrame {
                 "NuSMV LTL counterexample visualizer",
                 "By Igor Buzhinsky, Aalto University & ITMO University, igor.buzhinsky@gmail.com",
                 "",
-                "The top panel lists LTL specifications from the input file. Visualization is available only",
-                "for FALSE specifications. Select a FALSE specification to see the visualization of the",
-                "counterexample for this specification in the middle panel.",
+                "The top panel lists LTL specifications from the input file. Visualization is available only " +
+                        "for FALSE specifications. Select a FALSE specification to see the visualization of the " +
+                        "counterexample for this specification in the middle panel.",
                 "",
-                "In the middle panel, the values (T, F) of each subformula of the LTL specification are",
-                "shown for each step of the counterexample. Click on an annotation below a subformula to",
-                "see an explanation of its value. As a result, this and some other values will be highlighted",
-                "In addition, important atomic propositions are highlighted in the LTL formula.",
+                "In the middle panel, the values (T, F) of each subformula of the LTL specification are shown for " +
+                        "each step of the counterexample. Click on an annotation below a subformula to see an " +
+                        "explanation of its value. As a result, this and some other values will be highlighted. In " +
+                        "addition, important atomic propositions are highlighted in the LTL formula.",
                 "",
-                "In the bottom panel, the values of all variables for all counterexample steps are provided.",
-                "The values which are present in the LTL formula are shown on the left. Important values",
-                "are hightlighted.",
+                "An additional compact highlighting mode is available which displays subformula values on the same " +
+                        "line where the formula is displayed. Explanations also work in this mode.",
                 "",
-                "Highlighting of important atomic propositions is implemented (partially) according to the",
-                "polynomial algorithm from: I. Beer, S. Ben-David, H. Chockler, A. Orni, R. Trefler. Explaining",
-                "counterexamples using causality. Computer Aided Verification, pp. 94-108, 2009. Springer",
-                "Berlin/Heidelberg.",
+                "In the bottom panel, the values of all variables for all counterexample steps are provided. The " +
+                        "values which are present in the LTL formula are shown on the left. Important values are " +
+                        "hightlighted.",
                 "",
-                "Supported arithmetic operators: comparisons, +, -, /, *, mod. Supported past-time LTL operators:",
-                "Y, Z, O, H. If the provided counterexample has no loop (e.g. when BMC is used), the last ",
-                "element is looped automatically."
+                "Highlighting of important atomic propositions is implemented (with some enhancements) according to " +
+                        "the polynomial algorithm from: I. Beer, S. Ben-David, H. Chockler, A. Orni, R. Trefler. " +
+                        "Explaining counterexamples using causality. Computer Aided Verification, pp. 94-108, 2009. " +
+                        "Springer Berlin/Heidelberg.",
+                "",
+                "Supported arithmetic operators: comparisons, +, -, /, *, mod. Supported past-time LTL operators: " +
+                        "Y, Z, O, H. If the provided counterexample has no loop (e.g. when BMC is used), the last " +
+                        "element is looped automatically."
         );
 
-        aboutButton.addActionListener(e -> JOptionPane.showMessageDialog(this, String.join("\n", lines), "About",
+        final JTextArea message = new JTextArea(String.join("\n", lines));
+        message.setFont(message.getFont().deriveFont((float) FONT_SIZE));
+        message.setColumns(45);
+        message.setRows(20);
+        message.setWrapStyleWord(true);
+        message.setLineWrap(true);
+        message.setEditable(false);
+        aboutButton.addActionListener(e -> JOptionPane.showMessageDialog(this, new JScrollPane(message), "About",
                 JOptionPane.INFORMATION_MESSAGE));
         lowerPanel.add(aboutButton);
     }
@@ -255,7 +265,7 @@ public class GUI extends JFrame {
         annotationTexts.clear();
         final AnnotationData annotation = annotations.get(currentSpec).result(highlightSet, hm);
 
-        for (int i = 0; i < annotation.annotations.size(); i++) {
+        for (int i = 0; i < annotation.longAnnotations.size(); i++) {
             if (i > 0) {
                 final JPanel spacing = new JPanel();
                 spacing.setBackground(Color.GRAY);
@@ -290,9 +300,9 @@ public class GUI extends JFrame {
         final int scrollX = annotationScrollPane.getHorizontalScrollBar().getValue();
         final int scrollY = annotationScrollPane.getVerticalScrollBar().getValue();
         final AnnotationData annotation = annotations.get(currentSpec).result(highlightSet, hm);
-        for (int i = 0; i < annotation.annotations.size(); i++) {
+        for (int i = 0; i < annotation.longAnnotations.size(); i++) {
             final String strAnnotation = wrap((compactCheckbox.isSelected() ? annotation.shortAnnotations
-                    : annotation.annotations).get(i));
+                    : annotation.longAnnotations).get(i));
             final JTextPane panel = annotationPanels.get(i);
             final String previousText = annotationTexts.get(i);
             if (!previousText.equals(strAnnotation)) {

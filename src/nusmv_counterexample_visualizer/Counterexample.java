@@ -50,13 +50,13 @@ public class Counterexample {
         return position;
     }
 
-    private void printValues(StringBuilder sb, Set<VarNameClause> causalSet, int position, Collection<String> varNames,
+    private void printValues(StringBuilder sb, Set<VarNameCause> causalSet, int position, Collection<String> varNames,
                              Map<String, Integer> maxValueLengths) {
         int j = 0;
         for (String varName : varNames) {
             final String left;
             final String right;
-            if (causalSet.contains(new VarNameClause(position, varName))) {
+            if (causalSet.contains(new VarNameCause(position, varName))) {
                 left = "▐";
                 right = "▌";
             } else {
@@ -72,7 +72,7 @@ public class Counterexample {
         sb.append("\n");
     }
 
-    JTable graphicalValueTable(Set<VarNameClause> causalSet, HighlightingMode hm) {
+    JTable graphicalValueTable(Set<VarNameCause> causalSet, HighlightingMode hm) {
         final Map<String, Integer> varNameToColumn = new HashMap<>();
         int j = 1;
         for (String varName : importantVars) {
@@ -95,7 +95,7 @@ public class Counterexample {
             for (String varName : vars) {
                 data[i][varNameToColumn.get(varName)] = "<html>" +
                         hm.visualizeImportanceInTable(values.get(varName).get(i),
-                                causalSet.contains(new VarNameClause(i, varName))) + "</html>";
+                                causalSet.contains(new VarNameCause(i, varName))) + "</html>";
             }
         }
         final JTable table = new JTable(data, columns);
@@ -104,7 +104,7 @@ public class Counterexample {
     }
 
     String annotatedToString(Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache, LTLFormula f,
-                             Set<Clause> causalSet, Set<VarNameClause> varNameCausalSet, boolean printOther,
+                             Set<Cause> causalSet, Set<VarNameCause> varNameCausalSet, boolean printOther,
                              boolean annotateFormula) {
         final StringBuilder sb = new StringBuilder();
         final Map<String, Integer> maxValueLengths = new HashMap<>();
@@ -137,8 +137,8 @@ public class Counterexample {
     }
 
     String graphicalAnnotatedToString(Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache, LTLFormula f,
-                             Set<Clause> causalSet, int step, Set<Pair<LTLFormula, Integer>> highlightSet,
-                             HighlightingMode hm, boolean shortAnnotations) {
+                                      Set<Cause> causalSet, int step, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                      HighlightingMode hm, boolean shortAnnotations) {
         final StringBuilder sb = new StringBuilder();
         if (formulaValueCache != null && f != null) {
             final List<String> lines = shortAnnotations
@@ -201,7 +201,7 @@ public class Counterexample {
         }
     }
 
-    private final Map<Pair<Integer, LTLFormula>, Set<Clause>> causalSetCache = new HashMap<>();
+    private final Map<Pair<Integer, LTLFormula>, Set<Cause>> causalSetCache = new HashMap<>();
 
     private boolean val(int position, LTLFormula f) {
         return c(position, f).isEmpty();
@@ -211,8 +211,8 @@ public class Counterexample {
         return p.calculate(this, position);
     }
 
-    private Set<Clause> union(Set<Clause> left, Set<Clause> right) {
-        final Set<Clause> result = new LinkedHashSet<>(left);
+    private Set<Cause> union(Set<Cause> left, Set<Cause> right) {
+        final Set<Cause> result = new LinkedHashSet<>(left);
         result.addAll(right);
         return result;
     }
@@ -221,9 +221,9 @@ public class Counterexample {
      * null clauses indicate false value caused not by clauses
      * thus, val can be defined simpler
      */
-    private Set<Clause> c(int i, LTLFormula f) {
-        Set<Clause> result = causalSetCache.get(Pair.of(i, f));
-        final Set<Clause> res = new HashSet<>();
+    private Set<Cause> c(int i, LTLFormula f) {
+        Set<Cause> result = causalSetCache.get(Pair.of(i, f));
+        final Set<Cause> res = new HashSet<>();
         if (result == null) {
             if (f instanceof TrueFormula) {
                 result = Collections.emptySet();
@@ -233,7 +233,7 @@ public class Counterexample {
                 final Proposition p = (Proposition) f;
                 result = label(i, p)
                         ? Collections.emptySet()
-                        : Collections.singleton(new Clause(i, p.getOriginalVersion()));
+                        : Collections.singleton(new Cause(i, p.getOriginalVersion()));
             } else if (f instanceof UnaryOperator) {
                 final UnaryOperator o = (UnaryOperator) f;
                 final LTLFormula phi = o.argument;
@@ -289,8 +289,8 @@ public class Counterexample {
         return result;
     }
 
-    Set<Clause> causalSet(LTLFormula f) {
-        final Set<Clause> set = c(0, f);
+    Set<Cause> causalSet(LTLFormula f) {
+        final Set<Cause> set = c(0, f);
         set.remove(null);
         return set;
     }

@@ -1,6 +1,6 @@
 package nusmv_counterexample_visualizer.formula;
 
-import nusmv_counterexample_visualizer.Clause;
+import nusmv_counterexample_visualizer.Cause;
 import nusmv_counterexample_visualizer.Counterexample;
 import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
@@ -65,14 +65,14 @@ public class TrueFormula extends LTLFormula {
     @Override
     public List<String> annotatedToString(int position,
                                           Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                          Set<Clause> causalSet) {
+                                          Set<Cause> causalSet) {
         return annotateString(toString(), true, false);
     }
 
     @Override
     public List<String> longGraphicalAnnotatedToString(int position,
                                                        Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                                       Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                       Set<Cause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
                                                        HighlightingMode hm) {
         return hm.longGraphicalAnnotateString(toString(), true, false, highlightSet.contains(Pair.of(this, position)));
     }
@@ -80,7 +80,7 @@ public class TrueFormula extends LTLFormula {
     @Override
     public List<String> shortGraphicalAnnotatedToString(int position,
                                                         Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                                        Set<Clause> causalSet,
+                                                        Set<Cause> causalSet,
                                                         Set<Pair<LTLFormula, Integer>> highlightSet,
                                                         HighlightingMode hm) {
         return hm.shortGraphicalAnnotateString(toString(), true, false, null,

@@ -38,7 +38,7 @@ public class BinaryArithmeticOperator extends ArithmeticExpression {
                 case "*": return l * r;
                 case "/": return l / r;
                 case "mod": return l % r;
-                default: throw new RuntimeException("Unknown unary arithmetic operator.");
+                default: throw new RuntimeException("Unknown binary arithmetic operator.");
             }
         } else {
             throw new RuntimeException("Arithmetic type error.");

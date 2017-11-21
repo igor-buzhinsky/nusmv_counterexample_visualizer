@@ -1,6 +1,6 @@
 package nusmv_counterexample_visualizer.formula;
 
-import nusmv_counterexample_visualizer.Clause;
+import nusmv_counterexample_visualizer.Cause;
 import nusmv_counterexample_visualizer.Counterexample;
 import nusmv_counterexample_visualizer.Util;
 import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
@@ -62,16 +62,16 @@ public abstract class LTLFormula {
 
     public abstract List<String> annotatedToString(int position,
                                                    Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                                   Set<Clause> causalSet);
+                                                   Set<Cause> causalSet);
 
     public abstract List<String> longGraphicalAnnotatedToString(int position,
                                                                 Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                                                Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                                Set<Cause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
                                                                 HighlightingMode hm);
 
     public abstract List<String> shortGraphicalAnnotatedToString(int position,
                                                                  Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                                                 Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                                 Set<Cause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
                                                                  HighlightingMode hm);
 
     List<String> annotateString(String str, boolean value, boolean important) {

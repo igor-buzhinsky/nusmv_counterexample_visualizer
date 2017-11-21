@@ -1,6 +1,6 @@
 package nusmv_counterexample_visualizer.formula;
 
-import nusmv_counterexample_visualizer.Clause;
+import nusmv_counterexample_visualizer.Cause;
 import nusmv_counterexample_visualizer.Counterexample;
 import nusmv_counterexample_visualizer.Util;
 import nusmv_counterexample_visualizer.formula.arithmetic.ArithmeticExpression;
@@ -112,27 +112,27 @@ public class Proposition extends LTLFormula {
     @Override
     public List<String> annotatedToString(int position,
                                           Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                          Set<Clause> causalSet) {
+                                          Set<Cause> causalSet) {
         return annotateString(toString(), formulaValueCache.get(Pair.of(position, this)),
-                causalSet.contains(new Clause(position, this)));
+                causalSet.contains(new Cause(position, this)));
     }
 
     @Override
     public List<String> longGraphicalAnnotatedToString(int position,
                                                        Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                                       Set<Clause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
+                                                       Set<Cause> causalSet, Set<Pair<LTLFormula, Integer>> highlightSet,
                                                        HighlightingMode hm) {
         return hm.longGraphicalAnnotateString(htmlToString(), formulaValueCache.get(Pair.of(position, this)),
-                causalSet.contains(new Clause(position, this)), highlightSet.contains(Pair.of(this, position)));
+                causalSet.contains(new Cause(position, this)), highlightSet.contains(Pair.of(this, position)));
     }
 
     @Override
     public List<String> shortGraphicalAnnotatedToString(int position,
                                                         Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
-                                                        Set<Clause> causalSet,
+                                                        Set<Cause> causalSet,
                                                         Set<Pair<LTLFormula, Integer>> highlightSet,
                                                         HighlightingMode hm) {
         return hm.shortGraphicalAnnotateString(htmlToString(), formulaValueCache.get(Pair.of(position, this)),
-                causalSet.contains(new Clause(position, this)), null, highlightSet.contains(Pair.of(this, position)));
+                causalSet.contains(new Cause(position, this)), null, highlightSet.contains(Pair.of(this, position)));
     }
 }

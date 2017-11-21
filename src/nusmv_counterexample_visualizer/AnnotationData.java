@@ -11,12 +11,12 @@ import java.util.stream.Collectors;
  * Created by buzhinsky on 10/17/17.
  */
 class AnnotationData {
-    final List<String> annotations;
+    final List<String> longAnnotations;
     final List<String> shortAnnotations;
     final Counterexample ce;
 
-    AnnotationData(List<String> annotations, List<String> shortAnnotations, Counterexample ce) {
-        this.annotations = annotations;
+    AnnotationData(List<String> longAnnotations, List<String> shortAnnotations, Counterexample ce) {
+        this.longAnnotations = longAnnotations;
         this.shortAnnotations = shortAnnotations;
         this.ce = ce;
     }

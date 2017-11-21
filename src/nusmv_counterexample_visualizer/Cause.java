@@ -8,25 +8,25 @@ import java.util.stream.Collectors;
 /**
  * Created by buzhinsky on 9/3/17.
  */
-public class Clause {
+public class Cause {
     private final int position;
     private final Proposition p;
 
-    public Clause(int position, Proposition p) {
+    public Cause(int position, Proposition p) {
         this.position = position;
         this.p = p;
     }
 
-    List<VarNameClause> toVarNameClauses() {
-        return p.variableSet().stream().map(name -> new VarNameClause(position, name)).collect(Collectors.toList());
+    List<VarNameCause> toVarNameClauses() {
+        return p.variableSet().stream().map(name -> new VarNameCause(position, name)).collect(Collectors.toList());
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Clause clause = (Clause) o;
-        return position == clause.position && p.equals(clause.p);
+        Cause cause = (Cause) o;
+        return position == cause.position && p.equals(cause.p);
     }
 
     @Override

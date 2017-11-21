@@ -3,11 +3,11 @@ package nusmv_counterexample_visualizer;
 /**
  * Created by buzhinsky on 9/3/17.
  */
-class VarNameClause {
+class VarNameCause {
     private final int position;
     private final String varName;
 
-    VarNameClause(int position, String varName) {
+    VarNameCause(int position, String varName) {
         this.position = position;
         this.varName = varName;
     }
@@ -16,7 +16,7 @@ class VarNameClause {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        VarNameClause clause = (VarNameClause) o;
+        VarNameCause clause = (VarNameCause) o;
         return position == clause.position && varName.equals(clause.varName);
     }
 
