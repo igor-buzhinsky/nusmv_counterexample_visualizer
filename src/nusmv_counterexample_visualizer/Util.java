@@ -23,7 +23,7 @@ public class Util {
         return new String(arr);
     }
 
-    public static String par(String text) {
+    public static String par(Object text) {
         return "(" + text + ")";
     }
 

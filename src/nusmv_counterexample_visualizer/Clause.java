@@ -2,6 +2,9 @@ package nusmv_counterexample_visualizer;
 
 import nusmv_counterexample_visualizer.formula.Proposition;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Created by buzhinsky on 9/3/17.
  */
@@ -14,8 +17,8 @@ public class Clause {
         this.p = p;
     }
 
-    VarNameClause toVarNameClause() {
-        return new VarNameClause(position, p.varName);
+    List<VarNameClause> toVarNameClauses() {
+        return p.variableSet().stream().map(name -> new VarNameClause(position, name)).collect(Collectors.toList());
     }
 
     @Override

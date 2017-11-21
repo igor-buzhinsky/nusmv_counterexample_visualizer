@@ -3,9 +3,9 @@ package nusmv_counterexample_visualizer;
 import nusmv_counterexample_visualizer.formula.LTLFormula;
 import nusmv_counterexample_visualizer.generated.ltlLexer;
 import nusmv_counterexample_visualizer.generated.ltlParser;
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.atn.ATNConfigSet;
-import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.RecognitionException;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.ByteArrayInputStream;
@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.List;
 
 /**
@@ -68,7 +67,7 @@ class Reader {
                 final ltlLexer lexer = new ltlLexer(new ANTLRInputStream(in));
                 final CommonTokenStream tokens = new CommonTokenStream(lexer);
                 final ltlParser parser = new ltlParser(tokens);
-                parser.addErrorListener(new ANTLRErrorListener() {
+                /*parser.addErrorListener(new ANTLRErrorListener() {
                     @Override
                     public void syntaxError(Recognizer<?, ?> recognizer, Object o, int i, int i1, String s,
                                             RecognitionException e) {
@@ -92,7 +91,7 @@ class Reader {
                                                          ATNConfigSet atnConfigSet) {
                         throw new NullPointerException();
                     }
-                });
+                });*/
                 originalF = parser.formula().f;
             } catch (NullPointerException | RecognitionException e) {
                 System.err.println("Parse error with " + strOriginalF);

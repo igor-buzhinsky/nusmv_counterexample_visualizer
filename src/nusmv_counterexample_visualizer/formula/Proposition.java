@@ -2,25 +2,30 @@ package nusmv_counterexample_visualizer.formula;
 
 import nusmv_counterexample_visualizer.Clause;
 import nusmv_counterexample_visualizer.Counterexample;
+import nusmv_counterexample_visualizer.Util;
+import nusmv_counterexample_visualizer.formula.arithmetic.ArithmeticExpression;
 import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by buzhinsky on 4/18/17.
  */
 public class Proposition extends LTLFormula {
-    public final String varName;
-    private final String operator;
-    private final String constant;
+    private final ArithmeticExpression operator;
     private final Proposition originalVersion;
 
-    private Proposition(String varName, String operator, String constant, Proposition originalVersion) {
-        this.varName = varName;
-        this.operator = operator;
-        this.constant = constant;
+    private Proposition(ArithmeticExpression expression, Proposition originalVersion) {
+        this.operator = expression;
         this.originalVersion = originalVersion;
+    }
+
+    public Proposition(ArithmeticExpression expression) {
+        this(expression, null);
         registerFormula(this);
     }
 
@@ -33,76 +38,22 @@ public class Proposition extends LTLFormula {
         return originalVersion == null ? this : originalVersion;
     }
 
-    public Proposition(String varName, String operator, String constant) {
-        this(varName, operator, constant, null);
-    }
-
     Proposition not() {
-        final Proposition newOriginalVersion = originalVersion == null ? this : originalVersion;
-        if (operator.equals("=") && constant.equals("TRUE")) {
-            return new Proposition(varName, "=", "FALSE", newOriginalVersion);
-        }
-        if (operator.equals("=") && constant.equals("FALSE")) {
-            return new Proposition(varName, "=", "TRUE", newOriginalVersion);
-        }
-        if (operator.equals("!=") && constant.equals("TRUE")) {
-            return new Proposition(varName, "=", "TRUE", newOriginalVersion);
-        }
-        if (operator.equals("!=") && constant.equals("FALSE")) {
-            return new Proposition(varName, "=", "FALSE", newOriginalVersion);
-        }
-        final String newOperator;
-        switch (operator) {
-            case "=": newOperator = "!="; break;
-            case "!=": newOperator = "="; break;
-            case "<": newOperator = ">="; break;
-            case "<=": newOperator = ">"; break;
-            case ">": newOperator = "<="; break;
-            case ">=": newOperator = "<"; break;
-            default: throw new RuntimeException("Unknown comparison operator " + operator + "!");
-        }
-        return new Proposition(varName, newOperator, constant, newOriginalVersion);
-    }
-
-    public boolean calculate(String value) {
-        switch (operator) {
-            case "=": return constant.equals(value);
-            case "!=": return !constant.equals(value);
-            default:
-                final int intValue = Integer.parseInt(value);
-                final int intConstant = Integer.parseInt(constant);
-                switch (operator) {
-                    case "<": return intValue < intConstant;
-                    case "<=": return intValue <= intConstant;
-                    case ">": return intValue > intConstant;
-                    case ">=": return intValue >= intConstant;
-                    default: throw new RuntimeException("Unknown comparison operator " + operator + "!");
-                }
-        }
+        return new Proposition(operator, this);
     }
 
     @Override
     public String toString() {
-        return varName + " " + operator + " " + constant;
-    }
-
-    private String prettyToString() {
-        if (constant.equals("TRUE") && operator.equals("=") || constant.equals("FALSE") && operator.equals("!=") ) {
-            return varName;
-        }
-        if (constant.equals("TRUE") && operator.equals("!=") || constant.equals("FALSE") && operator.equals("=") ) {
-            return "!" + varName;
-        }
-        return toString();
+        return originalVersion == null ? operator.toString() : ("!" + Util.par(operator) + ")");
     }
 
     private String htmlToString() {
-        return prettyToString().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        return toString().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     }
 
     @Override
     public Set<String> variableSet() {
-        return new TreeSet<>(Collections.singletonList(varName));
+        return new TreeSet<>(operator.variableSet());
     }
 
     @Override
@@ -135,11 +86,24 @@ public class Proposition extends LTLFormula {
         baseFillCache(ce, formulaValueCache);
     }
 
+    public boolean calculate(Counterexample ce, int position) {
+        final Object v = operator.calculate(ce.values(), position);
+        if (v instanceof Boolean) {
+            boolean value = (boolean) v;
+            if (originalVersion != null) {
+                value = !value;
+            }
+            return value;
+        } else {
+            throw new RuntimeException("Arithmetic error.");
+        }
+    }
+
     @Override
     public boolean compute(Counterexample ce, int position, Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache) {
         Boolean value = formulaValueCache.get(Pair.of(position, this));
         if (value == null) {
-            value = calculate(ce.values().get(varName).get(position));
+            value = calculate(ce, position);
             formulaValueCache.put(Pair.of(position, this), value);
         }
         return value;
@@ -149,7 +113,7 @@ public class Proposition extends LTLFormula {
     public List<String> annotatedToString(int position,
                                           Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache,
                                           Set<Clause> causalSet) {
-        return annotateString(prettyToString(), formulaValueCache.get(Pair.of(position, this)),
+        return annotateString(toString(), formulaValueCache.get(Pair.of(position, this)),
                 causalSet.contains(new Clause(position, this)));
     }
 

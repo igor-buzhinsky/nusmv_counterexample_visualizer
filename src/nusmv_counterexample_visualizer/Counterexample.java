@@ -208,7 +208,7 @@ public class Counterexample {
     }
 
     private boolean label(int position, Proposition p) {
-        return p.calculate(values.get(p.varName).get(position));
+        return p.calculate(this, position);
     }
 
     private Set<Clause> union(Set<Clause> left, Set<Clause> right) {

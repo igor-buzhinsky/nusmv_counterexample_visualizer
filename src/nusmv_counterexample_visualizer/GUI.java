@@ -205,7 +205,7 @@ public class GUI extends JFrame {
                 "counterexamples using causality. Computer Aided Verification, pp. 94-108, 2009. Springer",
                 "Berlin/Heidelberg.",
                 "",
-                "Arithmetic expressions in formulas are not supported. Supported past-time LTL operators:",
+                "Supported arithmetic operators: comparisons, +, -, /, *, mod. Supported past-time LTL operators:",
                 "Y, Z, O, H. If the provided counterexample has no loop (e.g. when BMC is used), the last ",
                 "element is looped automatically."
         );

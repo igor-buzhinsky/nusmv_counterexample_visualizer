@@ -5,7 +5,6 @@ import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by buzhinsky on 9/3/17.
@@ -25,7 +24,11 @@ class VerificationResult {
         this.ce = ce;
         causalSet = ce != null ? ce.causalSet(normalizedF) : new HashSet<>();
         varNameCausalSet = new HashSet<>();
-        varNameCausalSet.addAll(causalSet.stream().map(Clause::toVarNameClause).collect(Collectors.toList()));
+
+        for (Clause clause : causalSet) {
+            varNameCausalSet.addAll(clause.toVarNameClauses());
+        }
+
         if (ce != null && fillValueCache) {
             originalF.fillCache(ce, formulaValueCache);
         }
