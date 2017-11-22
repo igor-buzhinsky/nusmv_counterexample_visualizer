@@ -98,11 +98,12 @@ public class GUI extends JFrame {
     private final java.util.List<String> annotationTexts = new ArrayList<>();
     private HighlightingMode hm = HighlightingMode.modes().iterator().next();
 
-    private final static int FONT_SIZE = 20;
+    final static int SMALL_FONT_SIZE = 18;
+    private final static int LARGE_FONT_SIZE = 20;
 
     private static String wrap(String str) {
-        return "<html><div style=\"font-family: 'Lucida Console', 'Monospaced', monospace; font-size: " + FONT_SIZE
-                + "\">" + str + "</div></html>";
+        return "<html><div style=\"font-family: 'Lucida Console', 'Monospaced', monospace; font-size: "
+                + LARGE_FONT_SIZE + "\">" + str + "</div></html>";
     }
 
     private static void setLookAndFeel() {
@@ -115,7 +116,7 @@ public class GUI extends JFrame {
     }
 
     private void createSpecTable() {
-        final String[] columns = new String[] { "#", "Value", "LTL Specification" };
+        final String[] columns = new String[] { "# ", "Value ", "LTL Specification " };
 
         final Object[][] data = new Object[annotations.size()][];
         for (int i = 0; i < annotations.size(); i++) {
@@ -130,13 +131,12 @@ public class GUI extends JFrame {
             } else {
                 throw new RuntimeException();
             }
-            data[i] = new Object[] { i + 1, satisfied, property };
+            data[i] = new Object[] { i + 1 + " ", satisfied + " ", property };
         }
 
         final JTable specTable = new JTable(data, columns);
-        specTable.getColumnModel().getColumn(0).setMaxWidth(50);
-        specTable.getColumnModel().getColumn(1).setMaxWidth(50);
-        specTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        Util.unifyTable(specTable);
+
         propertyScrollPane = new JScrollPane(specTable);
 
         specTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -144,6 +144,7 @@ public class GUI extends JFrame {
             if (e.getValueIsAdjusting()) {
                 return;
             }
+            propertyScrollPane.getHorizontalScrollBar().setValue(0);
             final String strSource = e.getSource().toString();
             final int start = strSource.indexOf("{") + 1;
             final int stop = strSource.length() - 1;
@@ -214,7 +215,7 @@ public class GUI extends JFrame {
         );
 
         final JTextArea message = new JTextArea(String.join("\n", lines));
-        message.setFont(message.getFont().deriveFont((float) FONT_SIZE));
+        message.setFont(message.getFont().deriveFont((float) SMALL_FONT_SIZE));
         message.setColumns(45);
         message.setRows(20);
         message.setWrapStyleWord(true);
@@ -229,7 +230,7 @@ public class GUI extends JFrame {
         if (currentSpec == -1) {
             return;
         }
-        final JTable table = currentSpec >= 0 && annotations.get(currentSpec).ce != null
+        final JComponent table = currentSpec >= 0 && annotations.get(currentSpec).ce != null
                 ? annotations.get(currentSpec).ce.graphicalValueTable(annotations.get(currentSpec).varNameCausalSet, hm)
                 : new JTable();
         valueScrollPane.setViewportView(table);
@@ -276,8 +277,8 @@ public class GUI extends JFrame {
             innerPanel.setLayout(layout);
             final JEditorPane textField = new JEditorPane();
             textField.setContentType("text/html");
-            textField.setText(wrap("pos = " + i + "<br>" + (i < annotation.ce.loopPosition()
-                    ? "prefix&nbsp;&nbsp;&nbsp;" : "loop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")));
+            textField.setText(wrap("step " + i + "<br>" + (i < annotation.ce.loopPosition()
+                    ? "prefix&nbsp;&nbsp;" : "loop&nbsp;&nbsp;&nbsp;&nbsp;")));
             textField.setEditable(false);
             textField.setMaximumSize(new Dimension(120, Integer.MAX_VALUE));
             textField.setBackground(Color.getHSBColor(1f, 0, 0.95f));

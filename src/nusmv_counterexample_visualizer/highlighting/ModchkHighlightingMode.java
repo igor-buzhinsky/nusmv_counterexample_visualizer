@@ -28,7 +28,7 @@ class ModchkHighlightingMode extends HighlightingMode {
 
     @Override
     public String visualizeImportanceInTable(String s, boolean important) {
-        return important ? ("<font bgcolor=blue>&nbsp;</font>" + s + "<font bgcolor=blue>&nbsp;</font>") : s;
+        return important ? ("<font bgcolor=#ccccff>" + s + "</font>") : s;
     }
 
     @Override

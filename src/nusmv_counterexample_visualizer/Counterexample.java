@@ -85,21 +85,22 @@ public class Counterexample {
         }
 
         final String[] columns = new String[vars.size() + 1];
-        columns[0] = "#";
+        columns[0] = "Step";
         for (String varName : vars) {
             columns[varNameToColumn.get(varName)] = varName;
         }
         final Object[][] data = new Object[length][vars.size() + 1];
         for (int i = 0; i < length; i++) {
-            data[i][0] = i + " " + (i >= loopPosition ? "loop" : "prefix");
+            data[i][0] = "<html>" + i + " " + (i >= loopPosition ? "loop" : "prefix") + "&nbsp;</html>";
             for (String varName : vars) {
                 data[i][varNameToColumn.get(varName)] = "<html>" +
                         hm.visualizeImportanceInTable(values.get(varName).get(i),
-                                causalSet.contains(new VarNameCause(i, varName))) + "</html>";
+                                causalSet.contains(new VarNameCause(i, varName))) + "&nbsp;</html>";
             }
         }
+
         final JTable table = new JTable(data, columns);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        Util.unifyTable(table);
         return table;
     }
 
