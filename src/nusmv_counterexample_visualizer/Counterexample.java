@@ -72,7 +72,7 @@ public class Counterexample {
         sb.append("\n");
     }
 
-    JTable graphicalValueTable(Set<VarNameCause> causalSet, HighlightingMode hm) {
+    JTable graphicalValueTable(Set<VarNameCause> causalSet, HighlightingMode hm, int fontSize) {
         final Map<String, Integer> varNameToColumn = new HashMap<>();
         int j = 1;
         for (String varName : importantVars) {
@@ -91,16 +91,16 @@ public class Counterexample {
         }
         final Object[][] data = new Object[length][vars.size() + 1];
         for (int i = 0; i < length; i++) {
-            data[i][0] = "<html>" + i + " " + (i >= loopPosition ? "loop" : "prefix") + "&nbsp;</html>";
+            data[i][0] = "<html>" + i + " " + (i >= loopPosition ? "loop" : "prefix") + "</html>";
             for (String varName : vars) {
                 data[i][varNameToColumn.get(varName)] = "<html>" +
                         hm.visualizeImportanceInTable(values.get(varName).get(i),
-                                causalSet.contains(new VarNameCause(i, varName))) + "&nbsp;</html>";
+                                causalSet.contains(new VarNameCause(i, varName))) + "</html>";
             }
         }
 
         final JTable table = new JTable(data, columns);
-        Util.unifyTable(table);
+        Util.unifyTable(table, fontSize);
         return table;
     }
 
@@ -114,7 +114,7 @@ public class Counterexample {
         }
         for (int i = 0; i < length; i++) {
             final String loopIndication = loopPosition == null ? "" : i >= loopPosition ? "[ loop ] " : "[prefix] ";
-            final String prefix = loopIndication + String.format("pos = %" + String.valueOf(length - 1).length()
+            final String prefix = loopIndication + String.format("step %" + String.valueOf(length - 1).length()
                     + "d: ", i);
             sb.append(prefix).append("values from the formula ");
             printValues(sb, varNameCausalSet, i, importantVars, maxValueLengths);

@@ -8,6 +8,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -22,8 +23,14 @@ import java.util.function.Consumer;
  * Created by buzhinsky on 10/16/17.
  */
 public class GUI extends JFrame {
-    @Argument(usage = "NuSMV output file (input for the tool)", metaVar = "<in>", required = false)
+    @Argument(usage = "NuSMV output file (input for the tool)", metaVar = "<in>")
     private String input;
+
+    @Option(name = "--mainFontSize", metaVar = "<size>", usage = "font size for the main panels (default 20)")
+    private int mainFontSize = 20;
+
+    @Option(name = "--auxFontSize", metaVar = "<size>", usage = "font size for auxiliary panels (default 18)")
+    private int auxFontSize = 18;
 
     public static void main(String[] args) throws IOException {
         new GUI().run(args);
@@ -68,6 +75,9 @@ public class GUI extends JFrame {
             }
         }
 
+        auxFontSize = Math.max(auxFontSize, 4);
+        mainFontSize = Math.max(mainFontSize, 4);
+
         rootPanel = new JPanel();
         setTitle("NuSMV LTL Counterexample Visualizer");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -98,12 +108,9 @@ public class GUI extends JFrame {
     private final java.util.List<String> annotationTexts = new ArrayList<>();
     private HighlightingMode hm = HighlightingMode.modes().iterator().next();
 
-    final static int SMALL_FONT_SIZE = 18;
-    private final static int LARGE_FONT_SIZE = 20;
-
-    private static String wrap(String str) {
+    private String wrap(String str) {
         return "<html><div style=\"font-family: 'Lucida Console', 'Monospaced', monospace; font-size: "
-                + LARGE_FONT_SIZE + "\">" + str + "</div></html>";
+                + mainFontSize + "\">" + str + "</div></html>";
     }
 
     private static void setLookAndFeel() {
@@ -116,7 +123,7 @@ public class GUI extends JFrame {
     }
 
     private void createSpecTable() {
-        final String[] columns = new String[] { "# ", "Value ", "LTL Specification " };
+        final String[] columns = new String[] { "#", "Value", "LTL Specification" };
 
         final Object[][] data = new Object[annotations.size()][];
         for (int i = 0; i < annotations.size(); i++) {
@@ -135,7 +142,7 @@ public class GUI extends JFrame {
         }
 
         final JTable specTable = new JTable(data, columns);
-        Util.unifyTable(specTable);
+        Util.unifyTable(specTable, auxFontSize);
 
         propertyScrollPane = new JScrollPane(specTable);
 
@@ -144,7 +151,6 @@ public class GUI extends JFrame {
             if (e.getValueIsAdjusting()) {
                 return;
             }
-            propertyScrollPane.getHorizontalScrollBar().setValue(0);
             final String strSource = e.getSource().toString();
             final int start = strSource.indexOf("{") + 1;
             final int stop = strSource.length() - 1;
@@ -158,6 +164,8 @@ public class GUI extends JFrame {
         final JTable table = new JTable();
         valueScrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        valueScrollPane.setViewportView(Util.messageField("Select LTL specification in the top panel.",
+                auxFontSize));
     }
 
     private void createLowerPanel() {
@@ -167,6 +175,7 @@ public class GUI extends JFrame {
         compactCheckbox = new JCheckBox();
         compactCheckbox.setText("Compact annotations");
         compactCheckbox.addItemListener(e -> fastUpdateAnnotationPanel());
+        compactCheckbox.setSelected(true);
         lowerPanel.add(compactCheckbox);
 
         final JComboBox<String> box = new JComboBox<>();
@@ -214,13 +223,9 @@ public class GUI extends JFrame {
                         "element is looped automatically."
         );
 
-        final JTextArea message = new JTextArea(String.join("\n", lines));
-        message.setFont(message.getFont().deriveFont((float) SMALL_FONT_SIZE));
+        final JTextArea message = Util.messageField(String.join("\n", lines), auxFontSize);
         message.setColumns(45);
         message.setRows(20);
-        message.setWrapStyleWord(true);
-        message.setLineWrap(true);
-        message.setEditable(false);
         aboutButton.addActionListener(e -> JOptionPane.showMessageDialog(this, new JScrollPane(message), "About",
                 JOptionPane.INFORMATION_MESSAGE));
         lowerPanel.add(aboutButton);
@@ -230,10 +235,16 @@ public class GUI extends JFrame {
         if (currentSpec == -1) {
             return;
         }
-        final JComponent table = currentSpec >= 0 && annotations.get(currentSpec).ce != null
-                ? annotations.get(currentSpec).ce.graphicalValueTable(annotations.get(currentSpec).varNameCausalSet, hm)
-                : new JTable();
-        valueScrollPane.setViewportView(table);
+        final JComponent component;
+        if (annotations.get(currentSpec).ce != null) {
+            component = annotations.get(currentSpec).ce.graphicalValueTable(annotations.get(currentSpec)
+                    .varNameCausalSet, hm, auxFontSize);
+        } else {
+            component = Util.messageField("Since this LTL specification is TRUE, there is no counterexample to display.",
+                    auxFontSize);
+        }
+
+        valueScrollPane.setViewportView(component);
     }
 
     private void addElements() {

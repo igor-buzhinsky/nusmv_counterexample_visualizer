@@ -45,12 +45,13 @@ public class Util {
         return result;
     }
 
-    static void unifyTable(JTable table) {
+    static void unifyTable(JTable table, int fontSize) {
         table.setDefaultEditor(Object.class, null);
-        table.setFont(table.getFont().deriveFont((float) GUI.SMALL_FONT_SIZE));
+        table.setFont(table.getFont().deriveFont((float) fontSize));
         table.getTableHeader().setFont(table.getFont());
         table.setRowHeight(table.getFont().getSize() + 4);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setAutoscrolls(false);
         ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.LEFT);
         resizeColumnWidth(table);
     }
@@ -59,7 +60,7 @@ public class Util {
         final TableColumnModel columnModel = table.getColumnModel();
 
         for (int column = 0; column < table.getColumnCount(); column++) {
-            int width = 1;
+            int width = 0;
 
             final TableColumn tableColumn = columnModel.getColumn(column);
             TableCellRenderer renderer = tableColumn.getHeaderRenderer();
@@ -71,9 +72,18 @@ public class Util {
 
             for (int row = 0; row < table.getRowCount(); row++) {
                 final Component comp = table.prepareRenderer(table.getCellRenderer(row, column), row, column);
-                width = Math.max(comp.getPreferredSize().width + 1, width);
+                width = Math.max(comp.getPreferredSize().width, width);
             }
-            columnModel.getColumn(column).setPreferredWidth(width);
+            columnModel.getColumn(column).setPreferredWidth(width + 10);
         }
+    }
+
+    public static JTextArea messageField(String message, int fontSize) {
+        final JTextArea textArea = new JTextArea(message);
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
+        textArea.setEditable(false);
+        textArea.setFont(textArea.getFont().deriveFont((float) fontSize));
+        return textArea;
     }
 }
