@@ -101,6 +101,7 @@ public class Counterexample {
 
         final JTable table = new JTable(data, columns);
         Util.unifyTable(table, fontSize);
+        Util.resizeColumnWidth(table);
         return table;
     }
 

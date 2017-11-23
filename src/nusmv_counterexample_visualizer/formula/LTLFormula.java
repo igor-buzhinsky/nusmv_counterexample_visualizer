@@ -14,7 +14,7 @@ import java.util.function.Function;
  */
 public abstract class LTLFormula {
     private static final List<LTLFormula> INT_TO_FORMULA = new ArrayList<>();
-    static final Map<LTLFormula, Integer> FORMULA_TO_INT = new HashMap<>();
+    private static final Map<LTLFormula, Integer> FORMULA_TO_INT = new HashMap<>();
 
     static void registerFormula(LTLFormula f) {
         FORMULA_TO_INT.put(f, INT_TO_FORMULA.size());

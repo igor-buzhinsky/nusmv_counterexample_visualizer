@@ -138,11 +138,12 @@ public class GUI extends JFrame {
             } else {
                 throw new RuntimeException();
             }
-            data[i] = new Object[] { i + 1 + " ", satisfied + " ", property };
+            data[i] = new Object[] { i + 1, satisfied, "<html>" + Util.toHtmlString(property) + "</html>" };
         }
 
         final JTable specTable = new JTable(data, columns);
         Util.unifyTable(specTable, auxFontSize);
+        Util.resizeColumnWidth(specTable);
 
         propertyScrollPane = new JScrollPane(specTable);
 
@@ -220,13 +221,15 @@ public class GUI extends JFrame {
                 "",
                 "Supported arithmetic operators: comparisons, +, -, /, *, mod. Supported past-time LTL operators: " +
                         "Y, Z, O, H. If the provided counterexample has no loop (e.g. when BMC is used), the last " +
-                        "element is looped automatically."
+                        "element is looped automatically.",
+                "",
+                "Font sizes can be configured via command line options --mainFontSize <size> and --auxFontSize <size>."
         );
 
         final JTextArea message = Util.messageField(String.join("\n", lines), auxFontSize);
         message.setColumns(45);
         message.setRows(20);
-        aboutButton.addActionListener(e -> JOptionPane.showMessageDialog(this, new JScrollPane(message), "About",
+        aboutButton.addActionListener(e -> JOptionPane.showMessageDialog(this, new JScrollPane(message), "About & Help",
                 JOptionPane.INFORMATION_MESSAGE));
         lowerPanel.add(aboutButton);
     }

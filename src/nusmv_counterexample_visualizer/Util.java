@@ -5,7 +5,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -50,40 +49,49 @@ public class Util {
         table.setFont(table.getFont().deriveFont((float) fontSize));
         table.getTableHeader().setFont(table.getFont());
         table.setRowHeight(table.getFont().getSize() + 4);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.setAutoscrolls(false);
         ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.LEFT);
-        resizeColumnWidth(table);
     }
 
-    private static void resizeColumnWidth(JTable table) {
+    static int optimalColumnWidth(JTable table, int column) {
         final TableColumnModel columnModel = table.getColumnModel();
 
+        int width = 0;
+
+        final TableColumn tableColumn = columnModel.getColumn(column);
+        TableCellRenderer renderer = tableColumn.getHeaderRenderer();
+        if (renderer == null) {
+            renderer = table.getTableHeader().getDefaultRenderer();
+        }
+        width = Math.max(Math.min(renderer.getTableCellRendererComponent(table, tableColumn.getHeaderValue(),
+                false, false, -1, column).getPreferredSize().width, 200), width);
+
+        for (int row = 0; row < table.getRowCount(); row++) {
+            width = Math.max(table.prepareRenderer(table.getCellRenderer(row, column), row, column)
+                    .getPreferredSize().width, width);
+        }
+
+        return width + 10;
+    }
+
+    static void resizeColumnWidth(JTable table) {
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        final TableColumnModel columnModel = table.getColumnModel();
         for (int column = 0; column < table.getColumnCount(); column++) {
-            int width = 0;
-
-            final TableColumn tableColumn = columnModel.getColumn(column);
-            TableCellRenderer renderer = tableColumn.getHeaderRenderer();
-            if (renderer == null) {
-                renderer = table.getTableHeader().getDefaultRenderer();
-            }
-            width = Math.max(Math.min(renderer.getTableCellRendererComponent(table, tableColumn.getHeaderValue(),
-                    false, false, -1, column).getPreferredSize().width, 200), width);
-
-            for (int row = 0; row < table.getRowCount(); row++) {
-                final Component comp = table.prepareRenderer(table.getCellRenderer(row, column), row, column);
-                width = Math.max(comp.getPreferredSize().width, width);
-            }
-            columnModel.getColumn(column).setPreferredWidth(width + 10);
+            columnModel.getColumn(column).setPreferredWidth(optimalColumnWidth(table, column));
         }
     }
 
-    public static JTextArea messageField(String message, int fontSize) {
+    static JTextArea messageField(String message, int fontSize) {
         final JTextArea textArea = new JTextArea(message);
         textArea.setWrapStyleWord(true);
         textArea.setLineWrap(true);
         textArea.setEditable(false);
         textArea.setFont(textArea.getFont().deriveFont((float) fontSize));
         return textArea;
+    }
+
+    public static String toHtmlString(String s) {
+        return s.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     }
 }

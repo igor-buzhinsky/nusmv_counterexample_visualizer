@@ -48,7 +48,7 @@ public class Proposition extends LTLFormula {
     }
 
     private String htmlToString() {
-        return toString().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        return Util.toHtmlString(toString());
     }
 
     @Override
