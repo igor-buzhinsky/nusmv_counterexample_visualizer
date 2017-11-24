@@ -70,6 +70,12 @@ public class BinaryOperator extends LTLFormula {
     }
 
     @Override
+    public LTLFormula removeXor() {
+        return recursion(LTLFormula::removeXor, "xor", f -> not(or(and(f.leftArgument, f.rightArgument),
+                and(not(f.leftArgument), not(f.rightArgument)))));
+    }
+
+    @Override
     public LTLFormula removeRelease() {
         return recursion(LTLFormula::removeRelease, "V", f -> or(until(f.rightArgument,
                 and(f.rightArgument, f.leftArgument)), global(f.rightArgument)));
@@ -114,6 +120,10 @@ public class BinaryOperator extends LTLFormula {
                 case "<->":
                     value = leftArgument.compute(ce, position, formulaValueCache)
                             == rightArgument.compute(ce, position, formulaValueCache);
+                    break;
+                case "xor":
+                    value = leftArgument.compute(ce, position, formulaValueCache)
+                            != rightArgument.compute(ce, position, formulaValueCache);
                     break;
                 default: throw new RuntimeException("Unknown binary operator " + name);
             }
@@ -166,7 +176,8 @@ public class BinaryOperator extends LTLFormula {
         }
         final boolean value = formulaValueCache.get(Pair.of(position, this));
         final List<String> newLines = new ArrayList<>();
-        newLines.add(Util.par(leftAnnotation.get(0) + "&nbsp;" + name + "&nbsp;" + rightAnnotation.get(0)));
+        final String htmlName = Util.toHtmlString(name);
+        newLines.add(Util.par(leftAnnotation.get(0) + "&nbsp;" + htmlName + "&nbsp;" + rightAnnotation.get(0)));
 
         final String url = url(position);
         final boolean highlight = highlightSet.contains(Pair.of(this, position));
@@ -201,8 +212,8 @@ public class BinaryOperator extends LTLFormula {
         final String url = url(position);
         final boolean highlight = highlightSet.contains(Pair.of(this, position));
         return Util.bind(hm.shortGraphicalAnnotateString("(", value, false, url, highlight), leftAnnotation,
-                hm.shortGraphicalAnnotateString("&nbsp;" + name + "&nbsp;", value, false, url, highlight),
-                rightAnnotation, hm.shortGraphicalAnnotateString(")", value, false, url, highlight));
+                hm.shortGraphicalAnnotateString("&nbsp;" + Util.toHtmlString(name) + "&nbsp;", value, false, url,
+                        highlight), rightAnnotation, hm.shortGraphicalAnnotateString(")", value, false, url, highlight));
     }
 
     @Override

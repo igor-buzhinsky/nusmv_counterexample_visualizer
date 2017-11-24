@@ -68,6 +68,11 @@ public class UnaryOperator extends LTLFormula {
     }
 
     @Override
+    public LTLFormula removeXor() {
+        return recursion(LTLFormula::removeXor, null, null);
+    }
+
+    @Override
     public LTLFormula toNNF() {
         if (!name.equals("!")) {
             return new UnaryOperator(name, argument.toNNF());

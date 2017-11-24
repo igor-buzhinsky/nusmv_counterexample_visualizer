@@ -99,7 +99,7 @@ class Reader {
                 f = null;
                 return;
             }
-            f = originalF.removeImplication().removeEquivalence().toNNF().removeFuture().removeRelease();
+            f = originalF.removeImplication().removeEquivalence().removeXor().toNNF().removeFuture().removeRelease();
             ce = strOriginalF.endsWith(" is false") ? new Counterexample() : null;
         } else if (line.equals("  -- Loop starts here")) {
             if (ce != null) {

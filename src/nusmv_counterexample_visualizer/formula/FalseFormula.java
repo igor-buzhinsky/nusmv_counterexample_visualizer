@@ -46,6 +46,11 @@ public class FalseFormula extends LTLFormula {
     }
 
     @Override
+    public LTLFormula removeXor() {
+        return this;
+    }
+
+    @Override
     public LTLFormula toNNF() {
         return this;
     }

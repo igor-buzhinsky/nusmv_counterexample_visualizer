@@ -29,7 +29,18 @@ public class BinaryArithmeticOperator extends ArithmeticExpression {
     public Object calculate(Map<String, List<String>> values, int position) {
         final Object leftValue = leftArgument.calculate(values, position);
         final Object rightValue = rightArgument.calculate(values, position);
-        if (leftValue instanceof Integer && rightValue instanceof Integer) {
+        if (leftValue instanceof Boolean && rightValue instanceof Boolean) {
+            final boolean l = (boolean) leftValue;
+            final boolean r = (boolean) rightValue;
+            switch (name) {
+                case "&": return l & r;
+                case "|": return l || r;
+                case "->": return !l || r;
+                case "xor": return l != r;
+                case "<->": return l == r;
+                default: throw new RuntimeException("Unknown binary arithmetic operator.");
+            }
+        } else if (leftValue instanceof Integer && rightValue instanceof Integer) {
             final int l = (int) leftValue;
             final int r = (int) rightValue;
             switch (name) {

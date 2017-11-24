@@ -412,7 +412,7 @@ public class GUI extends JFrame {
                             addLeftIf.accept(!value || !leftValue, position);
                             addRightIf.accept(!value || rightValue, position);
                             break;
-                        case "<->":
+                        case "<->": case "xor":
                             addLeft.accept(position);
                             addRight.accept(position);
                             break;

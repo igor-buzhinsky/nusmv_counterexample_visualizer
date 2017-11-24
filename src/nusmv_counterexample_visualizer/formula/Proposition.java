@@ -44,7 +44,7 @@ public class Proposition extends LTLFormula {
 
     @Override
     public String toString() {
-        return originalVersion == null ? operator.toString() : ("!" + Util.par(operator) + ")");
+        return originalVersion == null ? operator.toString() : ("!" + Util.par(operator));
     }
 
     private String htmlToString() {
@@ -78,6 +78,11 @@ public class Proposition extends LTLFormula {
 
     @Override
     public LTLFormula toNNF() {
+        return this;
+    }
+
+    @Override
+    public LTLFormula removeXor() {
         return this;
     }
 

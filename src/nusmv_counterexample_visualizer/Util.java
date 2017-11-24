@@ -53,7 +53,7 @@ public class Util {
         ((DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(JLabel.LEFT);
     }
 
-    static int optimalColumnWidth(JTable table, int column) {
+    private static int optimalColumnWidth(JTable table, int column) {
         final TableColumnModel columnModel = table.getColumnModel();
 
         int width = 0;

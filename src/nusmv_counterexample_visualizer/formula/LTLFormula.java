@@ -45,6 +45,8 @@ public abstract class LTLFormula {
 
     public abstract LTLFormula removeEquivalence();
 
+    public abstract LTLFormula removeXor();
+
     public abstract LTLFormula toNNF();
 
     public abstract void fillCache(Counterexample ce, Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache);
