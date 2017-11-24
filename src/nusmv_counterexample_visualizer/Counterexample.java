@@ -1,6 +1,6 @@
 package nusmv_counterexample_visualizer;
 
-import nusmv_counterexample_visualizer.formula.*;
+import nusmv_counterexample_visualizer.formula.ltl.*;
 import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 

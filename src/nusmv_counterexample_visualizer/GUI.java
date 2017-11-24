@@ -1,8 +1,8 @@
 package nusmv_counterexample_visualizer;
 
-import nusmv_counterexample_visualizer.formula.BinaryOperator;
-import nusmv_counterexample_visualizer.formula.LTLFormula;
-import nusmv_counterexample_visualizer.formula.UnaryOperator;
+import nusmv_counterexample_visualizer.formula.ltl.BinaryOperator;
+import nusmv_counterexample_visualizer.formula.ltl.LTLFormula;
+import nusmv_counterexample_visualizer.formula.ltl.UnaryOperator;
 import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 import org.kohsuke.args4j.Argument;

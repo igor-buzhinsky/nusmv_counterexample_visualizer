@@ -27,14 +27,16 @@ public class UnaryArithmeticOperator extends ArithmeticExpression {
         final Object argValue = argument.calculate(values, position);
         if (argValue instanceof Integer) {
             switch (name) {
-                case "-":
-                    return -((Integer) argValue);
-                case "+":
-                    return argValue;
-                default:
-                    throw new RuntimeException("Unknown unary arithmetic operator.");
+                case "-": return -((int) argValue);
+                case "+": return argValue;
+                default: throw new RuntimeException("Unknown unary arithmetic operator.");
             }
-        } else {
+        } else if (argValue instanceof Boolean) {
+            switch (name) {
+                case "!": return !((boolean) argValue);
+                default: throw new RuntimeException("Unknown unary arithmetic operator.");
+            }
+        } {
             throw new RuntimeException("Arithmetic type error.");
         }
     }

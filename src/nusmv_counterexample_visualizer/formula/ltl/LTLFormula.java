@@ -1,4 +1,4 @@
-package nusmv_counterexample_visualizer.formula;
+package nusmv_counterexample_visualizer.formula.ltl;
 
 import nusmv_counterexample_visualizer.Cause;
 import nusmv_counterexample_visualizer.Counterexample;

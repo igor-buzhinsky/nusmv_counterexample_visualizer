@@ -5,7 +5,7 @@ options {
 }
 
 @header {
-import nusmv_counterexample_visualizer.formula.*;
+import nusmv_counterexample_visualizer.formula.ltl.*;
 import nusmv_counterexample_visualizer.formula.arithmetic.*;
 }
 
@@ -27,7 +27,7 @@ GT : '>'; GE : '>='; LT : '<'; LE : '<=';
 
 // constants
 TRUE : 'TRUE'; FALSE : 'FALSE';
-INT_CONST : ('0' | ('1'..'9' ('0'..'9')*));
+INT_CONST : '-'? ('0' | ('1'..'9' ('0'..'9')*));
 
 // arithmetic operators
 plus : '+'; minus : '-'; DIV : '/'; MOD : 'mod'; MUL : '*';
@@ -44,7 +44,7 @@ eq : '=';
 ne : '!=';
 
 composite_id
-    : ID ('.' ID)* ('[' INT_CONST']')?
+    : ID ('.' ID)* ('[' INT_CONST ']')*
     ;
 
 constant returns[String value]
@@ -75,13 +75,13 @@ comparison_operator_sign returns[String value]
 arithmetic_atom returns[ArithmeticExpression f]
     : constant { $f = new Constant($constant.value); }
     | composite_id { $f = new Variable($composite_id.text); }
-    | '(' arithmetic_expression1 ')' { $f = $arithmetic_expression1.f; }
+    | '(' comparison_expression ')' { $f = $comparison_expression.f; }
     ;
 
 arithmetic_expression3 returns[ArithmeticExpression f]
     : arithmetic_atom { $f = $arithmetic_atom.f; }
-    | { String op; } (minus { op = "-"; } | plus { op = "+"; }) arithmetic_expression3
-    { $f = new UnaryArithmeticOperator(op, $arithmetic_expression3.f); }
+    | { String op; } (minus { op = "-"; } | plus { op = "+"; } /*| NOT { op = "!"; }*/ ) arithmetic_expression3
+      { $f = new UnaryArithmeticOperator(op, $arithmetic_expression3.f); }
     ;
 
 arithmetic_expression2 returns[ArithmeticExpression f]
@@ -102,6 +102,32 @@ comparison_expression returns[ArithmeticExpression f]
         { $f = new ComparisonOperator($comparison_operator_sign.value, $f, $f2.f); })?
     ;
 
+/*and_arithmetic_expression returns[ArithmeticExpression f]
+    : f1=comparison_expression { $f = $f1.f; } (AND f2=comparison_expression
+        { $f = new BinaryArithmeticOperator("&", $f, $f2.f); })?
+    ;
+
+or_arithmetic_expression returns[ArithmeticExpression f]
+    : f1=and_arithmetic_expression { $f = $f1.f; String op; }
+        ((OR { op = "|"; } | 'xor' { op = "xor"; } | 'xnor' { op = "<->"; })
+        f2=and_arithmetic_expression { $f = new BinaryArithmeticOperator(op, $f, $f2.f); })?
+    ;
+
+ternary_arithmetic_expression returns[ArithmeticExpression f]
+    : f1=or_arithmetic_expression { $f = $f1.f; } ('?' f2=or_arithmetic_expression ':' f3=or_arithmetic_expression
+      { $f = new TernaryArithmeticOperator($f1.f, $f2.f, $f3.f); })?
+    ;
+
+eq_arithmetic_expression returns[ArithmeticExpression f]
+    : f1=ternary_arithmetic_expression { $f = $f1.f; } ('<->' f2=ternary_arithmetic_expression
+        { $f = new BinaryArithmeticOperator("<->", $f, $f2.f); })?
+    ;
+
+implies_arithmetic_expression returns[ArithmeticExpression f]
+    : f1=eq_arithmetic_expression { $f = $f1.f; } ('->' f2=implies_arithmetic_expression
+        { $f = new BinaryArithmeticOperator("->", $f, $f2.f); })?
+    ;*/
+
 atom returns[LTLFormula f]
     : '(' formula ')' { $f = $formula.f; }
     | comparison_expression { $f = new Proposition($comparison_expression.f); }
@@ -116,6 +142,12 @@ binary_operator returns[LTLFormula f]
     : f1=unary_operator { $f = $f1.f; } (binary_operator_sign f2=unary_operator
       { $f = new BinaryOperator($binary_operator_sign.value, $f, $f2.f); })?
     ;
+
+/*binary_operator returns[LTLFormula f]
+      : f1=unary_operator binary_operator_sign f2=unary_operator
+        { $f = new BinaryOperator($binary_operator_sign.value, $f1.f, $f2.f); }
+      | f3=unary_operator { $f = $f3.f; }
+      ;*/
 
 formula returns[LTLFormula f]
     : binary_operator { $f = $binary_operator.f; }

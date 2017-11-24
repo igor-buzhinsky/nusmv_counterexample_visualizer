@@ -1,11 +1,11 @@
 package nusmv_counterexample_visualizer;
 
-import nusmv_counterexample_visualizer.formula.LTLFormula;
+import nusmv_counterexample_visualizer.formula.ltl.LTLFormula;
 import nusmv_counterexample_visualizer.generated.ltlLexer;
 import nusmv_counterexample_visualizer.generated.ltlParser;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.atn.ATNConfigSet;
+import org.antlr.v4.runtime.dfa.DFA;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.ByteArrayInputStream;
@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 
 /**
@@ -63,38 +64,45 @@ class Reader {
             finalizeCounterexample();
             strOriginalF = line.replaceAll("  +", " ");
             line = line.substring("-- specification ".length()).replace(" is true", "").replace(" is false", "");
+            final List<String> errors = new ArrayList<>();
             try (InputStream in = new ByteArrayInputStream(line.getBytes(StandardCharsets.UTF_8))) {
                 final ltlLexer lexer = new ltlLexer(new ANTLRInputStream(in));
                 final CommonTokenStream tokens = new CommonTokenStream(lexer);
                 final ltlParser parser = new ltlParser(tokens);
-                /*parser.addErrorListener(new ANTLRErrorListener() {
+                parser.addErrorListener(new ANTLRErrorListener() {
                     @Override
                     public void syntaxError(Recognizer<?, ?> recognizer, Object o, int i, int i1, String s,
                                             RecognitionException e) {
-                        throw new NullPointerException();
+                        errors.add("syntaxError");
                     }
 
                     @Override
                     public void reportAmbiguity(Parser parser, DFA dfa, int i, int i1, boolean b, BitSet bitSet,
                                                 ATNConfigSet atnConfigSet) {
-                        throw new NullPointerException();
+                        errors.add("reportAmbiguity");
                     }
 
                     @Override
                     public void reportAttemptingFullContext(Parser parser, DFA dfa, int i, int i1, BitSet bitSet,
                                                             ATNConfigSet atnConfigSet) {
-                        throw new NullPointerException();
+                        errors.add("reportAttemptingFullContext");
                     }
 
                     @Override
                     public void reportContextSensitivity(Parser parser, DFA dfa, int i, int i1, int i2,
                                                          ATNConfigSet atnConfigSet) {
-                        throw new NullPointerException();
+                        errors.add("reportContextSensitivity");
                     }
-                });*/
+                });
                 originalF = parser.formula().f;
             } catch (NullPointerException | RecognitionException e) {
                 System.err.println("Parse error with " + strOriginalF);
+                ce = null;
+                f = null;
+                return;
+            }
+            if (!errors.isEmpty()) {
+                System.err.println("Parse error(s) with " + strOriginalF + ": " + errors);
                 ce = null;
                 f = null;
                 return;

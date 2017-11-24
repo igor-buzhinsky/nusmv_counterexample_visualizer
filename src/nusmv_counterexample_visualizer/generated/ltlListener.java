@@ -1,7 +1,7 @@
 // Generated from /home/buzhinsky/repos/nusmv_counterexample_visualizer/ltl.g4 by ANTLR 4.6
 package nusmv_counterexample_visualizer.generated;
 
-import nusmv_counterexample_visualizer.formula.*;
+import nusmv_counterexample_visualizer.formula.ltl.*;
 import nusmv_counterexample_visualizer.formula.arithmetic.*;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;

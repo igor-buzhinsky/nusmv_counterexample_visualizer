@@ -1,6 +1,6 @@
 package nusmv_counterexample_visualizer;
 
-import nusmv_counterexample_visualizer.formula.Proposition;
+import nusmv_counterexample_visualizer.formula.ltl.Proposition;
 
 import java.util.List;
 import java.util.stream.Collectors;
