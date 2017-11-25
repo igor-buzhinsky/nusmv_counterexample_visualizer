@@ -48,13 +48,13 @@ public class UnaryOperator extends LTLFormula {
     }
 
     @Override
-    public LTLFormula removeFuture() {
-        return recursion(LTLFormula::removeFuture, f -> until(new TrueFormula(), f.argument), "F");
+    public LTLFormula removeF() {
+        return recursion(LTLFormula::removeF, f -> until(new TrueFormula(), f.argument), "F");
     }
 
     @Override
-    public LTLFormula removeRelease() {
-        return recursion(LTLFormula::removeRelease, null, null);
+    public LTLFormula removeG() {
+        return recursion(LTLFormula::removeG, f -> release(new FalseFormula(), f.argument), "G");
     }
 
     @Override

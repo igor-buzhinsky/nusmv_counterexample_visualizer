@@ -249,10 +249,6 @@ public class Counterexample {
                     case "Z":
                         result = i > 0 ? c(i - 1, phi) : Collections.emptySet();
                         break;
-                    case "G":
-                        loop(i, p -> {}, p -> !val(p, phi), p -> res.addAll(c(p, phi)), p -> {}, res::clear);
-                        result = res;
-                        break;
                     case "H":
                         loopBack(i, p -> {}, p -> !val(p, phi), p -> res.addAll(c(p, phi)), p -> {}, res::clear);
                         result = res;
@@ -283,6 +279,16 @@ public class Counterexample {
                                 res.addAll(c(p, phi));
                             }
                         }, p -> {}, () -> {});
+                        result = res;
+                        break;
+                    case "V":
+                        loop(i, p -> {}, p -> !val(p, psi) || val(p, phi), p -> {
+                            if (val(p, phi) && val(p, psi)) { // reached phi & psi with psi previously true, hence V is true
+                                res.clear();
+                            } else { // psi is false and the situation above has not occurred, hence V is false
+                                res.addAll(c(p, psi));
+                            }
+                        }, p -> res.addAll(c(p, phi)), res::clear);
                         result = res;
                         break;
                     default:

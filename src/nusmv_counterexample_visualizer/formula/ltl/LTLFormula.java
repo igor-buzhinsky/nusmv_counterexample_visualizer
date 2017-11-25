@@ -37,9 +37,9 @@ public abstract class LTLFormula {
 
     public abstract Set<String> variableSet();
 
-    public abstract LTLFormula removeFuture();
+    public abstract LTLFormula removeF();
 
-    public abstract LTLFormula removeRelease();
+    public abstract LTLFormula removeG();
 
     public abstract LTLFormula removeImplication();
 

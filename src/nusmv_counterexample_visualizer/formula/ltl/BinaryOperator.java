@@ -55,8 +55,8 @@ public class BinaryOperator extends LTLFormula {
     }
 
     @Override
-    public LTLFormula removeFuture() {
-        return recursion(LTLFormula::removeFuture, null);
+    public LTLFormula removeF() {
+        return recursion(LTLFormula::removeF, null);
     }
 
     @Override
@@ -77,9 +77,8 @@ public class BinaryOperator extends LTLFormula {
     }
 
     @Override
-    public LTLFormula removeRelease() {
-        return recursion(LTLFormula::removeRelease, f -> or(until(f.rightArgument,
-                and(f.rightArgument, f.leftArgument)), global(f.rightArgument)), "V");
+    public LTLFormula removeG() {
+        return recursion(LTLFormula::removeG, null);
     }
 
     @Override

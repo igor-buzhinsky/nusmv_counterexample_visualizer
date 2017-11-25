@@ -111,7 +111,7 @@ class Reader {
             if (!warnings.isEmpty()) {
                 System.err.println("Parse warnings with " + strOriginalF + ": " + warnings);
             }
-            f = originalF.removeImplication().removeEquivalence().removeXor().toNNF().removeFuture().removeRelease();
+            f = originalF.removeImplication().removeEquivalence().removeXor().toNNF().removeF().removeG();
             ce = strOriginalF.endsWith(" is false") ? new Counterexample() : null;
         } else if (line.equals("  -- Loop starts here")) {
             if (ce != null) {

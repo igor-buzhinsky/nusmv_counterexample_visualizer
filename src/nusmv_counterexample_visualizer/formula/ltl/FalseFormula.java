@@ -26,12 +26,12 @@ public class FalseFormula extends LTLFormula {
     }
 
     @Override
-    public LTLFormula removeFuture() {
+    public LTLFormula removeF() {
         return this;
     }
 
     @Override
-    public LTLFormula removeRelease() {
+    public LTLFormula removeG() {
         return this;
     }
 
