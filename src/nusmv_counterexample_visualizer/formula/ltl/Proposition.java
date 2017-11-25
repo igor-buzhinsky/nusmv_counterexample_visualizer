@@ -16,11 +16,11 @@ import java.util.TreeSet;
  * Created by buzhinsky on 4/18/17.
  */
 public class Proposition extends LTLFormula {
-    private final ArithmeticExpression operator;
+    private final ArithmeticExpression expression;
     private final Proposition originalVersion;
 
     private Proposition(ArithmeticExpression expression, Proposition originalVersion) {
-        this.operator = expression;
+        this.expression = expression;
         this.originalVersion = originalVersion;
     }
 
@@ -39,12 +39,12 @@ public class Proposition extends LTLFormula {
     }
 
     Proposition not() {
-        return new Proposition(operator, this);
+        return new Proposition(expression, this);
     }
 
     @Override
     public String toString() {
-        return originalVersion == null ? operator.toString() : ("!" + Util.par(operator));
+        return originalVersion == null ? expression.toString() : ("!" + Util.par(expression));
     }
 
     private String htmlToString() {
@@ -53,7 +53,7 @@ public class Proposition extends LTLFormula {
 
     @Override
     public Set<String> variableSet() {
-        return new TreeSet<>(operator.variableSet());
+        return new TreeSet<>(expression.variableSet());
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Proposition extends LTLFormula {
     }
 
     public boolean calculate(Counterexample ce, int position) {
-        final Object v = operator.calculate(ce.values(), position);
+        final Object v = expression.calculate(ce.values(), position);
         if (v instanceof Boolean) {
             boolean value = (boolean) v;
             if (originalVersion != null) {

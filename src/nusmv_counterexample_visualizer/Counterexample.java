@@ -250,15 +250,15 @@ public class Counterexample {
                         result = i > 0 ? c(i - 1, phi) : Collections.emptySet();
                         break;
                     case "G":
-                        loop(i, p -> {}, p -> !val(p, phi), p -> res.addAll(c(p, phi)), p -> {});
+                        loop(i, p -> {}, p -> !val(p, phi), p -> res.addAll(c(p, phi)), p -> {}, res::clear);
                         result = res;
                         break;
                     case "H":
-                        loopBack(i, p -> {}, p -> !val(p, phi), p -> res.addAll(c(p, phi)), p -> {});
+                        loopBack(i, p -> {}, p -> !val(p, phi), p -> res.addAll(c(p, phi)), p -> {}, res::clear);
                         result = res;
                         break;
                     case "O":
-                        loopBack(i, p -> {}, p -> val(p, phi), p -> res.clear(), p -> res.addAll(c(p, phi)));
+                        loopBack(i, p -> {}, p -> val(p, phi), p -> res.clear(), p -> res.addAll(c(p, phi)), () -> {});
                         result = res;
                         break;
                     default:
@@ -276,8 +276,13 @@ public class Counterexample {
                         result = !val(i, phi) && !val(i, psi) ? union(c(i, phi), c(i, psi)) : Collections.emptySet();
                         break;
                     case "U":
-                        loop(i, p -> res.addAll(c(p, psi)), p -> !val(p, phi) && !val(p, psi),
-                                p -> res.addAll(c(p, phi)), p -> {});
+                        loop(i, p -> res.addAll(c(p, psi)), p -> !val(p, phi) || val(p, psi), p -> {
+                            if (val(p, psi)) { // reached psi with phi previously true, hence U is true
+                                res.clear();
+                            } else { // both are false, hence U is false
+                                res.addAll(c(p, phi));
+                            }
+                        }, p -> {}, () -> {});
                         result = res;
                         break;
                     default:
@@ -287,6 +292,7 @@ public class Counterexample {
                 throw new RuntimeException("Unexpected formula class!");
             }
             causalSetCache.put(Pair.of(i, f), result);
+            //System.out.println("c(" + i + ", " + f + ") = " + result);
         }
         return result;
     }
@@ -294,35 +300,40 @@ public class Counterexample {
     Set<Cause> causalSet(LTLFormula f) {
         final Set<Cause> set = c(0, f);
         set.remove(null);
+        //System.out.println(f);
+        //System.out.println(set.stream().map(Object::toString).sorted().collect(Collectors.toList()));
+        //System.exit(0);
         return set;
     }
 
     void loop(int initialPosition, Consumer<Integer> unconditionalAction, Predicate<Integer> terminationCondition,
-              Consumer<Integer> terminationAction, Consumer<Integer> otherAction) {
+              Consumer<Integer> terminationAction, Consumer<Integer> otherAction, Runnable actionIfNotTerminated) {
         final Set<Integer> processedPositions = new HashSet<>();
         int i = initialPosition;
         while (processedPositions.add(i)) {
             unconditionalAction.accept(i);
             if (terminationCondition.test(i)) {
                 terminationAction.accept(i);
-                break;
+                return;
             } else {
                 otherAction.accept(i);
             }
             i = shiftPosition(i + 1);
         }
+        actionIfNotTerminated.run();
     }
 
     void loopBack(int initialPosition, Consumer<Integer> unconditionalAction, Predicate<Integer> terminationCondition,
-              Consumer<Integer> terminationAction, Consumer<Integer> otherAction) {
+              Consumer<Integer> terminationAction, Consumer<Integer> otherAction, Runnable actionIfNotTerminated) {
         for (int i = 0; i <= initialPosition; i++) {
             unconditionalAction.accept(i);
             if (terminationCondition.test(i)) {
                 terminationAction.accept(i);
-                break;
+                return;
             } else {
                 otherAction.accept(i);
             }
         }
+        actionIfNotTerminated.run();
     }
 }

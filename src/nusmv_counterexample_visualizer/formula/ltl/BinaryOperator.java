@@ -45,45 +45,46 @@ public class BinaryOperator extends LTLFormula {
         return result;
     }
 
-    private LTLFormula recursion(Function<LTLFormula, LTLFormula> baseFunction, String specialName,
-                                 Function<BinaryOperator, LTLFormula> transformation) {
+    private LTLFormula recursion(Function<LTLFormula, LTLFormula> baseFunction,
+                                 Function<BinaryOperator, LTLFormula> transformation,
+                                 String... specialNames) {
         final LTLFormula processedLeft = baseFunction.apply(leftArgument);
         final LTLFormula processedRight = baseFunction.apply(rightArgument);
         final BinaryOperator processed = new BinaryOperator(name, processedLeft, processedRight);
-        return name.equals(specialName) ? transformation.apply(processed) : processed;
+        return Arrays.asList(specialNames).contains(name) ? transformation.apply(processed) : processed;
     }
 
     @Override
     public LTLFormula removeFuture() {
-        return recursion(LTLFormula::removeFuture, null, null);
+        return recursion(LTLFormula::removeFuture, null);
     }
 
     @Override
     public LTLFormula removeImplication() {
-        return recursion(LTLFormula::removeImplication, "->", f -> or(not(f.leftArgument), f.rightArgument));
+        return recursion(LTLFormula::removeImplication, f -> or(not(f.leftArgument), f.rightArgument), "->");
     }
 
     @Override
     public LTLFormula removeEquivalence() {
-        return recursion(LTLFormula::removeEquivalence, "<->", f -> or(and(f.leftArgument, f.rightArgument),
-                and(not(f.leftArgument), not(f.rightArgument))));
+        return recursion(LTLFormula::removeEquivalence, f -> or(and(f.leftArgument, f.rightArgument),
+                and(not(f.leftArgument), not(f.rightArgument))), "<->", "xnor");
     }
 
     @Override
     public LTLFormula removeXor() {
-        return recursion(LTLFormula::removeXor, "xor", f -> not(or(and(f.leftArgument, f.rightArgument),
-                and(not(f.leftArgument), not(f.rightArgument)))));
+        return recursion(LTLFormula::removeXor, f -> not(or(and(f.leftArgument, f.rightArgument),
+                and(not(f.leftArgument), not(f.rightArgument)))), "xor");
     }
 
     @Override
     public LTLFormula removeRelease() {
-        return recursion(LTLFormula::removeRelease, "V", f -> or(until(f.rightArgument,
-                and(f.rightArgument, f.leftArgument)), global(f.rightArgument)));
+        return recursion(LTLFormula::removeRelease, f -> or(until(f.rightArgument,
+                and(f.rightArgument, f.leftArgument)), global(f.rightArgument)), "V");
     }
 
     @Override
     public LTLFormula toNNF() {
-        return recursion(LTLFormula::toNNF, null, null);
+        return recursion(LTLFormula::toNNF, null);
     }
 
     @Override
@@ -117,7 +118,7 @@ public class BinaryOperator extends LTLFormula {
                     value = !leftArgument.compute(ce, position, formulaValueCache)
                             || rightArgument.compute(ce, position, formulaValueCache);
                     break;
-                case "<->":
+                case "<->": case "xnor":
                     value = leftArgument.compute(ce, position, formulaValueCache)
                             == rightArgument.compute(ce, position, formulaValueCache);
                     break;

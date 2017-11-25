@@ -40,8 +40,8 @@ public class UnaryOperator extends LTLFormula {
         return argument.variableSet();
     }
 
-    private LTLFormula recursion(Function<LTLFormula, LTLFormula> baseFunction, String specialName,
-                                 Function<UnaryOperator, LTLFormula> transformation) {
+    private LTLFormula recursion(Function<LTLFormula, LTLFormula> baseFunction,
+                                 Function<UnaryOperator, LTLFormula> transformation, String specialName) {
         final LTLFormula processedArgument = baseFunction.apply(argument);
         final UnaryOperator processed = new UnaryOperator(name, processedArgument);
         return name.equals(specialName) ? transformation.apply(processed) : processed;
@@ -49,7 +49,7 @@ public class UnaryOperator extends LTLFormula {
 
     @Override
     public LTLFormula removeFuture() {
-        return recursion(LTLFormula::removeFuture, "F", f -> until(new TrueFormula(), f.argument));
+        return recursion(LTLFormula::removeFuture, f -> until(new TrueFormula(), f.argument), "F");
     }
 
     @Override

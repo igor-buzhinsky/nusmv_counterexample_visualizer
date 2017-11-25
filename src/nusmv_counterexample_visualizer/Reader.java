@@ -65,6 +65,7 @@ class Reader {
             strOriginalF = line.replaceAll("  +", " ");
             line = line.substring("-- specification ".length()).replace(" is true", "").replace(" is false", "");
             final List<String> errors = new ArrayList<>();
+            final List<String> warnings = new ArrayList<>();
             try (InputStream in = new ByteArrayInputStream(line.getBytes(StandardCharsets.UTF_8))) {
                 final ltlLexer lexer = new ltlLexer(new ANTLRInputStream(in));
                 final CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -85,13 +86,13 @@ class Reader {
                     @Override
                     public void reportAttemptingFullContext(Parser parser, DFA dfa, int i, int i1, BitSet bitSet,
                                                             ATNConfigSet atnConfigSet) {
-                        errors.add("reportAttemptingFullContext");
+                        warnings.add("reportAttemptingFullContext");
                     }
 
                     @Override
                     public void reportContextSensitivity(Parser parser, DFA dfa, int i, int i1, int i2,
                                                          ATNConfigSet atnConfigSet) {
-                        errors.add("reportContextSensitivity");
+                        warnings.add("reportContextSensitivity");
                     }
                 });
                 originalF = parser.formula().f;
@@ -106,6 +107,9 @@ class Reader {
                 ce = null;
                 f = null;
                 return;
+            }
+            if (!warnings.isEmpty()) {
+                System.err.println("Parse warnings with " + strOriginalF + ": " + warnings);
             }
             f = originalF.removeImplication().removeEquivalence().removeXor().toNNF().removeFuture().removeRelease();
             ce = strOriginalF.endsWith(" is false") ? new Counterexample() : null;

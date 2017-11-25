@@ -219,9 +219,9 @@ public class GUI extends JFrame {
                         "Explaining counterexamples using causality. Computer Aided Verification, pp. 94-108, 2009. " +
                         "Springer Berlin/Heidelberg.",
                 "",
-                "Supported arithmetic operators: comparisons, +, -, /, *, mod. Supported past-time LTL operators: " +
-                        "Y, Z, O, H. If the provided counterexample has no loop (e.g. when BMC is used), the last " +
-                        "element is looped automatically.",
+                "Almost all arithmetic operators are supported. Supported past-time LTL operators: Y, Z, O, H. " +
+                        "If the provided counterexample has no loop (e.g. when BMC is used), the last element is " +
+                        "looped automatically.",
                 "",
                 "Font sizes can be configured via command line options --mainFontSize <size> and --auxFontSize <size>."
         );
@@ -372,22 +372,22 @@ public class GUI extends JFrame {
                             break;
                         case "G":
                             result.ce.loop(position, p -> add.accept(value || !cache.get(Pair.of(p, arg)), p),
-                                    p -> false, p -> {}, p -> {});
+                                    p -> false, p -> {}, p -> {}, () -> {});
                             break;
                         case "F":
                             result.ce.loop(position, p -> add.accept(!value || cache.get(Pair.of(p, arg)), p),
-                                    p -> false, p -> {}, p -> {});
+                                    p -> false, p -> {}, p -> {}, () -> {});
                             break;
                         case "Y": case "Z":
                             add.accept(position > 0, position - 1);
                             break;
                         case "H":
                             result.ce.loopBack(position, p -> add.accept(value || !cache.get(Pair.of(p, arg)), p),
-                                    p -> false, p -> {}, p -> {});
+                                    p -> false, p -> {}, p -> {}, () -> {});
                             break;
                         case "O":
                             result.ce.loopBack(position, p -> add.accept(!value || cache.get(Pair.of(p, arg)), p),
-                                    p -> false, p -> {}, p -> {});
+                                    p -> false, p -> {}, p -> {}, () -> {});
                             break;
                     }
                 } else if (f instanceof BinaryOperator) {
@@ -412,26 +412,26 @@ public class GUI extends JFrame {
                             addLeftIf.accept(!value || !leftValue, position);
                             addRightIf.accept(!value || rightValue, position);
                             break;
-                        case "<->": case "xor":
+                        case "<->": case "xnor": case "xor":
                             addLeft.accept(position);
                             addRight.accept(position);
                             break;
                         case "U": // complementary to V
                             if (value) {
                                 result.ce.loop(position, p -> {}, p -> cache.get(Pair.of(p, rightArg)),
-                                        addRight, addLeft);
+                                        addRight, addLeft, () -> {});
                             } else {
                                 result.ce.loop(position, addRight, p -> !cache.get(Pair.of(p, leftArg)),
-                                        addLeft, p -> {});
+                                        addLeft, p -> {}, () -> {});
                             }
                             break;
                         case "V": // complementary to U
                             if (value) {
                                 result.ce.loop(position, addRight, p -> cache.get(Pair.of(p, leftArg)),
-                                        addLeft, p -> {});
+                                        addLeft, p -> {}, () -> {});
                             } else {
                                 result.ce.loop(position, p -> {}, p -> !cache.get(Pair.of(p, rightArg)),
-                                        addRight, addLeft);
+                                        addRight, addLeft, () -> {});
                             }
                             break;
                     }
@@ -443,7 +443,6 @@ public class GUI extends JFrame {
         final JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout(5, 5));
         panel.add(pane, BorderLayout.CENTER);
-
         return panel;
     }
 }

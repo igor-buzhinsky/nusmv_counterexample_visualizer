@@ -20,73 +20,13 @@ public class ltlBaseListener implements ltlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPlus(ltlParser.PlusContext ctx) { }
+	@Override public void enterConstant(ltlParser.ConstantContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPlus(ltlParser.PlusContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterMinus(ltlParser.MinusContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMinus(ltlParser.MinusContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEquivalent(ltlParser.EquivalentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEquivalent(ltlParser.EquivalentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterXor(ltlParser.XorContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitXor(ltlParser.XorContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEq(ltlParser.EqContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEq(ltlParser.EqContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNe(ltlParser.NeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNe(ltlParser.NeContext ctx) { }
+	@Override public void exitConstant(ltlParser.ConstantContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -99,18 +39,6 @@ public class ltlBaseListener implements ltlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitComposite_id(ltlParser.Composite_idContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterConstant(ltlParser.ConstantContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitConstant(ltlParser.ConstantContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -147,6 +75,18 @@ public class ltlBaseListener implements ltlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitComparison_operator_sign(ltlParser.Comparison_operator_signContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArithmetic_atomic_value(ltlParser.Arithmetic_atomic_valueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArithmetic_atomic_value(ltlParser.Arithmetic_atomic_valueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -207,6 +147,78 @@ public class ltlBaseListener implements ltlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitComparison_expression(ltlParser.Comparison_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAnd_arithmetic_expression(ltlParser.And_arithmetic_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAnd_arithmetic_expression(ltlParser.And_arithmetic_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOr_arithmetic_expression(ltlParser.Or_arithmetic_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOr_arithmetic_expression(ltlParser.Or_arithmetic_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTernary_arithmetic_expression(ltlParser.Ternary_arithmetic_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTernary_arithmetic_expression(ltlParser.Ternary_arithmetic_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEq_arithmetic_expression(ltlParser.Eq_arithmetic_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEq_arithmetic_expression(ltlParser.Eq_arithmetic_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterImplies_arithmetic_expression(ltlParser.Implies_arithmetic_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitImplies_arithmetic_expression(ltlParser.Implies_arithmetic_expressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterProposition(ltlParser.PropositionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitProposition(ltlParser.PropositionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
