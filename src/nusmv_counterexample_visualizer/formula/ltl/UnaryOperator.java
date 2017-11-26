@@ -49,12 +49,12 @@ public class UnaryOperator extends LTLFormula {
 
     @Override
     public LTLFormula removeF() {
-        return recursion(LTLFormula::removeF, f -> until(new TrueFormula(), f.argument), "F");
+        return recursion(LTLFormula::removeF, f -> until(Proposition.trueFormula(), f.argument), "F");
     }
 
     @Override
     public LTLFormula removeG() {
-        return recursion(LTLFormula::removeG, f -> release(new FalseFormula(), f.argument), "G");
+        return recursion(LTLFormula::removeG, f -> release(Proposition.falseFormula(), f.argument), "G");
     }
 
     @Override
@@ -76,11 +76,7 @@ public class UnaryOperator extends LTLFormula {
     public LTLFormula toNNF() {
         if (!name.equals("!")) {
             return new UnaryOperator(name, argument.toNNF());
-        } else if (argument instanceof FalseFormula) {
-            return new TrueFormula();
-        } else if (argument instanceof TrueFormula) {
-            return new FalseFormula();
-        } else if (argument instanceof Proposition) {
+        } if (argument instanceof Proposition) {
             return ((Proposition) argument).not();
         } else if (argument instanceof UnaryOperator) {
             final UnaryOperator o = (UnaryOperator) argument;

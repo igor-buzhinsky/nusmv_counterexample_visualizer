@@ -209,10 +209,6 @@ public class Counterexample {
         return c(position, f).isEmpty();
     }
 
-    private boolean label(int position, Proposition p) {
-        return p.calculate(this, position);
-    }
-
     private Set<Cause> union(Set<Cause> left, Set<Cause> right) {
         final Set<Cause> result = new LinkedHashSet<>(left);
         result.addAll(right);
@@ -227,15 +223,12 @@ public class Counterexample {
         Set<Cause> result = causalSetCache.get(Pair.of(i, f));
         final Set<Cause> res = new HashSet<>();
         if (result == null) {
-            if (f instanceof TrueFormula) {
-                result = Collections.emptySet();
-            } else if (f instanceof FalseFormula) {
-                result = Collections.singleton(null);
-            } else if (f instanceof Proposition) {
+            if (f instanceof Proposition) {
                 final Proposition p = (Proposition) f;
-                result = label(i, p)
-                        ? Collections.emptySet()
-                        : Collections.singleton(new Cause(i, p.getOriginalVersion()));
+                if (!p.calculate(this, i)) {
+                    res.add(p.variableSet().isEmpty() ? null : new Cause(i, p.getOriginalVersion()));
+                }
+                result = res;
             } else if (f instanceof UnaryOperator) {
                 final UnaryOperator o = (UnaryOperator) f;
                 final LTLFormula phi = o.argument;
@@ -297,6 +290,7 @@ public class Counterexample {
             } else {
                 throw new RuntimeException("Unexpected formula class!");
             }
+
             causalSetCache.put(Pair.of(i, f), result);
             //System.out.println("c(" + i + ", " + f + ") = " + result);
         }
@@ -304,7 +298,7 @@ public class Counterexample {
     }
 
     Set<Cause> causalSet(LTLFormula f) {
-        final Set<Cause> set = c(0, f);
+        final Set<Cause> set = new LinkedHashSet<>(c(0, f));
         set.remove(null);
         //System.out.println(f);
         //System.out.println(set.stream().map(Object::toString).sorted().collect(Collectors.toList()));

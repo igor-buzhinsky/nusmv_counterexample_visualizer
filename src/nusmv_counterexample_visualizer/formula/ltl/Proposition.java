@@ -4,6 +4,7 @@ import nusmv_counterexample_visualizer.Cause;
 import nusmv_counterexample_visualizer.Counterexample;
 import nusmv_counterexample_visualizer.Util;
 import nusmv_counterexample_visualizer.formula.arithmetic.ArithmeticExpression;
+import nusmv_counterexample_visualizer.formula.arithmetic.Constant;
 import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -27,6 +28,14 @@ public class Proposition extends LTLFormula {
     public Proposition(ArithmeticExpression expression) {
         this(expression, null);
         registerFormula(this);
+    }
+
+    static Proposition trueFormula() {
+        return new Proposition(new Constant("TRUE"));
+    }
+
+    static Proposition falseFormula() {
+        return new Proposition(new Constant("FALSE"));
     }
 
     @Override
