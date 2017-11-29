@@ -269,6 +269,11 @@ public class GUI extends JFrame {
         splitPane2.setResizeWeight(1);
     }
 
+    private String htmlSpaces(int num) {
+        return Util.nStrings("&nbsp;", 1 + String.valueOf(annotations.get(currentSpec).ce.length() - 1).length()
+            - String.valueOf(num).length());
+    }
+
     private void updateAnnotationPanel() {
         if (currentSpec == -1) {
             return;
@@ -291,10 +296,10 @@ public class GUI extends JFrame {
             innerPanel.setLayout(layout);
             final JEditorPane textField = new JEditorPane();
             textField.setContentType("text/html");
-            textField.setText(wrap("step " + i + "<br>" + (i < annotation.ce.loopPosition()
-                    ? "prefix&nbsp;&nbsp;" : "loop&nbsp;&nbsp;&nbsp;&nbsp;")));
+            textField.setText(wrap("step " + i + htmlSpaces(i) + "<br>"
+                    + (i < annotation.ce.loopPosition() ? "prefix" : "loop")));
             textField.setEditable(false);
-            textField.setMaximumSize(new Dimension(120, Integer.MAX_VALUE));
+            textField.setMaximumSize(new Dimension(1, Integer.MAX_VALUE));
             textField.setBackground(Color.getHSBColor(1f, 0, 0.95f));
             innerPanel.add(textField);
             final JPanel panelWithListener = panelWithHtmlListener("");
