@@ -99,6 +99,8 @@ public class GUI extends JFrame {
     private JPanel lowerPanel;
     private JCheckBox compactCheckbox;
     private JComboBox<String> highlightingBox;
+    private JSplitPane splitPane1;
+    private JSplitPane splitPane2;
 
     private java.util.List<VerificationResult> annotations;
     private int currentSpec;
@@ -202,9 +204,14 @@ public class GUI extends JFrame {
         reloadButton.addActionListener(e -> {
             final boolean compact = compactCheckbox.isSelected();
             final int highlightingIndex = highlightingBox.getSelectedIndex();
+            final int splitPane1Pos = splitPane1.getDividerLocation();
+            final int splitPane2Pos = splitPane2.getDividerLocation();
+            LTLFormula.reset();
             launcher();
             compactCheckbox.setSelected(compact);
             highlightingBox.setSelectedIndex(highlightingIndex);
+            splitPane1.setDividerLocation(splitPane1Pos);
+            splitPane2.setDividerLocation(splitPane2Pos);
         });
         lowerPanel.add(reloadButton);
 
@@ -271,9 +278,8 @@ public class GUI extends JFrame {
         createValueTable();
         createLowerPanel();
 
-        final JSplitPane splitPane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, propertyScrollPane,
-                annotationScrollPane);
-        final JSplitPane splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPane1, valueScrollPane);
+        splitPane1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, propertyScrollPane, annotationScrollPane);
+        splitPane2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT, splitPane1, valueScrollPane);
 
         rootPanel.add(splitPane2);
         rootPanel.add(lowerPanel, BorderLayout.SOUTH);

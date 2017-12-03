@@ -16,6 +16,11 @@ public abstract class LTLFormula {
     private static final List<LTLFormula> INT_TO_FORMULA = new ArrayList<>();
     private static final Map<LTLFormula, Integer> FORMULA_TO_INT = new HashMap<>();
 
+    public static void reset() {
+        INT_TO_FORMULA.clear();
+        FORMULA_TO_INT.clear();
+    }
+
     static void registerFormula(LTLFormula f) {
         FORMULA_TO_INT.put(f, INT_TO_FORMULA.size());
         INT_TO_FORMULA.add(f);
