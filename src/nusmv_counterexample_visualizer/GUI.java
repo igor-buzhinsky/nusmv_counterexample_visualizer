@@ -210,8 +210,10 @@ public class GUI extends JFrame {
             launcher();
             compactCheckbox.setSelected(compact);
             highlightingBox.setSelectedIndex(highlightingIndex);
-            splitPane1.setDividerLocation(splitPane1Pos);
-            splitPane2.setDividerLocation(splitPane2Pos);
+            javax.swing.SwingUtilities.invokeLater(() -> {
+                splitPane1.setDividerLocation(splitPane1Pos);
+                splitPane2.setDividerLocation(splitPane2Pos);
+            });
         });
         lowerPanel.add(reloadButton);
 
