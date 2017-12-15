@@ -309,11 +309,6 @@ public class GUI extends JFrame {
         final AnnotationData annotation = annotations.get(currentSpec).result(highlightSet, hm);
 
         for (int i = 0; i < annotation.longAnnotations.size(); i++) {
-            if (i > 0) {
-                final JPanel spacing = new JPanel();
-                spacing.setBackground(Color.GRAY);
-                panel.add(spacing);
-            }
             final JPanel innerPanel = new JPanel();
             final BoxLayout layout = new BoxLayout(innerPanel, BoxLayout.X_AXIS);
             innerPanel.setLayout(layout);
@@ -324,8 +319,10 @@ public class GUI extends JFrame {
             textField.setEditable(false);
             textField.setMaximumSize(new Dimension(1, Integer.MAX_VALUE));
             textField.setBackground(Color.getHSBColor(1f, 0, 0.95f));
+            textField.setBorder(BorderFactory.createLineBorder(Color.black));
             innerPanel.add(textField);
             final JPanel panelWithListener = panelWithHtmlListener("");
+            panelWithListener.setBorder(BorderFactory.createLineBorder(Color.black));
             innerPanel.add(panelWithListener);
             annotationPanels.add((JTextPane) panelWithListener.getComponent(0));
             annotationTexts.add("");
