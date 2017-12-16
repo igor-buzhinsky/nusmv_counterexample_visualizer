@@ -30,7 +30,7 @@ public class GUI extends JFrame {
     private int mainFontSize = 20;
 
     @Option(name = "--auxFontSize", metaVar = "<size>", usage = "font size for auxiliary panels (default 18)")
-    private int auxFontSize = 18;
+    private int auxFontSize = 16;
 
     public static void main(String[] args) throws IOException {
         new GUI().run(args);
@@ -226,9 +226,9 @@ public class GUI extends JFrame {
                         "for FALSE specifications. Select a FALSE specification to see the visualization of the " +
                         "counterexample for this specification in the middle panel.",
                 "",
-                "In the middle panel, the values (T, F) of each subformula of the LTL specification are shown for " +
-                        "each step of the counterexample. Click on an annotation below a subformula to see an " +
-                        "explanation of its value. As a result, this and some other values will be highlighted. In " +
+                "In the middle panel, the values (T = true, F = false) of each subformula of the LTL specification are " +
+                        "shown for each step of the counterexample. Click on an annotation below a subformula to see " +
+                        "an explanation of its value. As a result, this and some other values will be highlighted. In " +
                         "addition, important atomic propositions are highlighted in the LTL formula.",
                 "",
                 "An additional compact highlighting mode is available which displays subformula values on the same " +
@@ -236,7 +236,7 @@ public class GUI extends JFrame {
                 "",
                 "In the bottom panel, the values of all variables for all counterexample steps are provided. The " +
                         "values which are present in the LTL formula are shown on the left. Important values are " +
-                        "hightlighted.",
+                        "highlighted.",
                 "",
                 "Highlighting of important atomic propositions is implemented (with some enhancements) according to " +
                         "the polynomial algorithm from: I. Beer, S. Ben-David, H. Chockler, A. Orni, R. Trefler. " +
@@ -308,8 +308,12 @@ public class GUI extends JFrame {
         annotationTexts.clear();
         final AnnotationData annotation = annotations.get(currentSpec).result(highlightSet, hm);
 
+        final java.util.List<JPanel> innerPanels = new ArrayList<>();
+
         for (int i = 0; i < annotation.longAnnotations.size(); i++) {
             final JPanel innerPanel = new JPanel();
+            innerPanels.add(innerPanel);
+
             final BoxLayout layout = new BoxLayout(innerPanel, BoxLayout.X_AXIS);
             innerPanel.setLayout(layout);
             final JEditorPane textField = new JEditorPane();
@@ -331,6 +335,11 @@ public class GUI extends JFrame {
 
         annotationScrollPane.setViewportView(panel);
         fastUpdateAnnotationPanel();
+
+        SwingUtilities.invokeLater(() -> innerPanels.forEach(p -> {
+            p.revalidate();
+            p.repaint();
+        }));
     }
 
     private void fastUpdateAnnotationPanel() {
@@ -353,12 +362,12 @@ public class GUI extends JFrame {
             }
         }
 
+        highlightSet.clear();
+
         SwingUtilities.invokeLater(() -> {
             annotationScrollPane.getHorizontalScrollBar().setValue(scrollX);
             annotationScrollPane.getVerticalScrollBar().setValue(scrollY);
         });
-
-        highlightSet.clear();
     }
 
     private JPanel panelWithHtmlListener(String msg) {

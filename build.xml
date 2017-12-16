@@ -8,7 +8,7 @@
     <property name="antlr.path" value="lib/antlr-runtime-4.6.jar"/>
     
     <property name="main.main" value="nusmv_counterexample_visualizer/Main"/>
-    <property name="main.jar" value="visualizer.jar"/>
+    <property name="main.jar" value="visualizer-console.jar"/>
 
     <property name="gui.main" value="nusmv_counterexample_visualizer/GUI"/>
     <property name="gui.jar" value="visualizer-gui.jar"/>

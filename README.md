@@ -1,15 +1,47 @@
-## NuSMV LTL counterexample visualizer
+# NuSMV LTL counterexample visualizer
 
-Requires Java 8.
+A tool which explains why a particular LTL formula fails on a particular trace by means of causal analysis and structured visualization.
 
-Console version:
+By [Igor Buzhinsky](http://rain.ifmo.ru/~buzhinsky), Aalto University & ITMO University, igor.buzhinsky@gmail.com.
 
-> java -jar jars/visualizer.jar
+## Running
 
-GUI version:
+The tool can be run on Windows, Mac OS, Linux. Requires [Java 8 or higher](http://www.oracle.com/technetwork/java/javase/downloads/index.html) to be installed on your system.
+
+Simply run [jars/visualizer-gui.jar](/jars/visualizer-gui.jar). Alternatively, or if this does not work, you can run the tool from the console:
 
 > java -jar jars/visualizer-gui.jar
 
-Example:
+You can select the input file (for example, [example-input.txt](/example-input.txt)) either in the dialog window or in the command line:
 
 > java -jar jars/visualizer-gui.jar example-input.txt
+
+Font sizes can be configured via command line options --mainFontSize <size> and --auxFontSize <size>.
+
+A purely console version of the tool is also available:
+
+> java -jar jars/visualizer-console.jar
+
+## GUI help
+
+The top panel lists LTL specifications from the input file. Visualization is available only for FALSE specifications. Select a FALSE specification to see the visualization of the counterexample for this specification in the middle panel.
+
+In the middle panel, the values (T = true, F = false) of each subformula of the LTL specification are shown for each step of the counterexample. Click on an annotation below a subformula to see an explanation of its value. As a result, this and some other values will be highlighted. In addition, important atomic propositions are highlighted in the LTL formula.
+
+An additional compact highlighting mode is available which displays subformula values on the same line where the formula is displayed. Explanations also work in this mode.
+
+In the bottom panel, the values of all variables for all counterexample steps are provided. The values which are present in the LTL formula are shown on the left. Important values are highlighted.
+
+Highlighting of important atomic propositions is implemented (with some enhancements) according to the polynomial algorithm from: I. Beer, S. Ben-David, H. Chockler, A. Orni, R. Trefler. Explaining counterexamples using causality. Computer Aided Verification, pp. 94-108, 2009. Springer Berlin/Heidelberg.
+
+Almost all arithmetic operators are supported. Supported past-time LTL operators: Y, Z, O, H. If the provided counterexample has no loop (e.g. when BMC is used), the last element is looped automatically.
+
+## Building
+
+If you need to modify the source of the tool and you have JDK 1.8 or higher, you can rebuild it with [ant](https://ant.apache.org/):
+
+> ant
+
+## Bugs
+
+If you see an error or something strange, you can email Igor Buzhinsky (igor.buzhinsky@gmail.com).
