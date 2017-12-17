@@ -109,30 +109,23 @@ public class UnaryOperator extends LTLFormula {
     public boolean compute(Counterexample ce, int position, Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache) {
         Boolean value = formulaValueCache.get(Pair.of(position, this));
         if (value == null) {
+            final Function<Integer, Boolean> f = p -> argument.compute(ce, p, formulaValueCache);
             switch (name) {
-                case "G":
-                    value = walk(ce, position, true, p -> !argument.compute(ce, p, formulaValueCache), p -> false);
+                case "G": value = walk(ce, position, true, p -> !f.apply(p), p -> false);
                     break;
-                case "F":
-                    value = walk(ce, position, false, p -> false, p -> argument.compute(ce, p, formulaValueCache));
+                case "F": value = walk(ce, position, false, p -> false, f);
                     break;
-                case "X":
-                    value = argument.compute(ce, ce.shiftPosition(position + 1), formulaValueCache);
+                case "X": value = f.apply(ce.shiftPosition(position + 1));
                     break;
-                case "!":
-                    value = !argument.compute(ce, position, formulaValueCache);
+                case "!": value = !f.apply(position);
                     break;
-                case "Y":
-                    value = position != 0 && argument.compute(ce, position - 1, formulaValueCache);
+                case "Y": value = position != 0 && f.apply(position - 1);
                     break;
-                case "Z":
-                    value = position == 0 || argument.compute(ce, position - 1, formulaValueCache);
+                case "Z": value = position == 0 || f.apply(position - 1);
                     break;
-                case "O":
-                    value = walkBack(position, false, p -> false, p -> argument.compute(ce, p, formulaValueCache));
+                case "O": value = walkBack(position, false, p -> false, f);
                     break;
-                case "H":
-                    value = walkBack(position, true, p -> !argument.compute(ce, p, formulaValueCache), p -> false);
+                case "H": value = walkBack(position, true, p -> !f.apply(p), p -> false);
                     break;
                 default:
                     throw new RuntimeException("Unknown unary operator " + name);

@@ -90,40 +90,31 @@ public class BinaryOperator extends LTLFormula {
     public boolean compute(Counterexample ce, int position, Map<Pair<Integer, LTLFormula>, Boolean> formulaValueCache) {
         Boolean value = formulaValueCache.get(Pair.of(position, this));
         if (value == null) {
+            final Function<Integer, Boolean> l = p -> leftArgument.compute(ce, p, formulaValueCache);
+            final Function<Integer, Boolean> r = p -> rightArgument.compute(ce, p, formulaValueCache);
             switch (name) {
                 case "U":
-                    value = walk(ce, position, false,
-                        p -> !leftArgument.compute(ce, p, formulaValueCache)
-                                && !rightArgument.compute(ce, p, formulaValueCache),
-                        p -> rightArgument.compute(ce, p, formulaValueCache));
+                    value = walk(ce, position, false, p -> !l.apply(p) && !r.apply(p), r);
                     break;
                 case "V":
-                    // ϕ has to be true until and including the point where ψ first becomes true;
-                    // if ψ never becomes true, ϕ must remain true forever.
-                    value = walk(ce, position, true,
-                        p -> !leftArgument.compute(ce, p, formulaValueCache),
-                        p -> leftArgument.compute(ce, p, formulaValueCache)
-                                && rightArgument.compute(ce, p, formulaValueCache));
+                    // <rightArg> has to be true until and including the point where <leftArg> first becomes true;
+                    // if <leftArg> never becomes true, <rightArg> must remain true forever.
+                    value = walk(ce, position, true, p -> !r.apply(p), p -> l.apply(p) && r.apply(p));
                     break;
                 case "|":
-                    value = leftArgument.compute(ce, position, formulaValueCache)
-                            || rightArgument.compute(ce, position, formulaValueCache);
+                    value = l.apply(position) || r.apply(position);
                     break;
                 case "&":
-                    value = leftArgument.compute(ce, position, formulaValueCache)
-                            && rightArgument.compute(ce, position, formulaValueCache);
+                    value = l.apply(position) && r.apply(position);
                     break;
                 case "->":
-                    value = !leftArgument.compute(ce, position, formulaValueCache)
-                            || rightArgument.compute(ce, position, formulaValueCache);
+                    value = !l.apply(position) || r.apply(position);
                     break;
                 case "<->": case "xnor":
-                    value = leftArgument.compute(ce, position, formulaValueCache)
-                            == rightArgument.compute(ce, position, formulaValueCache);
+                    value = l.apply(position) == r.apply(position);
                     break;
                 case "xor":
-                    value = leftArgument.compute(ce, position, formulaValueCache)
-                            != rightArgument.compute(ce, position, formulaValueCache);
+                    value = l.apply(position) != r.apply(position);
                     break;
                 default: throw new RuntimeException("Unknown binary operator " + name);
             }
