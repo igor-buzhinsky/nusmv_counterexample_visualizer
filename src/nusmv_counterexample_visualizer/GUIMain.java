@@ -18,22 +18,23 @@ import java.io.IOException;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Created by buzhinsky on 10/16/17.
  */
-public class GUI extends JFrame {
+public class GUIMain extends JFrame {
     @Argument(usage = "NuSMV output file (input for the tool)", metaVar = "<in>")
     private String input;
 
     @Option(name = "--mainFontSize", metaVar = "<size>", usage = "font size for the main panels (default 20)")
     private int mainFontSize = 20;
 
-    @Option(name = "--auxFontSize", metaVar = "<size>", usage = "font size for auxiliary panels (default 18)")
+    @Option(name = "--auxFontSize", metaVar = "<size>", usage = "font size for auxiliary panels (default 16)")
     private int auxFontSize = 16;
 
     public static void main(String[] args) throws IOException {
-        new GUI().run(args);
+        new GUIMain().run(args);
     }
 
     private void run(String[] args) throws IOException {
@@ -133,22 +134,16 @@ public class GUI extends JFrame {
     }
 
     private void createSpecTable() {
-        final String[] columns = new String[] { "#", "Value", "LTL Specification" };
+        final String[] columns = new String[] { "#", "Value", "LTL specification" };
 
         final Object[][] data = new Object[annotations.size()][];
         for (int i = 0; i < annotations.size(); i++) {
-            String property = annotations.get(i).strOriginalF.replaceAll("^-- specification ", "");
-            final String satisfied;
-            if (property.endsWith("is false")) {
-                satisfied = "FALSE";
-                property = property.replaceAll("is false$", "");
-            } else if (property.endsWith("is true")) {
-                satisfied = "TRUE";
-                property = property.replaceAll("is true$", "");
-            } else {
-                throw new RuntimeException();
-            }
-            data[i] = new Object[] { i + 1, satisfied, "<html>" + Util.toHtmlString(property) + "</html>" };
+            final VerificationResult result = annotations.get(i);
+            final String value = result.formulaValue();
+            final Function<String, String> color = result.ce == null
+                    ? s -> "<html><font color=gray>" + s + "</font></html>"
+                    : s -> "<html>" + s + "</html>";
+            data[i] = new Object[] { i + 1, color.apply(value), color.apply(Util.toHtmlString(result.strOriginalF)) };
         }
 
         final JTable specTable = new JTable(data, columns);
@@ -262,16 +257,12 @@ public class GUI extends JFrame {
         if (currentSpec == -1) {
             return;
         }
-        final JComponent component;
-        if (annotations.get(currentSpec).ce != null) {
-            component = annotations.get(currentSpec).ce.graphicalValueTable(annotations.get(currentSpec)
-                    .varNameCausalSet, hm, auxFontSize);
-        } else {
-            component = Util.messageField("Since this LTL specification is TRUE, there is no counterexample to display.",
-                    auxFontSize);
-        }
-
-        valueScrollPane.setViewportView(component);
+        final VerificationResult result = annotations.get(currentSpec);
+        valueScrollPane.setViewportView(result.ce != null
+                ? result.ce.graphicalValueTable(result.varNameCausalSet, hm, auxFontSize)
+                : Util.messageField("For specification " + result.originalF +
+                    ", no trace is provided in the input. If the input is produced by NuSMV, this is only possible for" +
+                    " specifications which are TRUE and thus do not have counterexamples.", auxFontSize));
     }
 
     private void addElements() {

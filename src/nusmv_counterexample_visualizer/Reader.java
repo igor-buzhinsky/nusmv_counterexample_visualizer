@@ -21,6 +21,7 @@ import java.util.List;
  */
 class Reader {
     private String strOriginalF;
+    private Boolean originalValue;
     private LTLFormula originalF;
     private LTLFormula f;
     private Counterexample ce;
@@ -51,7 +52,7 @@ class Reader {
                 }
                 ce.setImportant(f.variableSet());
             }
-            result.add(new VerificationResult(strOriginalF, originalF, f, ce, fillValueCache));
+            result.add(new VerificationResult(strOriginalF, originalValue, originalF, f, ce, fillValueCache));
         }
         ce = null;
         f = null;
@@ -62,8 +63,17 @@ class Reader {
         lineNum++;
         if (line.startsWith("-- specification ")) {
             finalizeCounterexample();
-            strOriginalF = line.replaceAll("  +", " ");
-            line = line.substring("-- specification ".length()).replace(" is true", "").replace(" is false", "");
+            line = line.replaceAll("  +", " ").replace("( ", "(").substring("-- specification ".length());
+            if (line.endsWith(" is true")) {
+                line = line.substring(0, line.length() - " is true".length());
+                originalValue = true;
+            } else if (line.endsWith(" is false")) {
+                line = line.substring(0, line.length() - " is false".length());
+                originalValue = false;
+            } else {
+                originalValue = null;
+            }
+            strOriginalF = line;
             final List<String> errors = new ArrayList<>();
             final List<String> warnings = new ArrayList<>();
             try (InputStream in = new ByteArrayInputStream(line.getBytes(StandardCharsets.UTF_8))) {
@@ -109,19 +119,21 @@ class Reader {
                 return;
             }
             if (!warnings.isEmpty()) {
-                System.err.println("Parse warnings with " + strOriginalF + ": " + warnings);
+                System.err.println("Parse warning(s) with " + strOriginalF + ": " + warnings);
             }
             f = originalF.removeImplication().removeEquivalence().removeXor().toNNF().removeF().removeG();
-            ce = strOriginalF.endsWith(" is false") ? new Counterexample() : null;
+            ce = null;
         } else if (line.equals("  -- Loop starts here")) {
-            if (ce != null) {
-                ce.setLoopPosition();
+            if (ce == null) {
+                ce = new Counterexample();
             }
-        } else if (line.startsWith("  -> ")) {
-            if (ce != null) {
-                ce.padMissing();
-                ce.newElement();
+            ce.setLoopPosition();
+        } else if (line.startsWith("  -> ") && line.endsWith(" <-")) {
+            if (ce == null) {
+                ce = new Counterexample();
             }
+            ce.padMissing();
+            ce.newElement();
         } else if (line.startsWith("    ")) {
             if (ce != null) {
                 final String[] tokens = line.substring(4).split(" = ");

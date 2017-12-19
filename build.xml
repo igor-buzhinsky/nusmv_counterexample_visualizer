@@ -7,10 +7,10 @@
     <property name="commons.lang3.path" value="lib/commons-lang3-3.1.jar"/>
     <property name="antlr.path" value="lib/antlr-runtime-4.6.jar"/>
     
-    <property name="main.main" value="nusmv_counterexample_visualizer/Main"/>
+    <property name="main.main" value="nusmv_counterexample_visualizer/ConsoleMain"/>
     <property name="main.jar" value="visualizer-console.jar"/>
 
-    <property name="gui.main" value="nusmv_counterexample_visualizer/GUI"/>
+    <property name="gui.main" value="nusmv_counterexample_visualizer/GUIMain"/>
     <property name="gui.jar" value="visualizer-gui.jar"/>
     
     <property name="debug" value="true"/>

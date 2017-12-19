@@ -19,14 +19,16 @@ import java.util.TreeSet;
 public class Proposition extends LTLFormula {
     private final ArithmeticExpression expression;
     private final Proposition originalVersion;
+    private final boolean negated;
 
-    private Proposition(ArithmeticExpression expression, Proposition originalVersion) {
+    private Proposition(ArithmeticExpression expression, Proposition originalVersion, boolean negated) {
         this.expression = expression;
         this.originalVersion = originalVersion;
+        this.negated = negated;
     }
 
     public Proposition(ArithmeticExpression expression) {
-        this(expression, null);
+        this(expression, null, false);
         registerFormula(this);
     }
 
@@ -43,17 +45,17 @@ public class Proposition extends LTLFormula {
         return Pair.of(0, 0);
     }
 
-    public Proposition getOriginalVersion() {
+    public Proposition originalVersion() {
         return originalVersion == null ? this : originalVersion;
     }
 
     Proposition not() {
-        return new Proposition(expression, this);
+        return new Proposition(expression, originalVersion == null ? this : originalVersion, !negated);
     }
 
     @Override
     public String toString() {
-        return originalVersion == null ? expression.toString() : ("!" + Util.par(expression));
+        return negated ? ("!" + Util.par(expression)) : expression.toString();
     }
 
     private String htmlToString() {
@@ -103,11 +105,7 @@ public class Proposition extends LTLFormula {
     public boolean calculate(Counterexample ce, int position) {
         final Object v = expression.calculate(ce.values(), position);
         if (v instanceof Boolean) {
-            boolean value = (boolean) v;
-            if (originalVersion != null) {
-                value = !value;
-            }
-            return value;
+            return negated != (boolean) v;
         } else {
             throw new RuntimeException("Arithmetic error.");
         }

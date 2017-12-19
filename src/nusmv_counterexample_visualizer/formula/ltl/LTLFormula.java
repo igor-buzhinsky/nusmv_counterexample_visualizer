@@ -87,51 +87,51 @@ public abstract class LTLFormula {
         return new ArrayList<>(Arrays.asList(firstLine, str, thirdLine));
     }
 
-    LTLFormula not(LTLFormula other) {
+    public static LTLFormula not(LTLFormula other) {
         return new UnaryOperator("!", other);
     }
 
-    LTLFormula future(LTLFormula other) {
+    static LTLFormula future(LTLFormula other) {
         return new UnaryOperator("F", other);
     }
 
-    LTLFormula global(LTLFormula other) {
+    static LTLFormula global(LTLFormula other) {
         return new UnaryOperator("G", other);
     }
 
-    LTLFormula next(LTLFormula other) {
+    static LTLFormula next(LTLFormula other) {
         return new UnaryOperator("X", other);
     }
 
-    LTLFormula and(LTLFormula left, LTLFormula right) {
+    static LTLFormula and(LTLFormula left, LTLFormula right) {
         return new BinaryOperator("&", left, right);
     }
 
-    LTLFormula or(LTLFormula left, LTLFormula right) {
+    static LTLFormula or(LTLFormula left, LTLFormula right) {
         return new BinaryOperator("|", left, right);
     }
 
-    LTLFormula release(LTLFormula left, LTLFormula right) {
+    static LTLFormula release(LTLFormula left, LTLFormula right) {
         return new BinaryOperator("V", left, right);
     }
 
-    LTLFormula until(LTLFormula left, LTLFormula right) {
+    static LTLFormula until(LTLFormula left, LTLFormula right) {
         return new BinaryOperator("U", left, right);
     }
 
-    LTLFormula once(LTLFormula other) {
+    static LTLFormula once(LTLFormula other) {
         return new UnaryOperator("O", other);
     }
 
-    LTLFormula historically(LTLFormula other) {
+    static LTLFormula historically(LTLFormula other) {
         return new UnaryOperator("H", other);
     }
 
-    LTLFormula prevY(LTLFormula other) {
+    static LTLFormula prevY(LTLFormula other) {
         return new UnaryOperator("Y", other);
     }
 
-    LTLFormula prevZ(LTLFormula other) {
+    static LTLFormula prevZ(LTLFormula other) {
         return new UnaryOperator("Z", other);
     }
 

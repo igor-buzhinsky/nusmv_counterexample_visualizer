@@ -10,8 +10,8 @@ import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Main {
-    @Argument(usage = "NuSMV output file (input for the tool)", metaVar = "<in>", required = true, index = 0)
+public class ConsoleMain {
+    @Argument(usage = "NuSMV output file (input for the tool)", metaVar = "<in>", required = true)
     private String input;
 
     @Argument(usage = "result file", metaVar = "<out>", required = true, index = 1)
@@ -32,7 +32,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        new Main().run(args);
+        new ConsoleMain().run(args);
     }
 
     private boolean parseArgs(String[] args) {

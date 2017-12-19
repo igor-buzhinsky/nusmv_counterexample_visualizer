@@ -226,7 +226,7 @@ public class Counterexample {
             if (f instanceof Proposition) {
                 final Proposition p = (Proposition) f;
                 if (!p.calculate(this, i)) {
-                    res.add(p.variableSet().isEmpty() ? null : new Cause(i, p.getOriginalVersion()));
+                    res.add(p.variableSet().isEmpty() ? null : new Cause(i, p.originalVersion()));
                 }
                 result = res;
             } else if (f instanceof UnaryOperator) {
