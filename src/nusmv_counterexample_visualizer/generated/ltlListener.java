@@ -42,15 +42,55 @@ public interface ltlListener extends ParseTreeListener {
 	 */
 	void exitUnary_operator_sign(ltlParser.Unary_operator_signContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ltlParser#binary_operator_sign}.
+	 * Enter a parse tree produced by {@link ltlParser#binary_operator_sign5}.
 	 * @param ctx the parse tree
 	 */
-	void enterBinary_operator_sign(ltlParser.Binary_operator_signContext ctx);
+	void enterBinary_operator_sign5(ltlParser.Binary_operator_sign5Context ctx);
 	/**
-	 * Exit a parse tree produced by {@link ltlParser#binary_operator_sign}.
+	 * Exit a parse tree produced by {@link ltlParser#binary_operator_sign5}.
 	 * @param ctx the parse tree
 	 */
-	void exitBinary_operator_sign(ltlParser.Binary_operator_signContext ctx);
+	void exitBinary_operator_sign5(ltlParser.Binary_operator_sign5Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link ltlParser#binary_operator_sign4}.
+	 * @param ctx the parse tree
+	 */
+	void enterBinary_operator_sign4(ltlParser.Binary_operator_sign4Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link ltlParser#binary_operator_sign4}.
+	 * @param ctx the parse tree
+	 */
+	void exitBinary_operator_sign4(ltlParser.Binary_operator_sign4Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link ltlParser#binary_operator_sign3}.
+	 * @param ctx the parse tree
+	 */
+	void enterBinary_operator_sign3(ltlParser.Binary_operator_sign3Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link ltlParser#binary_operator_sign3}.
+	 * @param ctx the parse tree
+	 */
+	void exitBinary_operator_sign3(ltlParser.Binary_operator_sign3Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link ltlParser#binary_operator_sign2}.
+	 * @param ctx the parse tree
+	 */
+	void enterBinary_operator_sign2(ltlParser.Binary_operator_sign2Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link ltlParser#binary_operator_sign2}.
+	 * @param ctx the parse tree
+	 */
+	void exitBinary_operator_sign2(ltlParser.Binary_operator_sign2Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link ltlParser#binary_operator_sign1}.
+	 * @param ctx the parse tree
+	 */
+	void enterBinary_operator_sign1(ltlParser.Binary_operator_sign1Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link ltlParser#binary_operator_sign1}.
+	 * @param ctx the parse tree
+	 */
+	void exitBinary_operator_sign1(ltlParser.Binary_operator_sign1Context ctx);
 	/**
 	 * Enter a parse tree produced by {@link ltlParser#comparison_operator_sign}.
 	 * @param ctx the parse tree
@@ -202,15 +242,55 @@ public interface ltlListener extends ParseTreeListener {
 	 */
 	void exitUnary_operator(ltlParser.Unary_operatorContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ltlParser#binary_operator}.
+	 * Enter a parse tree produced by {@link ltlParser#binary_operator5}.
 	 * @param ctx the parse tree
 	 */
-	void enterBinary_operator(ltlParser.Binary_operatorContext ctx);
+	void enterBinary_operator5(ltlParser.Binary_operator5Context ctx);
 	/**
-	 * Exit a parse tree produced by {@link ltlParser#binary_operator}.
+	 * Exit a parse tree produced by {@link ltlParser#binary_operator5}.
 	 * @param ctx the parse tree
 	 */
-	void exitBinary_operator(ltlParser.Binary_operatorContext ctx);
+	void exitBinary_operator5(ltlParser.Binary_operator5Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link ltlParser#binary_operator4}.
+	 * @param ctx the parse tree
+	 */
+	void enterBinary_operator4(ltlParser.Binary_operator4Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link ltlParser#binary_operator4}.
+	 * @param ctx the parse tree
+	 */
+	void exitBinary_operator4(ltlParser.Binary_operator4Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link ltlParser#binary_operator3}.
+	 * @param ctx the parse tree
+	 */
+	void enterBinary_operator3(ltlParser.Binary_operator3Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link ltlParser#binary_operator3}.
+	 * @param ctx the parse tree
+	 */
+	void exitBinary_operator3(ltlParser.Binary_operator3Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link ltlParser#binary_operator2}.
+	 * @param ctx the parse tree
+	 */
+	void enterBinary_operator2(ltlParser.Binary_operator2Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link ltlParser#binary_operator2}.
+	 * @param ctx the parse tree
+	 */
+	void exitBinary_operator2(ltlParser.Binary_operator2Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link ltlParser#binary_operator1}.
+	 * @param ctx the parse tree
+	 */
+	void enterBinary_operator1(ltlParser.Binary_operator1Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link ltlParser#binary_operator1}.
+	 * @param ctx the parse tree
+	 */
+	void exitBinary_operator1(ltlParser.Binary_operator1Context ctx);
 	/**
 	 * Enter a parse tree produced by {@link ltlParser#formula}.
 	 * @param ctx the parse tree

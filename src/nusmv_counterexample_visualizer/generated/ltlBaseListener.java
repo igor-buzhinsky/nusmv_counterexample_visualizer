@@ -56,13 +56,61 @@ public class ltlBaseListener implements ltlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBinary_operator_sign(ltlParser.Binary_operator_signContext ctx) { }
+	@Override public void enterBinary_operator_sign5(ltlParser.Binary_operator_sign5Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBinary_operator_sign(ltlParser.Binary_operator_signContext ctx) { }
+	@Override public void exitBinary_operator_sign5(ltlParser.Binary_operator_sign5Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBinary_operator_sign4(ltlParser.Binary_operator_sign4Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBinary_operator_sign4(ltlParser.Binary_operator_sign4Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBinary_operator_sign3(ltlParser.Binary_operator_sign3Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBinary_operator_sign3(ltlParser.Binary_operator_sign3Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBinary_operator_sign2(ltlParser.Binary_operator_sign2Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBinary_operator_sign2(ltlParser.Binary_operator_sign2Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBinary_operator_sign1(ltlParser.Binary_operator_sign1Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBinary_operator_sign1(ltlParser.Binary_operator_sign1Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -248,13 +296,61 @@ public class ltlBaseListener implements ltlListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBinary_operator(ltlParser.Binary_operatorContext ctx) { }
+	@Override public void enterBinary_operator5(ltlParser.Binary_operator5Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBinary_operator(ltlParser.Binary_operatorContext ctx) { }
+	@Override public void exitBinary_operator5(ltlParser.Binary_operator5Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBinary_operator4(ltlParser.Binary_operator4Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBinary_operator4(ltlParser.Binary_operator4Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBinary_operator3(ltlParser.Binary_operator3Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBinary_operator3(ltlParser.Binary_operator3Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBinary_operator2(ltlParser.Binary_operator2Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBinary_operator2(ltlParser.Binary_operator2Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterBinary_operator1(ltlParser.Binary_operator1Context ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBinary_operator1(ltlParser.Binary_operator1Context ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

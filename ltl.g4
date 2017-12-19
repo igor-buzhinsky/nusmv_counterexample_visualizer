@@ -16,10 +16,14 @@ WS : (' ' | '\t' | ('\r'? '\n'))+ -> channel(HIDDEN);
 
 INT_CONST : '-'? ('0' | ('1'..'9' ('0'..'9')*));
 
+TRUE : 'TRUE';
+
+FALSE : 'FALSE';
+
 ID : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
 
 constant
-    : INT_CONST | 'TRUE' | 'FALSE'
+    : INT_CONST | TRUE | FALSE
     ;
 
 composite_id
@@ -30,8 +34,24 @@ unary_operator_sign
     : '!' | 'X' | 'G' | 'F' | 'Y' | 'Z' | 'O' | 'H'
     ;
 
-binary_operator_sign
-    : '&' | '|' | '->' | '<->' | 'xnor' | 'xor' | 'U' | 'V'
+binary_operator_sign5
+    : 'U' | 'V'
+    ;
+
+binary_operator_sign4
+    : '&'
+    ;
+
+binary_operator_sign3
+    : '|' | 'xnor' | 'xor'
+    ;
+
+binary_operator_sign2
+    : '<->'
+    ;
+
+binary_operator_sign1
+    : '->'
     ;
 
 comparison_operator_sign
@@ -120,11 +140,31 @@ unary_operator returns[LTLFormula f]
     | unary_operator_sign unary_operator { $f = new UnaryOperator($unary_operator_sign.text, $unary_operator.f); }
     ;
 
-binary_operator returns[LTLFormula f]
-    : f1=unary_operator { $f = $f1.f; } (binary_operator_sign f2=unary_operator
-      { $f = new BinaryOperator($binary_operator_sign.text, $f, $f2.f); })?
+binary_operator5 returns[LTLFormula f]
+    : f1=unary_operator { $f = $f1.f; } (binary_operator_sign5 f2=unary_operator
+      { $f = new BinaryOperator($binary_operator_sign5.text, $f, $f2.f); })*
+    ;
+
+binary_operator4 returns[LTLFormula f]
+    : f1=binary_operator5 { $f = $f1.f; } (binary_operator_sign4 f2=binary_operator5
+      { $f = new BinaryOperator($binary_operator_sign4.text, $f, $f2.f); })*
+    ;
+
+binary_operator3 returns[LTLFormula f]
+    : f1=binary_operator4 { $f = $f1.f; } (binary_operator_sign3 f2=binary_operator4
+      { $f = new BinaryOperator($binary_operator_sign3.text, $f, $f2.f); })*
+    ;
+
+binary_operator2 returns[LTLFormula f]
+    : f1=binary_operator3 { $f = $f1.f; } (binary_operator_sign2 f2=binary_operator3
+      { $f = new BinaryOperator($binary_operator_sign2.text, $f, $f2.f); })*
+    ;
+
+binary_operator1 returns[LTLFormula f]
+    : f1=binary_operator2 { $f = $f1.f; } (binary_operator_sign1 f2=binary_operator1
+      { $f = new BinaryOperator($binary_operator_sign1.text, $f, $f2.f); })?
     ;
 
 formula returns[LTLFormula f]
-    : binary_operator { $f = $binary_operator.f; }
+    : binary_operator1 { $f = $binary_operator1.f; }
     ;

@@ -29,37 +29,43 @@ public class ltlParser extends Parser {
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
 		T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31, 
-		T__31=32, T__32=33, T__33=34, T__34=35, T__35=36, WS=37, INT_CONST=38, 
+		T__31=32, T__32=33, T__33=34, WS=35, INT_CONST=36, TRUE=37, FALSE=38, 
 		ID=39;
 	public static final int
 		RULE_constant = 0, RULE_composite_id = 1, RULE_unary_operator_sign = 2, 
-		RULE_binary_operator_sign = 3, RULE_comparison_operator_sign = 4, RULE_arithmetic_atomic_value = 5, 
-		RULE_arithmetic_atom = 6, RULE_arithmetic_expression3 = 7, RULE_arithmetic_expression2 = 8, 
-		RULE_arithmetic_expression1 = 9, RULE_comparison_expression = 10, RULE_and_arithmetic_expression = 11, 
-		RULE_or_arithmetic_expression = 12, RULE_ternary_arithmetic_expression = 13, 
-		RULE_eq_arithmetic_expression = 14, RULE_implies_arithmetic_expression = 15, 
-		RULE_proposition = 16, RULE_atom = 17, RULE_unary_operator = 18, RULE_binary_operator = 19, 
-		RULE_formula = 20;
+		RULE_binary_operator_sign5 = 3, RULE_binary_operator_sign4 = 4, RULE_binary_operator_sign3 = 5, 
+		RULE_binary_operator_sign2 = 6, RULE_binary_operator_sign1 = 7, RULE_comparison_operator_sign = 8, 
+		RULE_arithmetic_atomic_value = 9, RULE_arithmetic_atom = 10, RULE_arithmetic_expression3 = 11, 
+		RULE_arithmetic_expression2 = 12, RULE_arithmetic_expression1 = 13, RULE_comparison_expression = 14, 
+		RULE_and_arithmetic_expression = 15, RULE_or_arithmetic_expression = 16, 
+		RULE_ternary_arithmetic_expression = 17, RULE_eq_arithmetic_expression = 18, 
+		RULE_implies_arithmetic_expression = 19, RULE_proposition = 20, RULE_atom = 21, 
+		RULE_unary_operator = 22, RULE_binary_operator5 = 23, RULE_binary_operator4 = 24, 
+		RULE_binary_operator3 = 25, RULE_binary_operator2 = 26, RULE_binary_operator1 = 27, 
+		RULE_formula = 28;
 	public static final String[] ruleNames = {
-		"constant", "composite_id", "unary_operator_sign", "binary_operator_sign", 
-		"comparison_operator_sign", "arithmetic_atomic_value", "arithmetic_atom", 
-		"arithmetic_expression3", "arithmetic_expression2", "arithmetic_expression1", 
-		"comparison_expression", "and_arithmetic_expression", "or_arithmetic_expression", 
-		"ternary_arithmetic_expression", "eq_arithmetic_expression", "implies_arithmetic_expression", 
-		"proposition", "atom", "unary_operator", "binary_operator", "formula"
+		"constant", "composite_id", "unary_operator_sign", "binary_operator_sign5", 
+		"binary_operator_sign4", "binary_operator_sign3", "binary_operator_sign2", 
+		"binary_operator_sign1", "comparison_operator_sign", "arithmetic_atomic_value", 
+		"arithmetic_atom", "arithmetic_expression3", "arithmetic_expression2", 
+		"arithmetic_expression1", "comparison_expression", "and_arithmetic_expression", 
+		"or_arithmetic_expression", "ternary_arithmetic_expression", "eq_arithmetic_expression", 
+		"implies_arithmetic_expression", "proposition", "atom", "unary_operator", 
+		"binary_operator5", "binary_operator4", "binary_operator3", "binary_operator2", 
+		"binary_operator1", "formula"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'TRUE'", "'FALSE'", "'.'", "'['", "']'", "'!'", "'X'", "'G'", "'F'", 
-		"'Y'", "'Z'", "'O'", "'H'", "'&'", "'|'", "'->'", "'<->'", "'xnor'", "'xor'", 
-		"'U'", "'V'", "'='", "'!='", "'>'", "'>='", "'<'", "'<='", "'('", "')'", 
-		"'-'", "'+'", "'*'", "'/'", "'mod'", "'?'", "':'"
+		null, "'.'", "'['", "']'", "'!'", "'X'", "'G'", "'F'", "'Y'", "'Z'", "'O'", 
+		"'H'", "'U'", "'V'", "'&'", "'|'", "'xnor'", "'xor'", "'<->'", "'->'", 
+		"'='", "'!='", "'>'", "'>='", "'<'", "'<='", "'('", "')'", "'-'", "'+'", 
+		"'*'", "'/'", "'mod'", "'?'", "':'", null, null, "'TRUE'", "'FALSE'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, "WS", "INT_CONST", "ID"
+		null, null, null, null, null, null, null, null, null, null, null, "WS", 
+		"INT_CONST", "TRUE", "FALSE", "ID"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -114,6 +120,8 @@ public class ltlParser extends Parser {
 	}
 	public static class ConstantContext extends ParserRuleContext {
 		public TerminalNode INT_CONST() { return getToken(ltlParser.INT_CONST, 0); }
+		public TerminalNode TRUE() { return getToken(ltlParser.TRUE, 0); }
+		public TerminalNode FALSE() { return getToken(ltlParser.FALSE, 0); }
 		public ConstantContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -135,9 +143,9 @@ public class ltlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(42);
+			setState(58);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << INT_CONST))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INT_CONST) | (1L << TRUE) | (1L << FALSE))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -188,39 +196,39 @@ public class ltlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(44);
+			setState(60);
 			match(ID);
-			setState(49);
+			setState(65);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__2) {
+			while (_la==T__0) {
 				{
 				{
-				setState(45);
-				match(T__2);
-				setState(46);
+				setState(61);
+				match(T__0);
+				setState(62);
 				match(ID);
 				}
 				}
-				setState(51);
+				setState(67);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(57);
+			setState(73);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__3) {
+			while (_la==T__1) {
 				{
 				{
-				setState(52);
-				match(T__3);
-				setState(53);
+				setState(68);
+				match(T__1);
+				setState(69);
 				match(INT_CONST);
-				setState(54);
-				match(T__4);
+				setState(70);
+				match(T__2);
 				}
 				}
-				setState(59);
+				setState(75);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -259,9 +267,9 @@ public class ltlParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(60);
+			setState(76);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__10) | (1L << T__11) | (1L << T__12))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__3) | (1L << T__4) | (1L << T__5) | (1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__10))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -282,31 +290,31 @@ public class ltlParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Binary_operator_signContext extends ParserRuleContext {
-		public Binary_operator_signContext(ParserRuleContext parent, int invokingState) {
+	public static class Binary_operator_sign5Context extends ParserRuleContext {
+		public Binary_operator_sign5Context(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_binary_operator_sign; }
+		@Override public int getRuleIndex() { return RULE_binary_operator_sign5; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ltlListener ) ((ltlListener)listener).enterBinary_operator_sign(this);
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).enterBinary_operator_sign5(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ltlListener ) ((ltlListener)listener).exitBinary_operator_sign(this);
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).exitBinary_operator_sign5(this);
 		}
 	}
 
-	public final Binary_operator_signContext binary_operator_sign() throws RecognitionException {
-		Binary_operator_signContext _localctx = new Binary_operator_signContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_binary_operator_sign);
+	public final Binary_operator_sign5Context binary_operator_sign5() throws RecognitionException {
+		Binary_operator_sign5Context _localctx = new Binary_operator_sign5Context(_ctx, getState());
+		enterRule(_localctx, 6, RULE_binary_operator_sign5);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(62);
+			setState(78);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__13) | (1L << T__14) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20))) != 0)) ) {
+			if ( !(_la==T__11 || _la==T__12) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -314,6 +322,159 @@ public class ltlParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Binary_operator_sign4Context extends ParserRuleContext {
+		public Binary_operator_sign4Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_binary_operator_sign4; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).enterBinary_operator_sign4(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).exitBinary_operator_sign4(this);
+		}
+	}
+
+	public final Binary_operator_sign4Context binary_operator_sign4() throws RecognitionException {
+		Binary_operator_sign4Context _localctx = new Binary_operator_sign4Context(_ctx, getState());
+		enterRule(_localctx, 8, RULE_binary_operator_sign4);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(80);
+			match(T__13);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Binary_operator_sign3Context extends ParserRuleContext {
+		public Binary_operator_sign3Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_binary_operator_sign3; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).enterBinary_operator_sign3(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).exitBinary_operator_sign3(this);
+		}
+	}
+
+	public final Binary_operator_sign3Context binary_operator_sign3() throws RecognitionException {
+		Binary_operator_sign3Context _localctx = new Binary_operator_sign3Context(_ctx, getState());
+		enterRule(_localctx, 10, RULE_binary_operator_sign3);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(82);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__14) | (1L << T__15) | (1L << T__16))) != 0)) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Binary_operator_sign2Context extends ParserRuleContext {
+		public Binary_operator_sign2Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_binary_operator_sign2; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).enterBinary_operator_sign2(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).exitBinary_operator_sign2(this);
+		}
+	}
+
+	public final Binary_operator_sign2Context binary_operator_sign2() throws RecognitionException {
+		Binary_operator_sign2Context _localctx = new Binary_operator_sign2Context(_ctx, getState());
+		enterRule(_localctx, 12, RULE_binary_operator_sign2);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(84);
+			match(T__17);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Binary_operator_sign1Context extends ParserRuleContext {
+		public Binary_operator_sign1Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_binary_operator_sign1; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).enterBinary_operator_sign1(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).exitBinary_operator_sign1(this);
+		}
+	}
+
+	public final Binary_operator_sign1Context binary_operator_sign1() throws RecognitionException {
+		Binary_operator_sign1Context _localctx = new Binary_operator_sign1Context(_ctx, getState());
+		enterRule(_localctx, 14, RULE_binary_operator_sign1);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(86);
+			match(T__18);
 			}
 		}
 		catch (RecognitionException re) {
@@ -344,14 +505,14 @@ public class ltlParser extends Parser {
 
 	public final Comparison_operator_signContext comparison_operator_sign() throws RecognitionException {
 		Comparison_operator_signContext _localctx = new Comparison_operator_signContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_comparison_operator_sign);
+		enterRule(_localctx, 16, RULE_comparison_operator_sign);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(64);
+			setState(88);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__21) | (1L << T__22) | (1L << T__23) | (1L << T__24) | (1L << T__25) | (1L << T__26))) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__19) | (1L << T__20) | (1L << T__21) | (1L << T__22) | (1L << T__23) | (1L << T__24))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -398,17 +559,17 @@ public class ltlParser extends Parser {
 
 	public final Arithmetic_atomic_valueContext arithmetic_atomic_value() throws RecognitionException {
 		Arithmetic_atomic_valueContext _localctx = new Arithmetic_atomic_valueContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_arithmetic_atomic_value);
+		enterRule(_localctx, 18, RULE_arithmetic_atomic_value);
 		try {
-			setState(72);
+			setState(96);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__0:
-			case T__1:
 			case INT_CONST:
+			case TRUE:
+			case FALSE:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(66);
+				setState(90);
 				((Arithmetic_atomic_valueContext)_localctx).constant = constant();
 				 ((Arithmetic_atomic_valueContext)_localctx).f =  new Constant((((Arithmetic_atomic_valueContext)_localctx).constant!=null?_input.getText(((Arithmetic_atomic_valueContext)_localctx).constant.start,((Arithmetic_atomic_valueContext)_localctx).constant.stop):null)); 
 				}
@@ -416,7 +577,7 @@ public class ltlParser extends Parser {
 			case ID:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(69);
+				setState(93);
 				((Arithmetic_atomic_valueContext)_localctx).composite_id = composite_id();
 				 ((Arithmetic_atomic_valueContext)_localctx).f =  new Variable((((Arithmetic_atomic_valueContext)_localctx).composite_id!=null?_input.getText(((Arithmetic_atomic_valueContext)_localctx).composite_id.start,((Arithmetic_atomic_valueContext)_localctx).composite_id.stop):null)); 
 				}
@@ -462,31 +623,31 @@ public class ltlParser extends Parser {
 
 	public final Arithmetic_atomContext arithmetic_atom() throws RecognitionException {
 		Arithmetic_atomContext _localctx = new Arithmetic_atomContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_arithmetic_atom);
+		enterRule(_localctx, 20, RULE_arithmetic_atom);
 		try {
-			setState(82);
+			setState(106);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__0:
-			case T__1:
 			case INT_CONST:
+			case TRUE:
+			case FALSE:
 			case ID:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(74);
+				setState(98);
 				((Arithmetic_atomContext)_localctx).arithmetic_atomic_value = arithmetic_atomic_value();
 				 ((Arithmetic_atomContext)_localctx).f =  ((Arithmetic_atomContext)_localctx).arithmetic_atomic_value.f; 
 				}
 				break;
-			case T__27:
+			case T__25:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(77);
-				match(T__27);
-				setState(78);
+				setState(101);
+				match(T__25);
+				setState(102);
 				((Arithmetic_atomContext)_localctx).implies_arithmetic_expression = implies_arithmetic_expression();
-				setState(79);
-				match(T__28);
+				setState(103);
+				match(T__26);
 				 ((Arithmetic_atomContext)_localctx).f =  ((Arithmetic_atomContext)_localctx).implies_arithmetic_expression.f; 
 				}
 				break;
@@ -531,57 +692,57 @@ public class ltlParser extends Parser {
 
 	public final Arithmetic_expression3Context arithmetic_expression3() throws RecognitionException {
 		Arithmetic_expression3Context _localctx = new Arithmetic_expression3Context(_ctx, getState());
-		enterRule(_localctx, 14, RULE_arithmetic_expression3);
+		enterRule(_localctx, 22, RULE_arithmetic_expression3);
 		try {
-			setState(99);
+			setState(123);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__0:
-			case T__1:
-			case T__27:
+			case T__25:
 			case INT_CONST:
+			case TRUE:
+			case FALSE:
 			case ID:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(84);
+				setState(108);
 				((Arithmetic_expression3Context)_localctx).arithmetic_atom = arithmetic_atom();
 				 ((Arithmetic_expression3Context)_localctx).f =  ((Arithmetic_expression3Context)_localctx).arithmetic_atom.f; 
 				}
 				break;
-			case T__5:
-			case T__29:
-			case T__30:
+			case T__3:
+			case T__27:
+			case T__28:
 				enterOuterAlt(_localctx, 2);
 				{
 				 String op; 
-				setState(94);
+				setState(118);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
-				case T__29:
+				case T__27:
 					{
-					setState(88);
-					match(T__29);
+					setState(112);
+					match(T__27);
 					 op = "-"; 
 					}
 					break;
-				case T__30:
+				case T__28:
 					{
-					setState(90);
-					match(T__30);
+					setState(114);
+					match(T__28);
 					 op = "+"; 
 					}
 					break;
-				case T__5:
+				case T__3:
 					{
-					setState(92);
-					match(T__5);
+					setState(116);
+					match(T__3);
 					 op = "!"; 
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(96);
+				setState(120);
 				((Arithmetic_expression3Context)_localctx).arithmetic_expression3 = arithmetic_expression3();
 				 ((Arithmetic_expression3Context)_localctx).f =  new UnaryArithmeticOperator(op, ((Arithmetic_expression3Context)_localctx).arithmetic_expression3.f); 
 				}
@@ -627,53 +788,53 @@ public class ltlParser extends Parser {
 
 	public final Arithmetic_expression2Context arithmetic_expression2() throws RecognitionException {
 		Arithmetic_expression2Context _localctx = new Arithmetic_expression2Context(_ctx, getState());
-		enterRule(_localctx, 16, RULE_arithmetic_expression2);
+		enterRule(_localctx, 24, RULE_arithmetic_expression2);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(101);
+			setState(125);
 			((Arithmetic_expression2Context)_localctx).f1 = arithmetic_expression3();
 			 ((Arithmetic_expression2Context)_localctx).f =  ((Arithmetic_expression2Context)_localctx).f1.f; String op; 
-			setState(116);
+			setState(140);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__31) | (1L << T__32) | (1L << T__33))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__29) | (1L << T__30) | (1L << T__31))) != 0)) {
 				{
 				{
-				setState(109);
+				setState(133);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
-				case T__31:
+				case T__29:
 					{
-					setState(103);
-					match(T__31);
+					setState(127);
+					match(T__29);
 					 op = "*"; 
 					}
 					break;
-				case T__32:
+				case T__30:
 					{
-					setState(105);
-					match(T__32);
+					setState(129);
+					match(T__30);
 					 op = "/"; 
 					}
 					break;
-				case T__33:
+				case T__31:
 					{
-					setState(107);
-					match(T__33);
+					setState(131);
+					match(T__31);
 					 op = "mod"; 
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(111);
+				setState(135);
 				((Arithmetic_expression2Context)_localctx).f2 = arithmetic_expression3();
 				 ((Arithmetic_expression2Context)_localctx).f =  new BinaryArithmeticOperator(op, _localctx.f, ((Arithmetic_expression2Context)_localctx).f2.f); 
 				}
 				}
-				setState(118);
+				setState(142);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -716,46 +877,46 @@ public class ltlParser extends Parser {
 
 	public final Arithmetic_expression1Context arithmetic_expression1() throws RecognitionException {
 		Arithmetic_expression1Context _localctx = new Arithmetic_expression1Context(_ctx, getState());
-		enterRule(_localctx, 18, RULE_arithmetic_expression1);
+		enterRule(_localctx, 26, RULE_arithmetic_expression1);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(119);
+			setState(143);
 			((Arithmetic_expression1Context)_localctx).f1 = arithmetic_expression2();
 			 ((Arithmetic_expression1Context)_localctx).f =  ((Arithmetic_expression1Context)_localctx).f1.f; String op; 
-			setState(132);
+			setState(156);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__29 || _la==T__30) {
+			while (_la==T__27 || _la==T__28) {
 				{
 				{
-				setState(125);
+				setState(149);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
-				case T__30:
+				case T__28:
 					{
-					setState(121);
-					match(T__30);
+					setState(145);
+					match(T__28);
 					 op = "+"; 
 					}
 					break;
-				case T__29:
+				case T__27:
 					{
-					setState(123);
-					match(T__29);
+					setState(147);
+					match(T__27);
 					 op = "-"; 
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(127);
+				setState(151);
 				((Arithmetic_expression1Context)_localctx).f2 = arithmetic_expression2();
 				 ((Arithmetic_expression1Context)_localctx).f =  new BinaryArithmeticOperator(op, _localctx.f, ((Arithmetic_expression1Context)_localctx).f2.f); 
 				}
 				}
-				setState(134);
+				setState(158);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -802,22 +963,22 @@ public class ltlParser extends Parser {
 
 	public final Comparison_expressionContext comparison_expression() throws RecognitionException {
 		Comparison_expressionContext _localctx = new Comparison_expressionContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_comparison_expression);
+		enterRule(_localctx, 28, RULE_comparison_expression);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(135);
+			setState(159);
 			((Comparison_expressionContext)_localctx).f1 = arithmetic_expression1();
 			 ((Comparison_expressionContext)_localctx).f =  ((Comparison_expressionContext)_localctx).f1.f; 
-			setState(141);
+			setState(165);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__21) | (1L << T__22) | (1L << T__23) | (1L << T__24) | (1L << T__25) | (1L << T__26))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__19) | (1L << T__20) | (1L << T__21) | (1L << T__22) | (1L << T__23) | (1L << T__24))) != 0)) {
 				{
-				setState(137);
+				setState(161);
 				((Comparison_expressionContext)_localctx).comparison_operator_sign = comparison_operator_sign();
-				setState(138);
+				setState(162);
 				((Comparison_expressionContext)_localctx).f2 = arithmetic_expression1();
 				 ((Comparison_expressionContext)_localctx).f =  new ComparisonOperator((((Comparison_expressionContext)_localctx).comparison_operator_sign!=null?_input.getText(((Comparison_expressionContext)_localctx).comparison_operator_sign.start,((Comparison_expressionContext)_localctx).comparison_operator_sign.stop):null), _localctx.f, ((Comparison_expressionContext)_localctx).f2.f); 
 				}
@@ -862,21 +1023,21 @@ public class ltlParser extends Parser {
 
 	public final And_arithmetic_expressionContext and_arithmetic_expression() throws RecognitionException {
 		And_arithmetic_expressionContext _localctx = new And_arithmetic_expressionContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_and_arithmetic_expression);
+		enterRule(_localctx, 30, RULE_and_arithmetic_expression);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(143);
+			setState(167);
 			((And_arithmetic_expressionContext)_localctx).f1 = comparison_expression();
 			 ((And_arithmetic_expressionContext)_localctx).f =  ((And_arithmetic_expressionContext)_localctx).f1.f; 
-			setState(149);
+			setState(173);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 			case 1:
 				{
-				setState(145);
+				setState(169);
 				match(T__13);
-				setState(146);
+				setState(170);
 				((And_arithmetic_expressionContext)_localctx).f2 = comparison_expression();
 				 ((And_arithmetic_expressionContext)_localctx).f =  new BinaryArithmeticOperator("&", _localctx.f, ((And_arithmetic_expressionContext)_localctx).f2.f); 
 				}
@@ -921,46 +1082,46 @@ public class ltlParser extends Parser {
 
 	public final Or_arithmetic_expressionContext or_arithmetic_expression() throws RecognitionException {
 		Or_arithmetic_expressionContext _localctx = new Or_arithmetic_expressionContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_or_arithmetic_expression);
+		enterRule(_localctx, 32, RULE_or_arithmetic_expression);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(151);
+			setState(175);
 			((Or_arithmetic_expressionContext)_localctx).f1 = and_arithmetic_expression();
 			 ((Or_arithmetic_expressionContext)_localctx).f =  ((Or_arithmetic_expressionContext)_localctx).f1.f; String op; 
-			setState(164);
+			setState(188);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
 			case 1:
 				{
-				setState(159);
+				setState(183);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case T__14:
 					{
-					setState(153);
+					setState(177);
 					match(T__14);
 					 op = "|"; 
 					}
 					break;
-				case T__18:
+				case T__16:
 					{
-					setState(155);
-					match(T__18);
+					setState(179);
+					match(T__16);
 					 op = "xor"; 
 					}
 					break;
-				case T__17:
+				case T__15:
 					{
-					setState(157);
-					match(T__17);
+					setState(181);
+					match(T__15);
 					 op = "xnor"; 
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(161);
+				setState(185);
 				((Or_arithmetic_expressionContext)_localctx).f2 = and_arithmetic_expression();
 				 ((Or_arithmetic_expressionContext)_localctx).f =  new BinaryArithmeticOperator(op, _localctx.f, ((Or_arithmetic_expressionContext)_localctx).f2.f); 
 				}
@@ -1006,26 +1167,26 @@ public class ltlParser extends Parser {
 
 	public final Ternary_arithmetic_expressionContext ternary_arithmetic_expression() throws RecognitionException {
 		Ternary_arithmetic_expressionContext _localctx = new Ternary_arithmetic_expressionContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_ternary_arithmetic_expression);
+		enterRule(_localctx, 34, RULE_ternary_arithmetic_expression);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(166);
+			setState(190);
 			((Ternary_arithmetic_expressionContext)_localctx).f1 = or_arithmetic_expression();
 			 ((Ternary_arithmetic_expressionContext)_localctx).f =  ((Ternary_arithmetic_expressionContext)_localctx).f1.f; 
-			setState(174);
+			setState(198);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__34) {
+			if (_la==T__32) {
 				{
-				setState(168);
-				match(T__34);
-				setState(169);
+				setState(192);
+				match(T__32);
+				setState(193);
 				((Ternary_arithmetic_expressionContext)_localctx).f2 = or_arithmetic_expression();
-				setState(170);
-				match(T__35);
-				setState(171);
+				setState(194);
+				match(T__33);
+				setState(195);
 				((Ternary_arithmetic_expressionContext)_localctx).f3 = or_arithmetic_expression();
 				 ((Ternary_arithmetic_expressionContext)_localctx).f =  new TernaryArithmeticOperator(((Ternary_arithmetic_expressionContext)_localctx).f1.f, ((Ternary_arithmetic_expressionContext)_localctx).f2.f, ((Ternary_arithmetic_expressionContext)_localctx).f3.f); 
 				}
@@ -1070,22 +1231,22 @@ public class ltlParser extends Parser {
 
 	public final Eq_arithmetic_expressionContext eq_arithmetic_expression() throws RecognitionException {
 		Eq_arithmetic_expressionContext _localctx = new Eq_arithmetic_expressionContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_eq_arithmetic_expression);
+		enterRule(_localctx, 36, RULE_eq_arithmetic_expression);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(176);
+			setState(200);
 			((Eq_arithmetic_expressionContext)_localctx).f1 = ternary_arithmetic_expression();
 			 ((Eq_arithmetic_expressionContext)_localctx).f =  ((Eq_arithmetic_expressionContext)_localctx).f1.f; 
-			setState(182);
+			setState(206);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__16) {
+			if (_la==T__17) {
 				{
-				setState(178);
-				match(T__16);
-				setState(179);
+				setState(202);
+				match(T__17);
+				setState(203);
 				((Eq_arithmetic_expressionContext)_localctx).f2 = ternary_arithmetic_expression();
 				 ((Eq_arithmetic_expressionContext)_localctx).f =  new BinaryArithmeticOperator("<->", _localctx.f, ((Eq_arithmetic_expressionContext)_localctx).f2.f); 
 				}
@@ -1130,22 +1291,22 @@ public class ltlParser extends Parser {
 
 	public final Implies_arithmetic_expressionContext implies_arithmetic_expression() throws RecognitionException {
 		Implies_arithmetic_expressionContext _localctx = new Implies_arithmetic_expressionContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_implies_arithmetic_expression);
+		enterRule(_localctx, 38, RULE_implies_arithmetic_expression);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(184);
+			setState(208);
 			((Implies_arithmetic_expressionContext)_localctx).f1 = eq_arithmetic_expression();
 			 ((Implies_arithmetic_expressionContext)_localctx).f =  ((Implies_arithmetic_expressionContext)_localctx).f1.f; 
-			setState(190);
+			setState(214);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__15) {
+			if (_la==T__18) {
 				{
-				setState(186);
-				match(T__15);
-				setState(187);
+				setState(210);
+				match(T__18);
+				setState(211);
 				((Implies_arithmetic_expressionContext)_localctx).f2 = implies_arithmetic_expression();
 				 ((Implies_arithmetic_expressionContext)_localctx).f =  new BinaryArithmeticOperator("->", _localctx.f, ((Implies_arithmetic_expressionContext)_localctx).f2.f); 
 				}
@@ -1207,19 +1368,19 @@ public class ltlParser extends Parser {
 
 	public final PropositionContext proposition() throws RecognitionException {
 		PropositionContext _localctx = new PropositionContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_proposition);
+		enterRule(_localctx, 40, RULE_proposition);
 		try {
-			setState(207);
+			setState(231);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(192);
+				setState(216);
 				((PropositionContext)_localctx).f1 = arithmetic_expression1();
-				setState(193);
+				setState(217);
 				((PropositionContext)_localctx).comparison_operator_sign = comparison_operator_sign();
-				setState(194);
+				setState(218);
 				((PropositionContext)_localctx).f2 = arithmetic_expression1();
 				 ((PropositionContext)_localctx).f =  new ComparisonOperator((((PropositionContext)_localctx).comparison_operator_sign!=null?_input.getText(((PropositionContext)_localctx).comparison_operator_sign.start,((PropositionContext)_localctx).comparison_operator_sign.stop):null), ((PropositionContext)_localctx).f1.f, ((PropositionContext)_localctx).f2.f); 
 				}
@@ -1227,15 +1388,15 @@ public class ltlParser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(197);
+				setState(221);
 				((PropositionContext)_localctx).o1 = or_arithmetic_expression();
-				setState(198);
-				match(T__34);
-				setState(199);
+				setState(222);
+				match(T__32);
+				setState(223);
 				((PropositionContext)_localctx).o2 = or_arithmetic_expression();
-				setState(200);
-				match(T__35);
-				setState(201);
+				setState(224);
+				match(T__33);
+				setState(225);
 				((PropositionContext)_localctx).o3 = or_arithmetic_expression();
 				 ((PropositionContext)_localctx).f =  new TernaryArithmeticOperator(((PropositionContext)_localctx).o1.f, ((PropositionContext)_localctx).o2.f, ((PropositionContext)_localctx).o3.f); 
 				}
@@ -1243,7 +1404,7 @@ public class ltlParser extends Parser {
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(204);
+				setState(228);
 				((PropositionContext)_localctx).arithmetic_atomic_value = arithmetic_atomic_value();
 				 ((PropositionContext)_localctx).f =  ((PropositionContext)_localctx).arithmetic_atomic_value.f; 
 				}
@@ -1287,27 +1448,27 @@ public class ltlParser extends Parser {
 
 	public final AtomContext atom() throws RecognitionException {
 		AtomContext _localctx = new AtomContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_atom);
+		enterRule(_localctx, 42, RULE_atom);
 		try {
-			setState(217);
+			setState(241);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,18,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(209);
-				match(T__27);
-				setState(210);
+				setState(233);
+				match(T__25);
+				setState(234);
 				((AtomContext)_localctx).formula = formula();
-				setState(211);
-				match(T__28);
+				setState(235);
+				match(T__26);
 				 ((AtomContext)_localctx).f =  ((AtomContext)_localctx).formula.f; 
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(214);
+				setState(238);
 				((AtomContext)_localctx).proposition = proposition();
 				 ((AtomContext)_localctx).f =  new Proposition(((AtomContext)_localctx).proposition.f); 
 				}
@@ -1355,15 +1516,15 @@ public class ltlParser extends Parser {
 
 	public final Unary_operatorContext unary_operator() throws RecognitionException {
 		Unary_operatorContext _localctx = new Unary_operatorContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_unary_operator);
+		enterRule(_localctx, 44, RULE_unary_operator);
 		try {
-			setState(226);
+			setState(250);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,19,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(219);
+				setState(243);
 				((Unary_operatorContext)_localctx).atom = atom();
 				 ((Unary_operatorContext)_localctx).f =  ((Unary_operatorContext)_localctx).atom.f; 
 				}
@@ -1371,9 +1532,9 @@ public class ltlParser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(222);
+				setState(246);
 				((Unary_operatorContext)_localctx).unary_operator_sign = unary_operator_sign();
-				setState(223);
+				setState(247);
 				((Unary_operatorContext)_localctx).unary_operator = unary_operator();
 				 ((Unary_operatorContext)_localctx).f =  new UnaryOperator((((Unary_operatorContext)_localctx).unary_operator_sign!=null?_input.getText(((Unary_operatorContext)_localctx).unary_operator_sign.start,((Unary_operatorContext)_localctx).unary_operator_sign.stop):null), ((Unary_operatorContext)_localctx).unary_operator.f); 
 				}
@@ -1391,10 +1552,10 @@ public class ltlParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Binary_operatorContext extends ParserRuleContext {
+	public static class Binary_operator5Context extends ParserRuleContext {
 		public LTLFormula f;
 		public Unary_operatorContext f1;
-		public Binary_operator_signContext binary_operator_sign;
+		public Binary_operator_sign5Context binary_operator_sign5;
 		public Unary_operatorContext f2;
 		public List<Unary_operatorContext> unary_operator() {
 			return getRuleContexts(Unary_operatorContext.class);
@@ -1402,43 +1563,327 @@ public class ltlParser extends Parser {
 		public Unary_operatorContext unary_operator(int i) {
 			return getRuleContext(Unary_operatorContext.class,i);
 		}
-		public Binary_operator_signContext binary_operator_sign() {
-			return getRuleContext(Binary_operator_signContext.class,0);
+		public List<Binary_operator_sign5Context> binary_operator_sign5() {
+			return getRuleContexts(Binary_operator_sign5Context.class);
 		}
-		public Binary_operatorContext(ParserRuleContext parent, int invokingState) {
+		public Binary_operator_sign5Context binary_operator_sign5(int i) {
+			return getRuleContext(Binary_operator_sign5Context.class,i);
+		}
+		public Binary_operator5Context(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_binary_operator; }
+		@Override public int getRuleIndex() { return RULE_binary_operator5; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ltlListener ) ((ltlListener)listener).enterBinary_operator(this);
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).enterBinary_operator5(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ltlListener ) ((ltlListener)listener).exitBinary_operator(this);
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).exitBinary_operator5(this);
 		}
 	}
 
-	public final Binary_operatorContext binary_operator() throws RecognitionException {
-		Binary_operatorContext _localctx = new Binary_operatorContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_binary_operator);
+	public final Binary_operator5Context binary_operator5() throws RecognitionException {
+		Binary_operator5Context _localctx = new Binary_operator5Context(_ctx, getState());
+		enterRule(_localctx, 46, RULE_binary_operator5);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(228);
-			((Binary_operatorContext)_localctx).f1 = unary_operator();
-			 ((Binary_operatorContext)_localctx).f =  ((Binary_operatorContext)_localctx).f1.f; 
-			setState(234);
+			setState(252);
+			((Binary_operator5Context)_localctx).f1 = unary_operator();
+			 ((Binary_operator5Context)_localctx).f =  ((Binary_operator5Context)_localctx).f1.f; 
+			setState(260);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__13) | (1L << T__14) | (1L << T__15) | (1L << T__16) | (1L << T__17) | (1L << T__18) | (1L << T__19) | (1L << T__20))) != 0)) {
+			while (_la==T__11 || _la==T__12) {
 				{
-				setState(230);
-				((Binary_operatorContext)_localctx).binary_operator_sign = binary_operator_sign();
-				setState(231);
-				((Binary_operatorContext)_localctx).f2 = unary_operator();
-				 ((Binary_operatorContext)_localctx).f =  new BinaryOperator((((Binary_operatorContext)_localctx).binary_operator_sign!=null?_input.getText(((Binary_operatorContext)_localctx).binary_operator_sign.start,((Binary_operatorContext)_localctx).binary_operator_sign.stop):null), _localctx.f, ((Binary_operatorContext)_localctx).f2.f); 
+				{
+				setState(254);
+				((Binary_operator5Context)_localctx).binary_operator_sign5 = binary_operator_sign5();
+				setState(255);
+				((Binary_operator5Context)_localctx).f2 = unary_operator();
+				 ((Binary_operator5Context)_localctx).f =  new BinaryOperator((((Binary_operator5Context)_localctx).binary_operator_sign5!=null?_input.getText(((Binary_operator5Context)_localctx).binary_operator_sign5.start,((Binary_operator5Context)_localctx).binary_operator_sign5.stop):null), _localctx.f, ((Binary_operator5Context)_localctx).f2.f); 
+				}
+				}
+				setState(262);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Binary_operator4Context extends ParserRuleContext {
+		public LTLFormula f;
+		public Binary_operator5Context f1;
+		public Binary_operator_sign4Context binary_operator_sign4;
+		public Binary_operator5Context f2;
+		public List<Binary_operator5Context> binary_operator5() {
+			return getRuleContexts(Binary_operator5Context.class);
+		}
+		public Binary_operator5Context binary_operator5(int i) {
+			return getRuleContext(Binary_operator5Context.class,i);
+		}
+		public List<Binary_operator_sign4Context> binary_operator_sign4() {
+			return getRuleContexts(Binary_operator_sign4Context.class);
+		}
+		public Binary_operator_sign4Context binary_operator_sign4(int i) {
+			return getRuleContext(Binary_operator_sign4Context.class,i);
+		}
+		public Binary_operator4Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_binary_operator4; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).enterBinary_operator4(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).exitBinary_operator4(this);
+		}
+	}
+
+	public final Binary_operator4Context binary_operator4() throws RecognitionException {
+		Binary_operator4Context _localctx = new Binary_operator4Context(_ctx, getState());
+		enterRule(_localctx, 48, RULE_binary_operator4);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(263);
+			((Binary_operator4Context)_localctx).f1 = binary_operator5();
+			 ((Binary_operator4Context)_localctx).f =  ((Binary_operator4Context)_localctx).f1.f; 
+			setState(271);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==T__13) {
+				{
+				{
+				setState(265);
+				((Binary_operator4Context)_localctx).binary_operator_sign4 = binary_operator_sign4();
+				setState(266);
+				((Binary_operator4Context)_localctx).f2 = binary_operator5();
+				 ((Binary_operator4Context)_localctx).f =  new BinaryOperator((((Binary_operator4Context)_localctx).binary_operator_sign4!=null?_input.getText(((Binary_operator4Context)_localctx).binary_operator_sign4.start,((Binary_operator4Context)_localctx).binary_operator_sign4.stop):null), _localctx.f, ((Binary_operator4Context)_localctx).f2.f); 
+				}
+				}
+				setState(273);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Binary_operator3Context extends ParserRuleContext {
+		public LTLFormula f;
+		public Binary_operator4Context f1;
+		public Binary_operator_sign3Context binary_operator_sign3;
+		public Binary_operator4Context f2;
+		public List<Binary_operator4Context> binary_operator4() {
+			return getRuleContexts(Binary_operator4Context.class);
+		}
+		public Binary_operator4Context binary_operator4(int i) {
+			return getRuleContext(Binary_operator4Context.class,i);
+		}
+		public List<Binary_operator_sign3Context> binary_operator_sign3() {
+			return getRuleContexts(Binary_operator_sign3Context.class);
+		}
+		public Binary_operator_sign3Context binary_operator_sign3(int i) {
+			return getRuleContext(Binary_operator_sign3Context.class,i);
+		}
+		public Binary_operator3Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_binary_operator3; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).enterBinary_operator3(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).exitBinary_operator3(this);
+		}
+	}
+
+	public final Binary_operator3Context binary_operator3() throws RecognitionException {
+		Binary_operator3Context _localctx = new Binary_operator3Context(_ctx, getState());
+		enterRule(_localctx, 50, RULE_binary_operator3);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(274);
+			((Binary_operator3Context)_localctx).f1 = binary_operator4();
+			 ((Binary_operator3Context)_localctx).f =  ((Binary_operator3Context)_localctx).f1.f; 
+			setState(282);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__14) | (1L << T__15) | (1L << T__16))) != 0)) {
+				{
+				{
+				setState(276);
+				((Binary_operator3Context)_localctx).binary_operator_sign3 = binary_operator_sign3();
+				setState(277);
+				((Binary_operator3Context)_localctx).f2 = binary_operator4();
+				 ((Binary_operator3Context)_localctx).f =  new BinaryOperator((((Binary_operator3Context)_localctx).binary_operator_sign3!=null?_input.getText(((Binary_operator3Context)_localctx).binary_operator_sign3.start,((Binary_operator3Context)_localctx).binary_operator_sign3.stop):null), _localctx.f, ((Binary_operator3Context)_localctx).f2.f); 
+				}
+				}
+				setState(284);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Binary_operator2Context extends ParserRuleContext {
+		public LTLFormula f;
+		public Binary_operator3Context f1;
+		public Binary_operator_sign2Context binary_operator_sign2;
+		public Binary_operator3Context f2;
+		public List<Binary_operator3Context> binary_operator3() {
+			return getRuleContexts(Binary_operator3Context.class);
+		}
+		public Binary_operator3Context binary_operator3(int i) {
+			return getRuleContext(Binary_operator3Context.class,i);
+		}
+		public List<Binary_operator_sign2Context> binary_operator_sign2() {
+			return getRuleContexts(Binary_operator_sign2Context.class);
+		}
+		public Binary_operator_sign2Context binary_operator_sign2(int i) {
+			return getRuleContext(Binary_operator_sign2Context.class,i);
+		}
+		public Binary_operator2Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_binary_operator2; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).enterBinary_operator2(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).exitBinary_operator2(this);
+		}
+	}
+
+	public final Binary_operator2Context binary_operator2() throws RecognitionException {
+		Binary_operator2Context _localctx = new Binary_operator2Context(_ctx, getState());
+		enterRule(_localctx, 52, RULE_binary_operator2);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(285);
+			((Binary_operator2Context)_localctx).f1 = binary_operator3();
+			 ((Binary_operator2Context)_localctx).f =  ((Binary_operator2Context)_localctx).f1.f; 
+			setState(293);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==T__17) {
+				{
+				{
+				setState(287);
+				((Binary_operator2Context)_localctx).binary_operator_sign2 = binary_operator_sign2();
+				setState(288);
+				((Binary_operator2Context)_localctx).f2 = binary_operator3();
+				 ((Binary_operator2Context)_localctx).f =  new BinaryOperator((((Binary_operator2Context)_localctx).binary_operator_sign2!=null?_input.getText(((Binary_operator2Context)_localctx).binary_operator_sign2.start,((Binary_operator2Context)_localctx).binary_operator_sign2.stop):null), _localctx.f, ((Binary_operator2Context)_localctx).f2.f); 
+				}
+				}
+				setState(295);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Binary_operator1Context extends ParserRuleContext {
+		public LTLFormula f;
+		public Binary_operator2Context f1;
+		public Binary_operator_sign1Context binary_operator_sign1;
+		public Binary_operator1Context f2;
+		public Binary_operator2Context binary_operator2() {
+			return getRuleContext(Binary_operator2Context.class,0);
+		}
+		public Binary_operator_sign1Context binary_operator_sign1() {
+			return getRuleContext(Binary_operator_sign1Context.class,0);
+		}
+		public Binary_operator1Context binary_operator1() {
+			return getRuleContext(Binary_operator1Context.class,0);
+		}
+		public Binary_operator1Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_binary_operator1; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).enterBinary_operator1(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ltlListener ) ((ltlListener)listener).exitBinary_operator1(this);
+		}
+	}
+
+	public final Binary_operator1Context binary_operator1() throws RecognitionException {
+		Binary_operator1Context _localctx = new Binary_operator1Context(_ctx, getState());
+		enterRule(_localctx, 54, RULE_binary_operator1);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(296);
+			((Binary_operator1Context)_localctx).f1 = binary_operator2();
+			 ((Binary_operator1Context)_localctx).f =  ((Binary_operator1Context)_localctx).f1.f; 
+			setState(302);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==T__18) {
+				{
+				setState(298);
+				((Binary_operator1Context)_localctx).binary_operator_sign1 = binary_operator_sign1();
+				setState(299);
+				((Binary_operator1Context)_localctx).f2 = binary_operator1();
+				 ((Binary_operator1Context)_localctx).f =  new BinaryOperator((((Binary_operator1Context)_localctx).binary_operator_sign1!=null?_input.getText(((Binary_operator1Context)_localctx).binary_operator_sign1.start,((Binary_operator1Context)_localctx).binary_operator_sign1.stop):null), _localctx.f, ((Binary_operator1Context)_localctx).f2.f); 
 				}
 			}
 
@@ -1457,9 +1902,9 @@ public class ltlParser extends Parser {
 
 	public static class FormulaContext extends ParserRuleContext {
 		public LTLFormula f;
-		public Binary_operatorContext binary_operator;
-		public Binary_operatorContext binary_operator() {
-			return getRuleContext(Binary_operatorContext.class,0);
+		public Binary_operator1Context binary_operator1;
+		public Binary_operator1Context binary_operator1() {
+			return getRuleContext(Binary_operator1Context.class,0);
 		}
 		public FormulaContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1477,13 +1922,13 @@ public class ltlParser extends Parser {
 
 	public final FormulaContext formula() throws RecognitionException {
 		FormulaContext _localctx = new FormulaContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_formula);
+		enterRule(_localctx, 56, RULE_formula);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(236);
-			((FormulaContext)_localctx).binary_operator = binary_operator();
-			 ((FormulaContext)_localctx).f =  ((FormulaContext)_localctx).binary_operator.f; 
+			setState(304);
+			((FormulaContext)_localctx).binary_operator1 = binary_operator1();
+			 ((FormulaContext)_localctx).f =  ((FormulaContext)_localctx).binary_operator1.f; 
 			}
 		}
 		catch (RecognitionException re) {
@@ -1498,82 +1943,109 @@ public class ltlParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3)\u00f2\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3)\u0136\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
-		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\3\2\3\2\3\3\3\3\3\3\7\3\62\n"+
-		"\3\f\3\16\3\65\13\3\3\3\3\3\3\3\7\3:\n\3\f\3\16\3=\13\3\3\4\3\4\3\5\3"+
-		"\5\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\5\7K\n\7\3\b\3\b\3\b\3\b\3\b\3\b\3"+
-		"\b\3\b\5\bU\n\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\ta\n\t\3\t\3"+
-		"\t\3\t\5\tf\n\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\np\n\n\3\n\3\n\3\n\7"+
-		"\nu\n\n\f\n\16\nx\13\n\3\13\3\13\3\13\3\13\3\13\3\13\5\13\u0080\n\13\3"+
-		"\13\3\13\3\13\7\13\u0085\n\13\f\13\16\13\u0088\13\13\3\f\3\f\3\f\3\f\3"+
-		"\f\3\f\5\f\u0090\n\f\3\r\3\r\3\r\3\r\3\r\3\r\5\r\u0098\n\r\3\16\3\16\3"+
-		"\16\3\16\3\16\3\16\3\16\3\16\5\16\u00a2\n\16\3\16\3\16\3\16\5\16\u00a7"+
-		"\n\16\3\17\3\17\3\17\3\17\3\17\3\17\3\17\3\17\5\17\u00b1\n\17\3\20\3\20"+
-		"\3\20\3\20\3\20\3\20\5\20\u00b9\n\20\3\21\3\21\3\21\3\21\3\21\3\21\5\21"+
-		"\u00c1\n\21\3\22\3\22\3\22\3\22\3\22\3\22\3\22\3\22\3\22\3\22\3\22\3\22"+
-		"\3\22\3\22\3\22\5\22\u00d2\n\22\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23"+
-		"\5\23\u00dc\n\23\3\24\3\24\3\24\3\24\3\24\3\24\3\24\5\24\u00e5\n\24\3"+
-		"\25\3\25\3\25\3\25\3\25\3\25\5\25\u00ed\n\25\3\26\3\26\3\26\3\26\2\2\27"+
-		"\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*\2\6\4\2\3\4((\3\2\b\17"+
-		"\3\2\20\27\3\2\30\35\u00f5\2,\3\2\2\2\4.\3\2\2\2\6>\3\2\2\2\b@\3\2\2\2"+
-		"\nB\3\2\2\2\fJ\3\2\2\2\16T\3\2\2\2\20e\3\2\2\2\22g\3\2\2\2\24y\3\2\2\2"+
-		"\26\u0089\3\2\2\2\30\u0091\3\2\2\2\32\u0099\3\2\2\2\34\u00a8\3\2\2\2\36"+
-		"\u00b2\3\2\2\2 \u00ba\3\2\2\2\"\u00d1\3\2\2\2$\u00db\3\2\2\2&\u00e4\3"+
-		"\2\2\2(\u00e6\3\2\2\2*\u00ee\3\2\2\2,-\t\2\2\2-\3\3\2\2\2.\63\7)\2\2/"+
-		"\60\7\5\2\2\60\62\7)\2\2\61/\3\2\2\2\62\65\3\2\2\2\63\61\3\2\2\2\63\64"+
-		"\3\2\2\2\64;\3\2\2\2\65\63\3\2\2\2\66\67\7\6\2\2\678\7(\2\28:\7\7\2\2"+
-		"9\66\3\2\2\2:=\3\2\2\2;9\3\2\2\2;<\3\2\2\2<\5\3\2\2\2=;\3\2\2\2>?\t\3"+
-		"\2\2?\7\3\2\2\2@A\t\4\2\2A\t\3\2\2\2BC\t\5\2\2C\13\3\2\2\2DE\5\2\2\2E"+
-		"F\b\7\1\2FK\3\2\2\2GH\5\4\3\2HI\b\7\1\2IK\3\2\2\2JD\3\2\2\2JG\3\2\2\2"+
-		"K\r\3\2\2\2LM\5\f\7\2MN\b\b\1\2NU\3\2\2\2OP\7\36\2\2PQ\5 \21\2QR\7\37"+
-		"\2\2RS\b\b\1\2SU\3\2\2\2TL\3\2\2\2TO\3\2\2\2U\17\3\2\2\2VW\5\16\b\2WX"+
-		"\b\t\1\2Xf\3\2\2\2Y`\b\t\1\2Z[\7 \2\2[a\b\t\1\2\\]\7!\2\2]a\b\t\1\2^_"+
-		"\7\b\2\2_a\b\t\1\2`Z\3\2\2\2`\\\3\2\2\2`^\3\2\2\2ab\3\2\2\2bc\5\20\t\2"+
-		"cd\b\t\1\2df\3\2\2\2eV\3\2\2\2eY\3\2\2\2f\21\3\2\2\2gh\5\20\t\2hv\b\n"+
-		"\1\2ij\7\"\2\2jp\b\n\1\2kl\7#\2\2lp\b\n\1\2mn\7$\2\2np\b\n\1\2oi\3\2\2"+
-		"\2ok\3\2\2\2om\3\2\2\2pq\3\2\2\2qr\5\20\t\2rs\b\n\1\2su\3\2\2\2to\3\2"+
-		"\2\2ux\3\2\2\2vt\3\2\2\2vw\3\2\2\2w\23\3\2\2\2xv\3\2\2\2yz\5\22\n\2z\u0086"+
-		"\b\13\1\2{|\7!\2\2|\u0080\b\13\1\2}~\7 \2\2~\u0080\b\13\1\2\177{\3\2\2"+
-		"\2\177}\3\2\2\2\u0080\u0081\3\2\2\2\u0081\u0082\5\22\n\2\u0082\u0083\b"+
-		"\13\1\2\u0083\u0085\3\2\2\2\u0084\177\3\2\2\2\u0085\u0088\3\2\2\2\u0086"+
-		"\u0084\3\2\2\2\u0086\u0087\3\2\2\2\u0087\25\3\2\2\2\u0088\u0086\3\2\2"+
-		"\2\u0089\u008a\5\24\13\2\u008a\u008f\b\f\1\2\u008b\u008c\5\n\6\2\u008c"+
-		"\u008d\5\24\13\2\u008d\u008e\b\f\1\2\u008e\u0090\3\2\2\2\u008f\u008b\3"+
-		"\2\2\2\u008f\u0090\3\2\2\2\u0090\27\3\2\2\2\u0091\u0092\5\26\f\2\u0092"+
-		"\u0097\b\r\1\2\u0093\u0094\7\20\2\2\u0094\u0095\5\26\f\2\u0095\u0096\b"+
-		"\r\1\2\u0096\u0098\3\2\2\2\u0097\u0093\3\2\2\2\u0097\u0098\3\2\2\2\u0098"+
-		"\31\3\2\2\2\u0099\u009a\5\30\r\2\u009a\u00a6\b\16\1\2\u009b\u009c\7\21"+
-		"\2\2\u009c\u00a2\b\16\1\2\u009d\u009e\7\25\2\2\u009e\u00a2\b\16\1\2\u009f"+
-		"\u00a0\7\24\2\2\u00a0\u00a2\b\16\1\2\u00a1\u009b\3\2\2\2\u00a1\u009d\3"+
-		"\2\2\2\u00a1\u009f\3\2\2\2\u00a2\u00a3\3\2\2\2\u00a3\u00a4\5\30\r\2\u00a4"+
-		"\u00a5\b\16\1\2\u00a5\u00a7\3\2\2\2\u00a6\u00a1\3\2\2\2\u00a6\u00a7\3"+
-		"\2\2\2\u00a7\33\3\2\2\2\u00a8\u00a9\5\32\16\2\u00a9\u00b0\b\17\1\2\u00aa"+
-		"\u00ab\7%\2\2\u00ab\u00ac\5\32\16\2\u00ac\u00ad\7&\2\2\u00ad\u00ae\5\32"+
-		"\16\2\u00ae\u00af\b\17\1\2\u00af\u00b1\3\2\2\2\u00b0\u00aa\3\2\2\2\u00b0"+
-		"\u00b1\3\2\2\2\u00b1\35\3\2\2\2\u00b2\u00b3\5\34\17\2\u00b3\u00b8\b\20"+
-		"\1\2\u00b4\u00b5\7\23\2\2\u00b5\u00b6\5\34\17\2\u00b6\u00b7\b\20\1\2\u00b7"+
-		"\u00b9\3\2\2\2\u00b8\u00b4\3\2\2\2\u00b8\u00b9\3\2\2\2\u00b9\37\3\2\2"+
-		"\2\u00ba\u00bb\5\36\20\2\u00bb\u00c0\b\21\1\2\u00bc\u00bd\7\22\2\2\u00bd"+
-		"\u00be\5 \21\2\u00be\u00bf\b\21\1\2\u00bf\u00c1\3\2\2\2\u00c0\u00bc\3"+
-		"\2\2\2\u00c0\u00c1\3\2\2\2\u00c1!\3\2\2\2\u00c2\u00c3\5\24\13\2\u00c3"+
-		"\u00c4\5\n\6\2\u00c4\u00c5\5\24\13\2\u00c5\u00c6\b\22\1\2\u00c6\u00d2"+
-		"\3\2\2\2\u00c7\u00c8\5\32\16\2\u00c8\u00c9\7%\2\2\u00c9\u00ca\5\32\16"+
-		"\2\u00ca\u00cb\7&\2\2\u00cb\u00cc\5\32\16\2\u00cc\u00cd\b\22\1\2\u00cd"+
-		"\u00d2\3\2\2\2\u00ce\u00cf\5\f\7\2\u00cf\u00d0\b\22\1\2\u00d0\u00d2\3"+
-		"\2\2\2\u00d1\u00c2\3\2\2\2\u00d1\u00c7\3\2\2\2\u00d1\u00ce\3\2\2\2\u00d2"+
-		"#\3\2\2\2\u00d3\u00d4\7\36\2\2\u00d4\u00d5\5*\26\2\u00d5\u00d6\7\37\2"+
-		"\2\u00d6\u00d7\b\23\1\2\u00d7\u00dc\3\2\2\2\u00d8\u00d9\5\"\22\2\u00d9"+
-		"\u00da\b\23\1\2\u00da\u00dc\3\2\2\2\u00db\u00d3\3\2\2\2\u00db\u00d8\3"+
-		"\2\2\2\u00dc%\3\2\2\2\u00dd\u00de\5$\23\2\u00de\u00df\b\24\1\2\u00df\u00e5"+
-		"\3\2\2\2\u00e0\u00e1\5\6\4\2\u00e1\u00e2\5&\24\2\u00e2\u00e3\b\24\1\2"+
-		"\u00e3\u00e5\3\2\2\2\u00e4\u00dd\3\2\2\2\u00e4\u00e0\3\2\2\2\u00e5\'\3"+
-		"\2\2\2\u00e6\u00e7\5&\24\2\u00e7\u00ec\b\25\1\2\u00e8\u00e9\5\b\5\2\u00e9"+
-		"\u00ea\5&\24\2\u00ea\u00eb\b\25\1\2\u00eb\u00ed\3\2\2\2\u00ec\u00e8\3"+
-		"\2\2\2\u00ec\u00ed\3\2\2\2\u00ed)\3\2\2\2\u00ee\u00ef\5(\25\2\u00ef\u00f0"+
-		"\b\26\1\2\u00f0+\3\2\2\2\27\63;JT`eov\177\u0086\u008f\u0097\u00a1\u00a6"+
-		"\u00b0\u00b8\u00c0\u00d1\u00db\u00e4\u00ec";
+		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
+		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\3\2\3\2\3\3\3\3\3\3"+
+		"\7\3B\n\3\f\3\16\3E\13\3\3\3\3\3\3\3\7\3J\n\3\f\3\16\3M\13\3\3\4\3\4\3"+
+		"\5\3\5\3\6\3\6\3\7\3\7\3\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13\3\13\3\13\3\13"+
+		"\3\13\5\13c\n\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\3\f\5\fm\n\f\3\r\3\r\3\r"+
+		"\3\r\3\r\3\r\3\r\3\r\3\r\3\r\5\ry\n\r\3\r\3\r\3\r\5\r~\n\r\3\16\3\16\3"+
+		"\16\3\16\3\16\3\16\3\16\3\16\5\16\u0088\n\16\3\16\3\16\3\16\7\16\u008d"+
+		"\n\16\f\16\16\16\u0090\13\16\3\17\3\17\3\17\3\17\3\17\3\17\5\17\u0098"+
+		"\n\17\3\17\3\17\3\17\7\17\u009d\n\17\f\17\16\17\u00a0\13\17\3\20\3\20"+
+		"\3\20\3\20\3\20\3\20\5\20\u00a8\n\20\3\21\3\21\3\21\3\21\3\21\3\21\5\21"+
+		"\u00b0\n\21\3\22\3\22\3\22\3\22\3\22\3\22\3\22\3\22\5\22\u00ba\n\22\3"+
+		"\22\3\22\3\22\5\22\u00bf\n\22\3\23\3\23\3\23\3\23\3\23\3\23\3\23\3\23"+
+		"\5\23\u00c9\n\23\3\24\3\24\3\24\3\24\3\24\3\24\5\24\u00d1\n\24\3\25\3"+
+		"\25\3\25\3\25\3\25\3\25\5\25\u00d9\n\25\3\26\3\26\3\26\3\26\3\26\3\26"+
+		"\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\3\26\5\26\u00ea\n\26\3\27\3\27"+
+		"\3\27\3\27\3\27\3\27\3\27\3\27\5\27\u00f4\n\27\3\30\3\30\3\30\3\30\3\30"+
+		"\3\30\3\30\5\30\u00fd\n\30\3\31\3\31\3\31\3\31\3\31\3\31\7\31\u0105\n"+
+		"\31\f\31\16\31\u0108\13\31\3\32\3\32\3\32\3\32\3\32\3\32\7\32\u0110\n"+
+		"\32\f\32\16\32\u0113\13\32\3\33\3\33\3\33\3\33\3\33\3\33\7\33\u011b\n"+
+		"\33\f\33\16\33\u011e\13\33\3\34\3\34\3\34\3\34\3\34\3\34\7\34\u0126\n"+
+		"\34\f\34\16\34\u0129\13\34\3\35\3\35\3\35\3\35\3\35\3\35\5\35\u0131\n"+
+		"\35\3\36\3\36\3\36\3\36\2\2\37\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36"+
+		" \"$&(*,.\60\62\64\668:\2\7\3\2&(\3\2\6\r\3\2\16\17\3\2\21\23\3\2\26\33"+
+		"\u0135\2<\3\2\2\2\4>\3\2\2\2\6N\3\2\2\2\bP\3\2\2\2\nR\3\2\2\2\fT\3\2\2"+
+		"\2\16V\3\2\2\2\20X\3\2\2\2\22Z\3\2\2\2\24b\3\2\2\2\26l\3\2\2\2\30}\3\2"+
+		"\2\2\32\177\3\2\2\2\34\u0091\3\2\2\2\36\u00a1\3\2\2\2 \u00a9\3\2\2\2\""+
+		"\u00b1\3\2\2\2$\u00c0\3\2\2\2&\u00ca\3\2\2\2(\u00d2\3\2\2\2*\u00e9\3\2"+
+		"\2\2,\u00f3\3\2\2\2.\u00fc\3\2\2\2\60\u00fe\3\2\2\2\62\u0109\3\2\2\2\64"+
+		"\u0114\3\2\2\2\66\u011f\3\2\2\28\u012a\3\2\2\2:\u0132\3\2\2\2<=\t\2\2"+
+		"\2=\3\3\2\2\2>C\7)\2\2?@\7\3\2\2@B\7)\2\2A?\3\2\2\2BE\3\2\2\2CA\3\2\2"+
+		"\2CD\3\2\2\2DK\3\2\2\2EC\3\2\2\2FG\7\4\2\2GH\7&\2\2HJ\7\5\2\2IF\3\2\2"+
+		"\2JM\3\2\2\2KI\3\2\2\2KL\3\2\2\2L\5\3\2\2\2MK\3\2\2\2NO\t\3\2\2O\7\3\2"+
+		"\2\2PQ\t\4\2\2Q\t\3\2\2\2RS\7\20\2\2S\13\3\2\2\2TU\t\5\2\2U\r\3\2\2\2"+
+		"VW\7\24\2\2W\17\3\2\2\2XY\7\25\2\2Y\21\3\2\2\2Z[\t\6\2\2[\23\3\2\2\2\\"+
+		"]\5\2\2\2]^\b\13\1\2^c\3\2\2\2_`\5\4\3\2`a\b\13\1\2ac\3\2\2\2b\\\3\2\2"+
+		"\2b_\3\2\2\2c\25\3\2\2\2de\5\24\13\2ef\b\f\1\2fm\3\2\2\2gh\7\34\2\2hi"+
+		"\5(\25\2ij\7\35\2\2jk\b\f\1\2km\3\2\2\2ld\3\2\2\2lg\3\2\2\2m\27\3\2\2"+
+		"\2no\5\26\f\2op\b\r\1\2p~\3\2\2\2qx\b\r\1\2rs\7\36\2\2sy\b\r\1\2tu\7\37"+
+		"\2\2uy\b\r\1\2vw\7\6\2\2wy\b\r\1\2xr\3\2\2\2xt\3\2\2\2xv\3\2\2\2yz\3\2"+
+		"\2\2z{\5\30\r\2{|\b\r\1\2|~\3\2\2\2}n\3\2\2\2}q\3\2\2\2~\31\3\2\2\2\177"+
+		"\u0080\5\30\r\2\u0080\u008e\b\16\1\2\u0081\u0082\7 \2\2\u0082\u0088\b"+
+		"\16\1\2\u0083\u0084\7!\2\2\u0084\u0088\b\16\1\2\u0085\u0086\7\"\2\2\u0086"+
+		"\u0088\b\16\1\2\u0087\u0081\3\2\2\2\u0087\u0083\3\2\2\2\u0087\u0085\3"+
+		"\2\2\2\u0088\u0089\3\2\2\2\u0089\u008a\5\30\r\2\u008a\u008b\b\16\1\2\u008b"+
+		"\u008d\3\2\2\2\u008c\u0087\3\2\2\2\u008d\u0090\3\2\2\2\u008e\u008c\3\2"+
+		"\2\2\u008e\u008f\3\2\2\2\u008f\33\3\2\2\2\u0090\u008e\3\2\2\2\u0091\u0092"+
+		"\5\32\16\2\u0092\u009e\b\17\1\2\u0093\u0094\7\37\2\2\u0094\u0098\b\17"+
+		"\1\2\u0095\u0096\7\36\2\2\u0096\u0098\b\17\1\2\u0097\u0093\3\2\2\2\u0097"+
+		"\u0095\3\2\2\2\u0098\u0099\3\2\2\2\u0099\u009a\5\32\16\2\u009a\u009b\b"+
+		"\17\1\2\u009b\u009d\3\2\2\2\u009c\u0097\3\2\2\2\u009d\u00a0\3\2\2\2\u009e"+
+		"\u009c\3\2\2\2\u009e\u009f\3\2\2\2\u009f\35\3\2\2\2\u00a0\u009e\3\2\2"+
+		"\2\u00a1\u00a2\5\34\17\2\u00a2\u00a7\b\20\1\2\u00a3\u00a4\5\22\n\2\u00a4"+
+		"\u00a5\5\34\17\2\u00a5\u00a6\b\20\1\2\u00a6\u00a8\3\2\2\2\u00a7\u00a3"+
+		"\3\2\2\2\u00a7\u00a8\3\2\2\2\u00a8\37\3\2\2\2\u00a9\u00aa\5\36\20\2\u00aa"+
+		"\u00af\b\21\1\2\u00ab\u00ac\7\20\2\2\u00ac\u00ad\5\36\20\2\u00ad\u00ae"+
+		"\b\21\1\2\u00ae\u00b0\3\2\2\2\u00af\u00ab\3\2\2\2\u00af\u00b0\3\2\2\2"+
+		"\u00b0!\3\2\2\2\u00b1\u00b2\5 \21\2\u00b2\u00be\b\22\1\2\u00b3\u00b4\7"+
+		"\21\2\2\u00b4\u00ba\b\22\1\2\u00b5\u00b6\7\23\2\2\u00b6\u00ba\b\22\1\2"+
+		"\u00b7\u00b8\7\22\2\2\u00b8\u00ba\b\22\1\2\u00b9\u00b3\3\2\2\2\u00b9\u00b5"+
+		"\3\2\2\2\u00b9\u00b7\3\2\2\2\u00ba\u00bb\3\2\2\2\u00bb\u00bc\5 \21\2\u00bc"+
+		"\u00bd\b\22\1\2\u00bd\u00bf\3\2\2\2\u00be\u00b9\3\2\2\2\u00be\u00bf\3"+
+		"\2\2\2\u00bf#\3\2\2\2\u00c0\u00c1\5\"\22\2\u00c1\u00c8\b\23\1\2\u00c2"+
+		"\u00c3\7#\2\2\u00c3\u00c4\5\"\22\2\u00c4\u00c5\7$\2\2\u00c5\u00c6\5\""+
+		"\22\2\u00c6\u00c7\b\23\1\2\u00c7\u00c9\3\2\2\2\u00c8\u00c2\3\2\2\2\u00c8"+
+		"\u00c9\3\2\2\2\u00c9%\3\2\2\2\u00ca\u00cb\5$\23\2\u00cb\u00d0\b\24\1\2"+
+		"\u00cc\u00cd\7\24\2\2\u00cd\u00ce\5$\23\2\u00ce\u00cf\b\24\1\2\u00cf\u00d1"+
+		"\3\2\2\2\u00d0\u00cc\3\2\2\2\u00d0\u00d1\3\2\2\2\u00d1\'\3\2\2\2\u00d2"+
+		"\u00d3\5&\24\2\u00d3\u00d8\b\25\1\2\u00d4\u00d5\7\25\2\2\u00d5\u00d6\5"+
+		"(\25\2\u00d6\u00d7\b\25\1\2\u00d7\u00d9\3\2\2\2\u00d8\u00d4\3\2\2\2\u00d8"+
+		"\u00d9\3\2\2\2\u00d9)\3\2\2\2\u00da\u00db\5\34\17\2\u00db\u00dc\5\22\n"+
+		"\2\u00dc\u00dd\5\34\17\2\u00dd\u00de\b\26\1\2\u00de\u00ea\3\2\2\2\u00df"+
+		"\u00e0\5\"\22\2\u00e0\u00e1\7#\2\2\u00e1\u00e2\5\"\22\2\u00e2\u00e3\7"+
+		"$\2\2\u00e3\u00e4\5\"\22\2\u00e4\u00e5\b\26\1\2\u00e5\u00ea\3\2\2\2\u00e6"+
+		"\u00e7\5\24\13\2\u00e7\u00e8\b\26\1\2\u00e8\u00ea\3\2\2\2\u00e9\u00da"+
+		"\3\2\2\2\u00e9\u00df\3\2\2\2\u00e9\u00e6\3\2\2\2\u00ea+\3\2\2\2\u00eb"+
+		"\u00ec\7\34\2\2\u00ec\u00ed\5:\36\2\u00ed\u00ee\7\35\2\2\u00ee\u00ef\b"+
+		"\27\1\2\u00ef\u00f4\3\2\2\2\u00f0\u00f1\5*\26\2\u00f1\u00f2\b\27\1\2\u00f2"+
+		"\u00f4\3\2\2\2\u00f3\u00eb\3\2\2\2\u00f3\u00f0\3\2\2\2\u00f4-\3\2\2\2"+
+		"\u00f5\u00f6\5,\27\2\u00f6\u00f7\b\30\1\2\u00f7\u00fd\3\2\2\2\u00f8\u00f9"+
+		"\5\6\4\2\u00f9\u00fa\5.\30\2\u00fa\u00fb\b\30\1\2\u00fb\u00fd\3\2\2\2"+
+		"\u00fc\u00f5\3\2\2\2\u00fc\u00f8\3\2\2\2\u00fd/\3\2\2\2\u00fe\u00ff\5"+
+		".\30\2\u00ff\u0106\b\31\1\2\u0100\u0101\5\b\5\2\u0101\u0102\5.\30\2\u0102"+
+		"\u0103\b\31\1\2\u0103\u0105\3\2\2\2\u0104\u0100\3\2\2\2\u0105\u0108\3"+
+		"\2\2\2\u0106\u0104\3\2\2\2\u0106\u0107\3\2\2\2\u0107\61\3\2\2\2\u0108"+
+		"\u0106\3\2\2\2\u0109\u010a\5\60\31\2\u010a\u0111\b\32\1\2\u010b\u010c"+
+		"\5\n\6\2\u010c\u010d\5\60\31\2\u010d\u010e\b\32\1\2\u010e\u0110\3\2\2"+
+		"\2\u010f\u010b\3\2\2\2\u0110\u0113\3\2\2\2\u0111\u010f\3\2\2\2\u0111\u0112"+
+		"\3\2\2\2\u0112\63\3\2\2\2\u0113\u0111\3\2\2\2\u0114\u0115\5\62\32\2\u0115"+
+		"\u011c\b\33\1\2\u0116\u0117\5\f\7\2\u0117\u0118\5\62\32\2\u0118\u0119"+
+		"\b\33\1\2\u0119\u011b\3\2\2\2\u011a\u0116\3\2\2\2\u011b\u011e\3\2\2\2"+
+		"\u011c\u011a\3\2\2\2\u011c\u011d\3\2\2\2\u011d\65\3\2\2\2\u011e\u011c"+
+		"\3\2\2\2\u011f\u0120\5\64\33\2\u0120\u0127\b\34\1\2\u0121\u0122\5\16\b"+
+		"\2\u0122\u0123\5\64\33\2\u0123\u0124\b\34\1\2\u0124\u0126\3\2\2\2\u0125"+
+		"\u0121\3\2\2\2\u0126\u0129\3\2\2\2\u0127\u0125\3\2\2\2\u0127\u0128\3\2"+
+		"\2\2\u0128\67\3\2\2\2\u0129\u0127\3\2\2\2\u012a\u012b\5\66\34\2\u012b"+
+		"\u0130\b\35\1\2\u012c\u012d\5\20\t\2\u012d\u012e\58\35\2\u012e\u012f\b"+
+		"\35\1\2\u012f\u0131\3\2\2\2\u0130\u012c\3\2\2\2\u0130\u0131\3\2\2\2\u0131"+
+		"9\3\2\2\2\u0132\u0133\58\35\2\u0133\u0134\b\36\1\2\u0134;\3\2\2\2\33C"+
+		"Kblx}\u0087\u008e\u0097\u009e\u00a7\u00af\u00b9\u00be\u00c8\u00d0\u00d8"+
+		"\u00e9\u00f3\u00fc\u0106\u0111\u011c\u0127\u0130";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -42,6 +42,18 @@ If you need to modify the source of the tool and you have JDK 1.8 or higher, you
 
 > ant
 
+## Extended input format & educational use of the tool
+
+The tool supports the extension of the NuSMV output format, namely:
+
+* Traces on which the LTL formula is TRUE are supported (the TRUE value of the formula will be explained). In this case, "is false" in the end can be replaced with "is true". Moreover, there is no need to write "is false" or "is true" at all, the value will be determined automatically.
+* When NuSMV outputs LTL formulas, it puts redundant parentheses. In the input to the tool, they can be omitted. In this case, precedence of binary operators is U/V, &, |/xor/xnor, <->, -> (-> associates to the right). This complies with how NuSMV operates.
+* LTL operator Release can be specified as V (NuSMV expresses this operator via Until).
+* State numbers in traces can be omitted, i.e. "&nbsp;&nbsp;&nbsp;&nbsp;-> <-" would specify the start of the new trace element.
+* No lines to start the trace (such as "-- as demonstrated by the following execution sequence") are required.
+
+These extensions simplify the use of the tool when the input is produced manually (not by NuSMV). In particular, this can be useful to learn/teach LTL semantics.
+
 ## Bugs
 
 If you see an error or something strange, you can email Igor Buzhinsky (igor.buzhinsky@gmail.com).
