@@ -12,6 +12,7 @@ import org.kohsuke.args4j.Option;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -284,7 +285,7 @@ public class GUIMain extends JFrame {
     }
 
     private String htmlSpaces(int num) {
-        return Util.nStrings("&nbsp;", 1 + String.valueOf(annotations.get(currentSpec).ce.length() - 1).length()
+        return Util.nStrings("&nbsp;", String.valueOf(annotations.get(currentSpec).ce.length() - 1).length()
             - String.valueOf(num).length());
     }
 
@@ -301,6 +302,10 @@ public class GUIMain extends JFrame {
 
         final java.util.List<JPanel> innerPanels = new ArrayList<>();
 
+        final Consumer<JTextComponent> setBorder = c -> c.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.black),
+                BorderFactory.createLineBorder(c.getBackground(), 3)));
+
         for (int i = 0; i < annotation.longAnnotations.size(); i++) {
             final JPanel innerPanel = new JPanel();
             innerPanels.add(innerPanel);
@@ -316,10 +321,11 @@ public class GUIMain extends JFrame {
             textField.setBackground(Color.getHSBColor(1f, 0, 0.95f));
             textField.setBorder(BorderFactory.createLineBorder(Color.black));
             innerPanel.add(textField);
-            final JPanel panelWithListener = panelWithHtmlListener("");
-            panelWithListener.setBorder(BorderFactory.createLineBorder(Color.black));
+            setBorder.accept(textField);
+            final JTextPane panelWithListener = panelWithHtmlListener("");
+            setBorder.accept(panelWithListener);
             innerPanel.add(panelWithListener);
-            annotationPanels.add((JTextPane) panelWithListener.getComponent(0));
+            annotationPanels.add(panelWithListener);
             annotationTexts.add("");
             panel.add(innerPanel);
         }
@@ -361,7 +367,7 @@ public class GUIMain extends JFrame {
         });
     }
 
-    private JPanel panelWithHtmlListener(String msg) {
+    private JTextPane panelWithHtmlListener(String msg) {
         final JTextPane pane = new JTextPane();
         pane.setContentType("text/html");
         pane.setText(msg);
@@ -465,9 +471,6 @@ public class GUIMain extends JFrame {
             }
         });
 
-        final JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout(5, 5));
-        panel.add(pane, BorderLayout.CENTER);
-        return panel;
+        return pane;
     }
 }
