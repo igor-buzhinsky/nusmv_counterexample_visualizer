@@ -16,11 +16,14 @@ You can select the input file (for example, [example-input.txt](/example-input.t
 
 > java -jar jars/visualizer-gui.jar example-input.txt
 
-Font sizes can be configured via command line options --mainFontSize <size> and --auxFontSize <size>.
+Font sizes can be configured via command line options --mainFontSize &lt;size&gt; and --auxFontSize &lt;size&gt;.
+
+The colors of the default highlighting mode can be configured via command line options --highlightColor &lt;color&gt;, --trueColor &lt;color&gt;, --falseColor &lt;color&gt;. Another option --highlightChar &lt;char&gt; specifies the character used to highlight important Boolean values.
 
 A purely console version of the tool is also available:
 
 > java -jar jars/visualizer-console.jar
+
 
 ## GUI help
 

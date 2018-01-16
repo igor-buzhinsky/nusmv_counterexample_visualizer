@@ -3,6 +3,7 @@ package nusmv_counterexample_visualizer;
 import nusmv_counterexample_visualizer.formula.ltl.BinaryOperator;
 import nusmv_counterexample_visualizer.formula.ltl.LTLFormula;
 import nusmv_counterexample_visualizer.formula.ltl.UnaryOperator;
+import nusmv_counterexample_visualizer.highlighting.DefaultHighlightingMode;
 import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 import org.kohsuke.args4j.Argument;
@@ -33,6 +34,18 @@ public class GUIMain extends JFrame {
 
     @Option(name = "--auxFontSize", metaVar = "<size>", usage = "font size for auxiliary panels (default 16)")
     private int auxFontSize = 16;
+
+    @Option(name = "--highlightColor", metaVar = "<color>", usage = "highlight color in the hex format (default #ffff00)")
+    private String highlightColor = "#ffff00";
+
+    @Option(name = "--trueColor", metaVar = "<color>", usage = "TRUE value color in the hex format (default #008000)")
+    private String trueColor = "#008000";
+
+    @Option(name = "--falseColor", metaVar = "<color>", usage = "FALSE value color in the hex format (default #ff0000)")
+    private String falseColor = "#ff0000";
+
+    @Option(name = "--highlightChar", metaVar = "<char>", usage = "character to mark important values (default *)")
+    private String highlightChar = "*";
 
     public static void main(String[] args) throws IOException {
         new GUIMain().run(args);
@@ -77,6 +90,11 @@ public class GUIMain extends JFrame {
 
         auxFontSize = Math.max(auxFontSize, 4);
         mainFontSize = Math.max(mainFontSize, 4);
+
+        DefaultHighlightingMode.HIGHLIGHT_COLOR = highlightColor;
+        DefaultHighlightingMode.TRUE_COLOR = trueColor;
+        DefaultHighlightingMode.FALSE_COLOR = falseColor;
+        DefaultHighlightingMode.HIGHLIGHT_CHAR = highlightChar.isEmpty() ? "*" : String.valueOf(highlightChar.charAt(0));
 
         rootPanel = new JPanel();
         setTitle("NuSMV LTL Counterexample Visualizer");
@@ -243,7 +261,11 @@ public class GUIMain extends JFrame {
                         "If the provided counterexample has no loop (e.g. when BMC is used), the last element is " +
                         "looped automatically.",
                 "",
-                "Font sizes can be configured via command line options --mainFontSize <size> and --auxFontSize <size>."
+                "Font sizes can be configured via command line options --mainFontSize <size> and --auxFontSize <size>.",
+                "",
+                "The colors of the default highlighting mode can be configured via command line options " +
+                        "--highlightColor <color>, --trueColor <color>, --falseColor <color>. Another option " +
+                        "--highlightChar <char> specifies the character used to highlight important Boolean values."
         );
 
         final JTextArea message = Util.messageField(String.join("\n", lines), auxFontSize);

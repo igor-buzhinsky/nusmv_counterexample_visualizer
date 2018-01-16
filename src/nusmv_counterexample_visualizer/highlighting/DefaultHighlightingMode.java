@@ -2,29 +2,60 @@ package nusmv_counterexample_visualizer.highlighting;
 
 import nusmv_counterexample_visualizer.Util;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by buzhinsky on 11/15/17.
  */
-class DefaultHighlightingMode extends HighlightingMode {
+public class DefaultHighlightingMode extends HighlightingMode {
+    private static final String WHITE = "#ffffff";
+    private static final String BLACK = "#000000";
+
+    public static String HIGHLIGHT_COLOR;
+    public static String TRUE_COLOR;
+    public static String FALSE_COLOR;
+
+    public static String HIGHLIGHT_CHAR;
+
     @Override
     public String name() {
         return "Default";
     }
 
+    private static String adjust(String color, int value) {
+        Color c;
+        try {
+            c = Color.decode(color);
+        } catch (NumberFormatException e) {
+            c = Color.BLACK;
+        }
+        final int[] components = new int[3];
+        components[0] = c.getRed();
+        components[1] = c.getGreen();
+        components[2] = c.getBlue();
+        for (int i = 0; i < components.length; i++) {
+            components[i] += value;
+            components[i] = Math.min(components[i], 255);
+            components[i] = Math.max(components[i], 0);
+        }
+        return String.format("#%02x%02x%02x", components[0], components[1], components[2]);
+    }
+
+    private static String colors(String fg, String bg, String str) {
+        return "<font color=" + fg + " bgcolor=" + bg + ">" + str + "</font>";
+    }
+
     @Override
     public String visualizeValueNoUrl(String s, boolean value, boolean highlight) {
-        final String color = value && highlight ? "color=green bgcolor=yellow"
-                : value ? "color=green bgcolor=#eeffee"
-                : highlight ? "color=red bgcolor=yellow" : "color=red bgcolor=#ffeeee";
-        return "<font " + color + ">" + s + "</font>";
+        return colors(value ? TRUE_COLOR : FALSE_COLOR,
+                highlight ? HIGHLIGHT_COLOR : adjust(value ? TRUE_COLOR : FALSE_COLOR, 0xee), s);
     }
 
     @Override
     public String visualizeImportance(String s, boolean important) {
-        return important ? ("<font bgcolor=yellow>" + s + "</font>") : s;
+        return important ? colors(BLACK, HIGHLIGHT_COLOR, s) : s;
     }
 
     @Override
@@ -35,11 +66,13 @@ class DefaultHighlightingMode extends HighlightingMode {
     @Override
     public List<String> shortGraphicalAnnotateStringNoUrl(String str, boolean value, boolean important,
                                                      boolean explanationHighlight) {
-        final String red = explanationHighlight ? "red" : "#ffaaaa";
-        final String green = explanationHighlight ? "green" : "#aaffaa";
-        final String fgcolor = explanationHighlight ? "white" : "black";
-        return Arrays.asList("<font color=" + fgcolor + " bgcolor=" + (value ? green : red) + ">" + str + "</font>",
-                (important ? "<font color=black bgcolor=yellow>" : "") + Util.nStrings(important ? "*" : "&nbsp",
-                        Util.lengthWithoutTags(str)) + (important ? "</font>" : ""));
+        return Arrays.asList(
+                colors(explanationHighlight ? WHITE : BLACK,
+                        adjust(value ? TRUE_COLOR : FALSE_COLOR, explanationHighlight ? 0 : 0xaa),
+                        str),
+                colors(BLACK,
+                        important ? HIGHLIGHT_COLOR : WHITE,
+                        Util.nStrings(important ? HIGHLIGHT_CHAR : "&nbsp", Util.lengthWithoutTags(str)))
+        );
     }
 }
