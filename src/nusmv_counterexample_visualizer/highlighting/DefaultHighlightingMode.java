@@ -31,12 +31,9 @@ public class DefaultHighlightingMode extends HighlightingMode {
         } catch (NumberFormatException e) {
             c = Color.BLACK;
         }
-        final int[] components = new int[3];
-        components[0] = c.getRed();
-        components[1] = c.getGreen();
-        components[2] = c.getBlue();
+        final int[] components = new int[] { c.getRed(), c.getGreen(), c.getBlue() };
         for (int i = 0; i < components.length; i++) {
-            components[i] += value;
+            components[i] += Math.round((255 - components[i]) * (value / 255.));
             components[i] = Math.min(components[i], 255);
             components[i] = Math.max(components[i], 0);
         }
@@ -68,7 +65,7 @@ public class DefaultHighlightingMode extends HighlightingMode {
                                                      boolean explanationHighlight) {
         return Arrays.asList(
                 colors(explanationHighlight ? WHITE : BLACK,
-                        adjust(value ? TRUE_COLOR : FALSE_COLOR, explanationHighlight ? 0 : 0xaa),
+                        adjust(value ? TRUE_COLOR : FALSE_COLOR, explanationHighlight ? 0 : 0xbb),
                         str),
                 colors(BLACK,
                         important ? HIGHLIGHT_COLOR : WHITE,
