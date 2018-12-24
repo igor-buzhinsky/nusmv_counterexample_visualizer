@@ -15,6 +15,12 @@ public class Variable extends ArithmeticExpression {
 
     @Override
     public Object calculate(Map<String, List<String>> values, int position) {
+        if (!values.containsKey(name)) {
+            throw new RuntimeException("Missing variable name: " + name
+                    + ". One possible cause may be that this variable is present in an LTL formula"
+                    + " but not in the corresponding counterexample. The list of all variables is: "
+                    + values.keySet());
+        }
         return new Constant(values.get(name).get(position)).calculate(values, position);
     }
 

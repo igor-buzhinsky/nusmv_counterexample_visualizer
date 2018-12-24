@@ -184,11 +184,7 @@ public class Counterexample {
 
     void addValue(String varName, String value) {
         vars.add(varName);
-        List<String> varValues = values.get(varName);
-        if (varValues == null) {
-            varValues = new ArrayList<>();
-            values.put(varName, varValues);
-        }
+        final List<String> varValues = values.computeIfAbsent(varName, k -> new ArrayList<>());
         varValues.add(value);
         length = Math.max(length, varValues.size());
     }

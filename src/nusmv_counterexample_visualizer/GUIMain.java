@@ -47,11 +47,11 @@ public class GUIMain extends JFrame {
     @Option(name = "--highlightChar", metaVar = "<char>", usage = "character to mark important values (default *)")
     private String highlightChar = "*";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new GUIMain().run(args);
     }
 
-    private void run(String[] args) throws IOException {
+    private void run(String[] args) {
         if (parseArgs(args)) {
             launcher();
         }
