@@ -77,7 +77,7 @@ class Reader {
             final List<String> errors = new ArrayList<>();
             final List<String> warnings = new ArrayList<>();
             try (InputStream in = new ByteArrayInputStream(line.getBytes(StandardCharsets.UTF_8))) {
-                final ltlLexer lexer = new ltlLexer(new ANTLRInputStream(in));
+                final ltlLexer lexer = new ltlLexer(CharStreams.fromStream(in, StandardCharsets.UTF_8));
                 final CommonTokenStream tokens = new CommonTokenStream(lexer);
                 final ltlParser parser = new ltlParser(tokens);
                 parser.addErrorListener(new ANTLRErrorListener() {
