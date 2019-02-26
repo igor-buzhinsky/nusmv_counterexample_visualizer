@@ -139,7 +139,7 @@ public class GUIMain extends JFrame {
     }
 
     private String wrap(String str) {
-        return "<html><div style=\"font-family: 'Lucida Console', 'Monospaced', monospace; font-size: "
+        return "<html><div style=\"font-family: monospace; font-size: "
                 + mainFontSize + "\">" + str + "</div></html>";
     }
 
