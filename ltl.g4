@@ -20,6 +20,8 @@ TRUE : 'TRUE';
 
 FALSE : 'FALSE';
 
+COUNT : 'count';
+
 ID : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
 
 constant
@@ -68,6 +70,10 @@ arithmetic_atomic_value returns[ArithmeticExpression f]
 arithmetic_atom returns[ArithmeticExpression f]
     : arithmetic_atomic_value { $f = $arithmetic_atomic_value.f; }
     | '(' implies_arithmetic_expression ')' { $f = $implies_arithmetic_expression.f; }
+    | COUNT '(' { List<ArithmeticExpression> args = new ArrayList<>(); }
+      f1=implies_arithmetic_expression { args.add($f1.f); }
+      (',' f2=implies_arithmetic_expression { args.add($f2.f); })+ ')'
+      { $f = new CountArithmeticOperator(args); }
     ;
 
 arithmetic_expression3 returns[ArithmeticExpression f]
