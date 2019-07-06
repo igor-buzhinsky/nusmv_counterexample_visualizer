@@ -18,8 +18,7 @@ public abstract class HighlightingMode {
     public List<String> shortGraphicalAnnotateString(String s, boolean value, boolean important, String url,
                                                      boolean explanationHighlight) {
         return shortGraphicalAnnotateStringNoUrl(url != null ? ("<a href=" + url + " style='text-decoration:none'>" + s
-                + "</a>") : s,
-            value, important, explanationHighlight);
+                + "</a>") : s, value, important, explanationHighlight);
     }
 
     public String visualizeValue(String s, boolean value, String url, boolean highlight) {
@@ -30,8 +29,7 @@ public abstract class HighlightingMode {
     public List<String> longGraphicalAnnotateString(String str, boolean value, boolean important, boolean highlight) {
         final String firstLine = visualizeImportance(str, important);
         final String secondLine = visualizeValue(Util.nChars(value ? 'T' : 'F', Util.lengthWithoutTags(str)),
-                value, null,
-                highlight);
+                value, null, highlight);
         return new ArrayList<>(Arrays.asList(firstLine, secondLine));
     }
 

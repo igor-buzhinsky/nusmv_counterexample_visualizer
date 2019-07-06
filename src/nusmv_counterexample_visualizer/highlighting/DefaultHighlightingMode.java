@@ -65,8 +65,7 @@ public class DefaultHighlightingMode extends HighlightingMode {
                                                      boolean explanationHighlight) {
         return Arrays.asList(
                 colors(explanationHighlight ? WHITE : BLACK,
-                        adjust(value ? TRUE_COLOR : FALSE_COLOR, explanationHighlight ? 0 : 0xbb),
-                        str),
+                        adjust(value ? TRUE_COLOR : FALSE_COLOR, explanationHighlight ? 0 : 0xbb), str),
                 colors(BLACK,
                         important ? HIGHLIGHT_COLOR : WHITE,
                         Util.nStrings(important ? HIGHLIGHT_CHAR : "&nbsp", Util.lengthWithoutTags(str)))

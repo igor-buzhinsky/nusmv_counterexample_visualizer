@@ -47,6 +47,10 @@ public class GUIMain extends JFrame {
     @Option(name = "--highlightChar", metaVar = "<char>", usage = "character to mark important values (default *)")
     private String highlightChar = "*";
 
+    @Option(name = "--monospacedFont", metaVar = "<char>", usage = "monospaced font to be used for full annotations " +
+            "below formulas")
+    private String monospacedFont = "monospace";
+
     public static void main(String[] args) {
         new GUIMain().run(args);
     }
@@ -90,6 +94,8 @@ public class GUIMain extends JFrame {
 
         auxFontSize = Math.max(auxFontSize, 4);
         mainFontSize = Math.max(mainFontSize, 4);
+
+        monospacedFont = monospacedFont.replaceAll("[^\\w ]", "");
 
         DefaultHighlightingMode.HIGHLIGHT_COLOR = highlightColor;
         DefaultHighlightingMode.TRUE_COLOR = trueColor;
@@ -139,8 +145,8 @@ public class GUIMain extends JFrame {
     }
 
     private String wrap(String str) {
-        return "<html><div style=\"font-family: monospace; font-size: "
-                + mainFontSize + "\">" + str + "</div></html>";
+        return String.format("<html><div style=\"font-family: '%s'; font-size: %d\">%s</div></html>",
+                monospacedFont, mainFontSize, str);
     }
 
     private static void setLookAndFeel() {
@@ -265,7 +271,14 @@ public class GUIMain extends JFrame {
                 "",
                 "The colors of the default highlighting mode can be configured via command line options " +
                         "--highlightColor <color>, --trueColor <color>, --falseColor <color>. Another option " +
-                        "--highlightChar <char> specifies the character used to highlight important Boolean values."
+                        "--highlightChar <char> specifies the character used to highlight important Boolean values.",
+                "",
+                "Note: if compact annotations (left bottom corner) are turned off, on some system full annotations " +
+                        "below formulas may be malformed. This is due to the use of monospaced fonts, in some of " +
+                        "which box-drawing characters are not really monospaced. As a workaround, you may specify " +
+                        "a custom font with command line option --monospacedFont <font>, e.g. --monospacedFont " +
+                        "\"Courier\". Try different monospaced fonts installed on your system to see whether there " +
+                        "is any visual improvement. Unfortunately, this does now always work."
         );
 
         final JTextArea message = Util.messageField(String.join("\n", lines), auxFontSize);

@@ -92,6 +92,7 @@ public class Util {
     }
 
     public static String toHtmlString(String s) {
-        return s.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+        return s.replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;");
     }
 }
