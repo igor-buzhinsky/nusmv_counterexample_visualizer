@@ -29,6 +29,7 @@ public class BinaryArithmeticOperator extends ArithmeticExpression {
     public Object calculate(Map<String, List<String>> values, int position) {
         final Object leftValue = leftArgument.calculate(values, position);
         final Object rightValue = rightArgument.calculate(values, position);
+
         if (leftValue instanceof Boolean && rightValue instanceof Boolean) {
             final boolean l = (boolean) leftValue;
             final boolean r = (boolean) rightValue;
@@ -37,8 +38,8 @@ public class BinaryArithmeticOperator extends ArithmeticExpression {
                 case "|": return l || r;
                 case "->": return !l || r;
                 case "xor": return l != r;
-                case "<->": return l == r;
-                default: throw new RuntimeException("Unknown binary arithmetic operator.");
+                case "<->": case "xnor": return l == r;
+                default: throw unexpectedOperatorException("binary arithmetic");
             }
         } else if (leftValue instanceof Integer && rightValue instanceof Integer) {
             final int l = (int) leftValue;
@@ -49,10 +50,25 @@ public class BinaryArithmeticOperator extends ArithmeticExpression {
                 case "*": return l * r;
                 case "/": return l / r;
                 case "mod": return l % r;
-                default: throw new RuntimeException("Unknown binary arithmetic operator.");
+                default: throw unexpectedOperatorException("binary arithmetic");
+            }
+        } else if (leftValue instanceof BigRational || rightValue instanceof BigRational) {
+            if (leftValue instanceof Boolean || rightValue instanceof Boolean) {
+                throw arithmeticException();
+            }
+            // ensure that both are rationals
+            final BigRational l = (BigRational) intToRational(leftValue);
+            final BigRational r = (BigRational) intToRational(rightValue);
+            switch (name) {
+                case "+": return l.plus(r);
+                case "-": return l.minus(r);
+                case "*": return l.times(r);
+                case "/": return l.divides(r);
+                case "mod": throw new RuntimeException("nuXmv does not support mod with reals.");
+                default: throw unexpectedOperatorException("binary arithmetic");
             }
         } else {
-            throw new RuntimeException("Arithmetic type error.");
+            throw arithmeticException();
         }
     }
 

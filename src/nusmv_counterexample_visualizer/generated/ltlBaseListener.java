@@ -363,6 +363,18 @@ public class ltlBaseListener implements ltlListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFormula(ltlParser.FormulaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFormula_eof(ltlParser.Formula_eofContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFormula_eof(ltlParser.Formula_eofContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

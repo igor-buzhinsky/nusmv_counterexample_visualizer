@@ -34,16 +34,16 @@ public class TernaryArithmeticOperator extends ArithmeticExpression {
         if (conditionValue instanceof Boolean) {
             return ((boolean) conditionValue ? leftOption : rightOption).calculate(values, position);
         } else {
-            throw new RuntimeException("Arithmetic type error.");
+            throw arithmeticException();
         }
     }
 
     @Override
     public Set<String> variableSet() {
-        final Set<String> vars = new TreeSet<>();
-        vars.addAll(condition.variableSet());
-        vars.addAll(leftOption.variableSet());
-        vars.addAll(rightOption.variableSet());
-        return vars;
+        return new TreeSet<String>() {{
+            addAll(condition.variableSet());
+            addAll(leftOption.variableSet());
+            addAll(rightOption.variableSet());
+        }};
     }
 }

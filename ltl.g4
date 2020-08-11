@@ -14,6 +14,10 @@ import nusmv_counterexample_visualizer.formula.arithmetic.*;
 
 WS : (' ' | '\t' | ('\r'? '\n'))+ -> channel(HIDDEN);
 
+REAL_CONST : '-'? (('f\'' | 'F\'') ('0' | ('1'..'9' ('0'..'9')*)) '/' ('0' | ('1'..'9' ('0'..'9')*))
+    | ('0' | ('1'..'9' ('0'..'9')*)) '.' ('0'..'9')+
+    | ('0' | ('1'..'9' ('0'..'9')*)) ('.' ('0'..'9')+)? ('e' | 'E') ('-' | '+')? ('0' | ('1'..'9' ('0'..'9')*)));
+
 INT_CONST : '-'? ('0' | ('1'..'9' ('0'..'9')*));
 
 TRUE : 'TRUE';
@@ -25,7 +29,7 @@ COUNT : 'count';
 ID : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
 
 constant
-    : INT_CONST | TRUE | FALSE
+    : REAL_CONST | INT_CONST | TRUE | FALSE
     ;
 
 composite_id
@@ -173,4 +177,8 @@ binary_operator1 returns[LTLFormula f]
 
 formula returns[LTLFormula f]
     : binary_operator1 { $f = $binary_operator1.f; }
+    ;
+
+formula_eof returns[LTLFormula f]
+    : formula { $f = $formula.f; } EOF
     ;

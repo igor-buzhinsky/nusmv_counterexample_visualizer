@@ -16,4 +16,20 @@ public abstract class ArithmeticExpression {
 
     public abstract Object calculate(Map<String, List<String>> values, int position);
     public abstract Set<String> variableSet();
+
+    Object intToRational(Object x) {
+        if (x instanceof Integer) {
+            return new BigRational((int) x, 1);
+        }
+        return x;
+    }
+
+    RuntimeException arithmeticException() {
+        return new RuntimeException("Arithmetic type error in " + toString() + ".");
+    }
+
+    RuntimeException unexpectedOperatorException(String description) {
+        return new RuntimeException("In expression " + toString() + ", unknown or unexpected "
+                + description + " operator " + name + ".");
+    }
 }

@@ -25,19 +25,26 @@ public class UnaryArithmeticOperator extends ArithmeticExpression {
     @Override
     public Object calculate(Map<String, List<String>> values, int position) {
         final Object argValue = argument.calculate(values, position);
+        if ("+".equals(name) && (argValue instanceof Integer || argValue instanceof BigRational)) {
+            return argValue;
+        }
         if (argValue instanceof Integer) {
-            switch (name) {
-                case "-": return -((int) argValue);
-                case "+": return argValue;
-                default: throw new RuntimeException("Unknown unary arithmetic operator.");
+            if ("-".equals(name)) {
+                return -((int) argValue);
             }
+            throw unexpectedOperatorException("unary arithmetic (argument type: integer)");
         } else if (argValue instanceof Boolean) {
-            switch (name) {
-                case "!": return !((boolean) argValue);
-                default: throw new RuntimeException("Unknown unary arithmetic operator.");
+            if ("!".equals(name)) {
+                return !((boolean) argValue);
             }
-        } {
-            throw new RuntimeException("Arithmetic type error.");
+            throw unexpectedOperatorException("unary arithmetic (argument type: boolean)");
+        } else if (argValue instanceof BigRational) {
+            if ("-".equals(name)) {
+                return ((BigRational) argValue).negate();
+            }
+            throw unexpectedOperatorException("unary arithmetic (argument type: real)");
+        } else {
+            throw arithmeticException();
         }
     }
 

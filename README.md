@@ -1,8 +1,20 @@
 # NuSMV LTL counterexample visualizer
 
-A tool which explains why a particular LTL formula fails on a particular trace by means of causal analysis and structured visualization.
+A tool that explains why a particular LTL formula fails on a particular trace by means of causal analysis and structured visualization.
 
 By [Igor Buzhinsky](http://rain.ifmo.ru/~buzhinsky), Aalto University & ITMO University, igor.buzhinsky@gmail.com.
+
+Cite:
+
+* Pakonen A., Buzhinsky I., Vyatkin V. Counterexample visualization and explanation for function block diagrams. 16th IEEE International Conference on Industrial Informatics (INDIN). July 18–20, 2018, Porto, Portugal, pp. 747–753. IEEE, 2018 [[web]](https://ieeexplore.ieee.org/document/8472025) [[preprint]](https://ctlab.itmo.ru/~buzhinsky/papers/indin-2018.pdf)
+
+Notes on the input format:
+
+* Bounded operators (e.g., G[0, 3]) in LTL formulas are not supported. You will have to rewrite them manually (e.g., with X).
+* All arithmetic operators supported by NuSMV should work.
+* Supported past-time LTL operators: Y, Z, O, H. Unsupported past-time LTL operators: T, S.
+* If the provided counterexample has no loop (e.g. when BMC is used), the last element is looped automatically.
+* Since nuXmv counterexamples usually have the same format as NuSMV ones, the tool may be used on nuXmv counterexamples. Real (rational) data type is supported by the tool but timed traces and formulas are not.
 
 ## Running
 
@@ -36,8 +48,6 @@ An additional compact highlighting mode is available which displays subformula v
 In the bottom panel, the values of all variables for all counterexample steps are provided. The values which are present in the LTL formula are shown on the left. Important values are highlighted.
 
 Highlighting of important atomic propositions is implemented (with some enhancements) according to the polynomial algorithm from: I. Beer, S. Ben-David, H. Chockler, A. Orni, R. Trefler. Explaining counterexamples using causality. Computer Aided Verification, pp. 94-108, 2009. Springer Berlin/Heidelberg.
-
-Almost all arithmetic operators are supported. Supported past-time LTL operators: Y, Z, O, H. If the provided counterexample has no loop (e.g. when BMC is used), the last element is looped automatically.
 
 ## Building
 

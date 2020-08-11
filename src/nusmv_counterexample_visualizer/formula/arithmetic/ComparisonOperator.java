@@ -27,31 +27,28 @@ public class ComparisonOperator extends ArithmeticExpression {
 
     @Override
     public Object calculate(Map<String, List<String>> values, int position) {
-        final Object leftValue = leftArgument.calculate(values, position);
-        final Object rightValue = rightArgument.calculate(values, position);
+        // to simplify processing, let's cast integers to rationals
+        // (boolean are kept unchanged)
+        final Object leftValue = intToRational(leftArgument.calculate(values, position));
+        final Object rightValue = intToRational(rightArgument.calculate(values, position));
+
         switch (name) {
             case "=":
                 return leftValue.equals(rightValue);
             case "!=":
                 return !leftValue.equals(rightValue);
             default:
-                if (leftValue instanceof Integer && rightValue instanceof Integer) {
-                    final int l = (int) leftValue;
-                    final int r = (int) rightValue;
+                if (leftValue instanceof BigRational && rightValue instanceof BigRational) {
+                    final int cmp = ((BigRational) leftValue).compareTo((BigRational) rightValue);
                     switch (name) {
-                        case ">":
-                            return l > r;
-                        case ">=":
-                            return l >= r;
-                        case "<":
-                            return l < r;
-                        case "<=":
-                            return l <= r;
-                        default:
-                            throw new RuntimeException("Unknown comparison operator.");
+                        case ">": return cmp > 0;
+                        case ">=": return cmp >= 0;
+                        case "<": return cmp < 0;
+                        case "<=": return cmp <= 0;
+                        default: throw unexpectedOperatorException("comparison");
                     }
                 } else {
-                    throw new RuntimeException("Arithmetic type error.");
+                    throw arithmeticException();
                 }
         }
     }

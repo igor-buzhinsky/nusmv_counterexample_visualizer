@@ -105,7 +105,7 @@ class Reader {
                         warnings.add("reportContextSensitivity");
                     }
                 });
-                originalF = parser.formula().f;
+                originalF = parser.formula_eof().f;
             } catch (NullPointerException | RecognitionException e) {
                 System.err.println("Parse error with " + strOriginalF);
                 ce = null;

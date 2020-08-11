@@ -301,4 +301,14 @@ public interface ltlListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFormula(ltlParser.FormulaContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ltlParser#formula_eof}.
+	 * @param ctx the parse tree
+	 */
+	void enterFormula_eof(ltlParser.Formula_eofContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ltlParser#formula_eof}.
+	 * @param ctx the parse tree
+	 */
+	void exitFormula_eof(ltlParser.Formula_eofContext ctx);
 }

@@ -107,7 +107,7 @@ public class Proposition extends LTLFormula {
         if (v instanceof Boolean) {
             return negated != (boolean) v;
         } else {
-            throw new RuntimeException("Arithmetic error.");
+            throw new RuntimeException("Arithmetic error: expression " + expression + " is not Boolean.");
         }
     }
 

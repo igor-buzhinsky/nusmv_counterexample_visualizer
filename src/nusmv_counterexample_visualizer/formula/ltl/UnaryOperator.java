@@ -6,9 +6,11 @@ import nusmv_counterexample_visualizer.Util;
 import nusmv_counterexample_visualizer.highlighting.HighlightingMode;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Created by buzhinsky on 4/18/17.
@@ -149,7 +151,7 @@ public class UnaryOperator extends LTLFormula {
             newLines.add("║" + Util.nChars(' ', name.length()) + argumentAnnotation.get(i) + "║");
         }
         newLines.add("╚" + Util.nChars(value ? 'T' : 'F', newLines.get(0).length() - 2) + "╝");
-        if (newLines.stream().map(String::length).distinct().collect(Collectors.toList()).size() > 1) {
+        if (newLines.stream().map(String::length).distinct().count() > 1) {
             newLines.forEach(System.err::println);
             throw new RuntimeException();
         }
@@ -177,7 +179,7 @@ public class UnaryOperator extends LTLFormula {
 
         newLines.add(hm.visualizeValue("╚" + Util.nChars(value ? 'T' : 'F', Util.lengthWithoutTags(newLines.get(0)) - 2) + "╝",
                 value, url, highlight));
-        if (newLines.stream().map(Util::lengthWithoutTags).distinct().collect(Collectors.toList()).size() > 1) {
+        if (newLines.stream().map(Util::lengthWithoutTags).distinct().count() > 1) {
             newLines.forEach(System.err::println);
             throw new RuntimeException();
         }
