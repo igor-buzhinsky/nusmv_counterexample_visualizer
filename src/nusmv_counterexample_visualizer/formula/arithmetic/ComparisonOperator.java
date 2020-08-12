@@ -55,9 +55,9 @@ public class ComparisonOperator extends ArithmeticExpression {
 
     @Override
     public Set<String> variableSet() {
-        final Set<String> vars = new TreeSet<>();
-        vars.addAll(leftArgument.variableSet());
-        vars.addAll(rightArgument.variableSet());
-        return vars;
+        return new TreeSet<String>() {{
+            addAll(leftArgument.variableSet());
+            addAll(rightArgument.variableSet());
+        }};
     }
 }

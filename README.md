@@ -1,19 +1,19 @@
 # NuSMV LTL counterexample visualizer
 
-A tool that explains why a particular LTL formula fails on a particular trace by means of causal analysis and structured visualization.
+This tool explains why a particular LTL formula fails on a particular trace by means of causal analysis and structured visualization. Below you can see the explanation of the formula's false outcome (middle) and variable values that are important for this outcome (bottom).
 
-By [Igor Buzhinsky](http://rain.ifmo.ru/~buzhinsky), Aalto University & ITMO University, igor.buzhinsky@gmail.com.
+<img src="screenshot.png" width="800">
 
 Cite:
 
 * Pakonen A., Buzhinsky I., Vyatkin V. Counterexample visualization and explanation for function block diagrams. 16th IEEE International Conference on Industrial Informatics (INDIN). July 18–20, 2018, Porto, Portugal, pp. 747–753. IEEE, 2018 [[web]](https://ieeexplore.ieee.org/document/8472025) [[preprint]](https://ctlab.itmo.ru/~buzhinsky/papers/indin-2018.pdf)
 
-Notes on the input format:
+## Notes on the input format
 
+* The input file to the tool is the output file of NuSMV with LTL formulas and corresponding counterexample traces.
 * Bounded operators (e.g., G[0, 3]) in LTL formulas are not supported. You will have to rewrite them manually (e.g., with X).
 * All arithmetic operators supported by NuSMV should work.
 * Supported past-time LTL operators: Y, Z, O, H. Unsupported past-time LTL operators: T, S.
-* If the provided counterexample has no loop (e.g. when BMC is used), the last element is looped automatically.
 * Since nuXmv counterexamples usually have the same format as NuSMV ones, the tool may be used on nuXmv counterexamples. Real (rational) data type is supported by the tool but timed traces and formulas are not.
 
 ## Running
@@ -69,4 +69,4 @@ These extensions simplify the use of the tool when the input is produced manuall
 
 ## Bugs
 
-If you see an error or something strange, you can email Igor Buzhinsky (igor.buzhinsky@gmail.com).
+If you see an error or something strange, you can open an issue here or email Igor Buzhinsky (igor.buzhinsky@gmail.com).
