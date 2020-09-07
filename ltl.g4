@@ -26,7 +26,8 @@ FALSE : 'FALSE';
 
 COUNT : 'count';
 
-ID : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
+// note: dashes in identifiers are not supported
+ID : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'$'|'#'|'0'..'9')*;
 
 constant
     : REAL_CONST | INT_CONST | TRUE | FALSE
