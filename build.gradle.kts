@@ -69,13 +69,6 @@ tasks.jar {
     enabled = false
 }
 
-tasks.register<Copy>("updateJars") {
-    group = BasePlugin.BUILD_GROUP
-    description = "Copies the built jars into jars/, the downloadable binaries referenced by the README."
-    from(consoleJar, guiJar)
-    into(layout.projectDirectory.dir("jars"))
-}
-
 // Snapshot tests read the example inputs from the project root.
 val exampleInputs = files("example-input.txt", "example-input-nuxmv-reals.txt")
 

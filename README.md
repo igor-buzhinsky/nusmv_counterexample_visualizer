@@ -24,21 +24,21 @@ Cite:
 
 The tool can be run on Windows, Mac OS, Linux. Requires [Java 8 or higher](https://adoptium.net/) to be installed on your system.
 
-Simply run [jars/visualizer-gui.jar](/jars/visualizer-gui.jar). Alternatively, or if this does not work, you can run the tool from the console:
+Download [visualizer-gui.jar](https://github.com/igor-buzhinsky/nusmv_counterexample_visualizer/releases/latest/download/visualizer-gui.jar) from the [latest release](https://github.com/igor-buzhinsky/nusmv_counterexample_visualizer/releases/latest) and simply run it. Alternatively, or if this does not work, you can run the tool from the console:
 
-> java -jar jars/visualizer-gui.jar
+> java -jar visualizer-gui.jar
 
 You can select the input file (for example, [example-input.txt](/example-input.txt)) either in the dialog window or in the command line:
 
-> java -jar jars/visualizer-gui.jar example-input.txt
+> java -jar visualizer-gui.jar example-input.txt
 
 Font sizes can be configured via command line options --mainFontSize &lt;size&gt; and --auxFontSize &lt;size&gt;.
 
 The colors of the default highlighting mode can be configured via command line options --highlightColor &lt;color&gt;, --trueColor &lt;color&gt;, --falseColor &lt;color&gt;. Another option --highlightChar &lt;char&gt; specifies the character used to highlight important Boolean values.
 
-A purely console version of the tool is also available:
+A purely console version of the tool, [visualizer-console.jar](https://github.com/igor-buzhinsky/nusmv_counterexample_visualizer/releases/latest/download/visualizer-console.jar), is also available:
 
-> java -jar jars/visualizer-console.jar
+> java -jar visualizer-console.jar &lt;input&gt; &lt;output&gt; [--allVars] [--annotateFormulas]
 
 
 ## GUI help
@@ -59,7 +59,9 @@ The build uses [Gradle](https://gradle.org/) through the included wrapper, so on
 
 > ./gradlew build
 
-This generates the LTL parser from the ANTLR grammar ([src/main/antlr](/src/main/antlr)), compiles the code, runs the tests, and builds self-contained jars (visualizer-console.jar and visualizer-gui.jar) in build/libs. To update the downloadable jars in [jars/](/jars), run `./gradlew updateJars`. On Windows, use `gradlew.bat` instead of `./gradlew`.
+This generates the LTL parser from the ANTLR grammar ([src/main/antlr](/src/main/antlr)), compiles the code, runs the tests, and builds self-contained jars (visualizer-console.jar and visualizer-gui.jar) in build/libs. On Windows, use `gradlew.bat` instead of `./gradlew`.
+
+To publish a release, push an annotated tag such as `v1.2.3`: the [release workflow](/.github/workflows/release.yml) builds and tests the project and attaches the jars and their SHA-256 checksums to a new GitHub release, using the tag message as release notes.
 
 ## Testing
 

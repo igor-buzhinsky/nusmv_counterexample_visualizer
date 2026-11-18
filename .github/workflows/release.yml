@@ -1,0 +1,42 @@
+name: Release
+
+# Pushing a tag such as v1.2.3 builds and tests the project and publishes a GitHub release with the jars.
+# The release notes are taken from the annotated tag's message.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      # actions/checkout turns annotated tags into lightweight ones; fetch the tag again to get its message
+      - name: Fetch the annotated tag
+        run: git fetch --force origin "refs/tags/$GITHUB_REF_NAME:refs/tags/$GITHUB_REF_NAME"
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 21
+
+      # Staying on v5 (MIT): in v6, caching is subject to proprietary license terms
+      # (https://blog.gradle.org/github-actions-for-gradle-v6).
+      - uses: gradle/actions/setup-gradle@v5
+
+      - run: ./gradlew build
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd build/libs
+          sha256sum visualizer-console.jar visualizer-gui.jar > SHA256SUMS
+          cat SHA256SUMS
+          gh release create "$GITHUB_REF_NAME" visualizer-console.jar visualizer-gui.jar SHA256SUMS \
+            --title "$GITHUB_REF_NAME" --notes-from-tag --verify-tag
