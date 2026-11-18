@@ -56,18 +56,27 @@ public class ComparisonOperator extends ArithmeticExpression {
     /*
      * In a formula, a symbolic constant (e.g. "idle" in "state = idle") is syntactically indistinguishable from a
      * variable name. An identifier that is not a variable of the trace is therefore treated as a symbolic constant
-     * if it is compared for (in)equality with a trace variable (whose type may mix integers and symbols, so its
-     * current value may be an integer) or with any other expression whose value is symbolic. Otherwise, it is
-     * evaluated as a variable, which reports the missing variable (e.g., a misspelled one in "stat = 1").
+     * if it is a direct operand of = or != and the other operand is of an enumeration type, i.e. it is either
+     * a trace variable that takes a symbolic value somewhere in the trace (the type may mix integers and symbols)
+     * or an expression whose current value is symbolic. Otherwise, it is evaluated as a variable, which reports
+     * the missing variable (e.g., a misspelled one in "stat = 1" or "x = y_typo" for an integer x).
      */
     private Object operandValue(ArithmeticExpression operand, ArithmeticExpression other,
                                 Map<String, List<String>> values, int position) {
         if ((name.equals("=") || name.equals("!=")) && isUndefinedVariable(operand, values)
-                && !isUndefinedVariable(other, values)
-                && (other instanceof Variable || other.calculate(values, position) instanceof SymbolicValue)) {
+                && hasEnumerationType(other, values, position)) {
             return new SymbolicValue(operand.name);
         }
         return operand.calculate(values, position);
+    }
+
+    private static boolean hasEnumerationType(ArithmeticExpression e, Map<String, List<String>> values,
+                                              int position) {
+        if (e instanceof Variable) {
+            final List<String> trace = values.get(e.name);
+            return trace != null && trace.stream().anyMatch(Constant::isSymbolic);
+        }
+        return e.calculate(values, position) instanceof SymbolicValue;
     }
 
     private static boolean isUndefinedVariable(ArithmeticExpression e, Map<String, List<String>> values) {

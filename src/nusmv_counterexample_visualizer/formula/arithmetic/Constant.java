@@ -12,8 +12,16 @@ import java.util.regex.Pattern;
  * Created by buzhinsky on 11/20/17.
  */
 public class Constant extends ArithmeticExpression {
-    // NuSMV symbolic constants (enumeration values) are identifiers
+    // NuSMV symbolic constants (enumeration values) are identifiers. Unlike the formula grammar, dashes are
+    // accepted here so that traces with such values can still be loaded (NuSMV allows dashes in identifiers).
     private static final Pattern SYMBOLIC_CONSTANT = Pattern.compile("[A-Za-z_][A-Za-z0-9_$#\\-]*");
+
+    /**
+     * Whether a value printed in a trace is a symbolic constant (and not a Boolean or a number).
+     */
+    static boolean isSymbolic(String value) {
+        return !value.equals("TRUE") && !value.equals("FALSE") && SYMBOLIC_CONSTANT.matcher(value).matches();
+    }
 
     public Constant(String name) {
         super(name);
@@ -31,7 +39,7 @@ public class Constant extends ArithmeticExpression {
             return Integer.parseInt(name);
         } catch (NumberFormatException ignored) {
             // must be checked before the decimal format since identifiers may contain "e"
-            if (SYMBOLIC_CONSTANT.matcher(name).matches()) {
+            if (isSymbolic(name)) {
                 return new SymbolicValue(name);
             }
             final BigRational result;

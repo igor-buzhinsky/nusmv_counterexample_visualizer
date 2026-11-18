@@ -1,0 +1,41 @@
+-- specification  G (request ->  F state = busy)  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample
+Trace Type: Counterexample
+  -> State: 1.1 <-
+    request = TRUE
+    state = idle
+  -- Loop starts here
+  -> State: 1.2 <-
+    request = FALSE
+-- specification  G (state = idle | state = busy)  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample
+Trace Type: Counterexample
+  -> State: 2.1 <-
+    request = FALSE
+    state = idle
+  -> State: 2.2 <-
+    state = busy
+  -- Loop starts here
+  -> State: 2.3 <-
+    state = error
+-- specification  G (level = low ->  X level = 3)  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample
+Trace Type: Counterexample
+  -> State: 3.1 <-
+    level = low
+  -> State: 3.2 <-
+    level = 3
+  -- Loop starts here
+  -> State: 3.3 <-
+    level = low
+-- specification  F mode = e1  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample
+Trace Type: Counterexample
+  -- Loop starts here
+  -> State: 4.1 <-
+    mode = e2
+-- specification  G state != error  is true

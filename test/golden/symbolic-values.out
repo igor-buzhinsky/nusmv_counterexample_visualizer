@@ -1,0 +1,19 @@
+-- specification G (request -> F state = busy) is FALSE
+[prefix] step 0: values from the formula *request =  TRUE* *state = idle*
+[ loop ] step 1: values from the formula [request = FALSE] *state = idle*
+
+-- specification G (state = idle | state = busy) is FALSE
+[prefix] step 0: values from the formula [state =  idle]
+[prefix] step 1: values from the formula [state =  busy]
+[ loop ] step 2: values from the formula *state = error*
+
+-- specification G (level = low -> X level = 3) is FALSE
+[prefix] step 0: values from the formula [level = low]
+[prefix] step 1: values from the formula [level =   3]
+[ loop ] step 2: values from the formula *level = low*
+
+-- specification F mode = e1 is FALSE
+[ loop ] step 0: values from the formula *mode = e2*
+
+-- specification G state != error is TRUE
+

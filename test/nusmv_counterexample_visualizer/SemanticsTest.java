@@ -76,7 +76,7 @@ class SemanticsTest {
             // U binds tighter than &: (p U q) & r
             "p U q & r    :: p=TRUE q=FALSE r=FALSE; >p=FALSE q=TRUE r=TRUE :: FALSE",
             // unary operators bind tighter than binary ones: (!p) U q
-            "!p U q       :: p=FALSE q=FALSE; >p=TRUE q=TRUE :: TRUE",
+            "!p U q       :: >p=FALSE q=TRUE :: TRUE",
             "p xor q      :: >p=TRUE q=TRUE :: FALSE",
             "p xnor q     :: >p=TRUE q=TRUE :: TRUE",
             "p <-> q      :: >p=FALSE q=FALSE :: TRUE",
@@ -116,18 +116,28 @@ class SemanticsTest {
             // an "e" in a symbol must not make it look like a decimal number
             "mode = e1                 :: >mode=e1 :: TRUE",
             // mixed enumerations of integers and symbols
-            "level = 3                 :: >level=low :: FALSE",
-            "level = low               :: >level=3 :: FALSE",
+            "level = 3                 :: level=3; >level=low :: TRUE",
+            "level = low               :: level=3; >level=low :: FALSE",
+            "F level = low             :: level=3; >level=low :: TRUE",
+            // a constant that never occurs in the trace
+            "G state != error          :: state=idle; >state=busy :: TRUE",
     })
     void symbolicValues(String formula, String trace, String expected) {
         check(formula, trace, expected);
     }
 
-    @Test
-    void misspelledVariableIsStillReported() {
+    @DisplayName("misspelled variables are reported, not taken for symbolic constants")
+    @ParameterizedTest(name = "{0} on [{1}] reports {2}")
+    @CsvSource(delimiterString = "::", value = {
+            "stat = 1      :: >state=1 :: stat",
+            "x = y_typo    :: x=1; >x=2 y=1 :: y_typo",
+            "p = q_typo    :: >p=TRUE q=TRUE :: q_typo",
+            "p != q_typo   :: >p=FALSE q=TRUE :: q_typo",
+    })
+    void misspelledVariableIsReported(String formula, String trace, String missing) {
         final RuntimeException e = assertThrows(RuntimeException.class,
-                () -> TraceBuilder.evaluate("stat = 1", ">state=1"));
-        assertTrue(e.getMessage().contains("Missing variable name: stat"), e.getMessage());
+                () -> TraceBuilder.evaluate(formula, trace));
+        assertTrue(e.getMessage().contains("Missing variable name: " + missing), e.getMessage());
     }
 
     @Test

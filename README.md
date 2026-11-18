@@ -14,7 +14,7 @@ Cite:
 * Bounded operators (e.g., G[0, 3]) in LTL formulas are not supported. You will have to rewrite them manually (e.g., with X).
 * Dashes (-) in identifiers are not supported, but $ and # are supported.
 * All arithmetic operators supported by NuSMV should work.
-* Enumeration types with symbolic values (e.g., state = idle) are supported in = and != comparisons.
+* Enumeration types with symbolic values are supported when a symbolic constant is a direct operand of = or != and the other operand is an enumeration variable (e.g., state = idle). Since the tool sees only the trace, not the type declarations, a misspelled constant (e.g., state = idel) cannot be detected and simply compares unequal.
 * Supported past-time LTL operators: Y, Z, O, H. Unsupported past-time LTL operators: T, S.
 * Since nuXmv counterexamples usually have the same format as NuSMV ones, the tool may be used on nuXmv counterexamples. Real (rational) data type is supported by the tool but timed traces and formulas are not.
 

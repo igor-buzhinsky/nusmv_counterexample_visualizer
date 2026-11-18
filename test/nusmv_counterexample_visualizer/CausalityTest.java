@@ -64,8 +64,8 @@ class CausalityTest {
         assertEquals(setOf(1, "state"), result.varNameCausalSet);
         // console rendering lists only real variables among "values from the formula"
         final String output = result.result(false, true);
-        assertTrue(output.contains("step 1: values from the formula \u2590state = busy\u258c"), output);
-        assertTrue(!output.contains("idle = "), output);
+        assertTrue(output.contains("step 0: values from the formula [state = idle]\n"), output);
+        assertTrue(output.contains("step 1: values from the formula \u2590state = busy\u258c\n"), output);
     }
 
     @Test

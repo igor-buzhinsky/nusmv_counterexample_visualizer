@@ -1,0 +1,2 @@
+# Snapshot files are compared byte for byte with the tool output, which uses LF line endings
+test/golden/* text eol=lf

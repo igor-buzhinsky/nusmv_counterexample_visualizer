@@ -1,0 +1,80 @@
+-- specification G (request -> F state = busy) is FALSE
+[prefix] step 0: values from the formula *request =  TRUE* *state = idle*
+[prefix] step 0:    _______      ______________   
+[prefix] step 0: G((request -> F((state = busy))))
+[prefix] step 0: ║ ║TTTTTTT    ║ FFFFFFFFFFFFFF║║║
+[prefix] step 0: ║ ║           ╚FFFFFFFFFFFFFFF╝║║
+[prefix] step 0: ║ ╚FFFFFFFFFFFFFFFFFFFFFFFFFFFF╝║
+[prefix] step 0: ╚FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF╝
+
+[ loop ] step 1: values from the formula [request = FALSE] *state = idle*
+[ loop ] step 1:                 ______________   
+[ loop ] step 1: G((request -> F((state = busy))))
+[ loop ] step 1: ║ ║FFFFFFF    ║ FFFFFFFFFFFFFF║║║
+[ loop ] step 1: ║ ║           ╚FFFFFFFFFFFFFFF╝║║
+[ loop ] step 1: ║ ╚TTTTTTTTTTTTTTTTTTTTTTTTTTTT╝║
+[ loop ] step 1: ╚TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT╝
+
+
+-- specification G (state = idle | state = busy) is FALSE
+[prefix] step 0: values from the formula [state =  idle]
+[prefix] step 0:            other values [request = FALSE]
+[prefix] step 0:                                     
+[prefix] step 0: G(((state = idle) | (state = busy)))
+[prefix] step 0: ║ ║TTTTTTTTTTTTTT   FFFFFFFFFFFFFF║║
+[prefix] step 0: ║ ╚TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT╝║
+[prefix] step 0: ╚FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF╝
+
+[prefix] step 1: values from the formula [state =  busy]
+[prefix] step 1:            other values [request = FALSE]
+[prefix] step 1:                                     
+[prefix] step 1: G(((state = idle) | (state = busy)))
+[prefix] step 1: ║ ║FFFFFFFFFFFFFF   TTTTTTTTTTTTTT║║
+[prefix] step 1: ║ ╚TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT╝║
+[prefix] step 1: ╚FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF╝
+
+[ loop ] step 2: values from the formula *state = error*
+[ loop ] step 2:            other values [request = FALSE]
+[ loop ] step 2:    ______________   ______________  
+[ loop ] step 2: G(((state = idle) | (state = busy)))
+[ loop ] step 2: ║ ║FFFFFFFFFFFFFF   FFFFFFFFFFFFFF║║
+[ loop ] step 2: ║ ╚FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF╝║
+[ loop ] step 2: ╚FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF╝
+
+
+-- specification G (level = low -> X level = 3) is FALSE
+[prefix] step 0: values from the formula [level = low]
+[prefix] step 0:                                     
+[prefix] step 0: G(((level = low) -> X((level = 3))))
+[prefix] step 0: ║ ║TTTTTTTTTTTTT    ║ FFFFFFFFFFF║║║
+[prefix] step 0: ║ ║                 ╚TTTTTTTTTTTT╝║║
+[prefix] step 0: ║ ╚TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT╝║
+[prefix] step 0: ╚FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF╝
+
+[prefix] step 1: values from the formula [level =   3]
+[prefix] step 1:                                     
+[prefix] step 1: G(((level = low) -> X((level = 3))))
+[prefix] step 1: ║ ║FFFFFFFFFFFFF    ║ TTTTTTTTTTT║║║
+[prefix] step 1: ║ ║                 ╚FFFFFFFFFFFF╝║║
+[prefix] step 1: ║ ╚TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT╝║
+[prefix] step 1: ╚FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF╝
+
+[ loop ] step 2: values from the formula *level = low*
+[ loop ] step 2:    _____________      ___________   
+[ loop ] step 2: G(((level = low) -> X((level = 3))))
+[ loop ] step 2: ║ ║TTTTTTTTTTTTT    ║ FFFFFFFFFFF║║║
+[ loop ] step 2: ║ ║                 ╚FFFFFFFFFFFF╝║║
+[ loop ] step 2: ║ ╚FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF╝║
+[ loop ] step 2: ╚FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF╝
+
+
+-- specification F mode = e1 is FALSE
+[ loop ] step 0: values from the formula *mode = e2*
+[ loop ] step 0:   ___________ 
+[ loop ] step 0: F((mode = e1))
+[ loop ] step 0: ║ FFFFFFFFFFF║
+[ loop ] step 0: ╚FFFFFFFFFFFF╝
+
+
+-- specification G state != error is TRUE
+

@@ -17,9 +17,9 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Snapshot (golden-file) tests: runs the console tool on the bundled example inputs and compares the output with
- * files recorded from the released jar. Any change in formula evaluation, causality analysis or rendering
- * shows up as a diff here.
+ * Snapshot (golden-file) tests: runs the console tool on the example inputs and compares the output with recorded
+ * files (for the bundled examples, recorded from the released jar). Any change in formula evaluation, causality
+ * analysis or rendering shows up as a diff here.
  *
  * <p>To re-record the snapshots after an intended change, run {@code ant update-golden} and review the diff.
  */
@@ -27,7 +27,8 @@ class GoldenOutputTest {
     private static final Path GOLDEN_DIR = Paths.get("test", "golden");
     private static final boolean UPDATE = Boolean.getBoolean("golden.update");
 
-    private static final String[] INPUTS = {"example-input.txt", "example-input-nuxmv-reals.txt"};
+    private static final String[] INPUTS = {
+            "example-input.txt", "example-input-nuxmv-reals.txt", "test/inputs/symbolic-values.txt"};
 
     private static final String[][] OPTION_SETS = {
             {},
@@ -68,7 +69,7 @@ class GoldenOutputTest {
     }
 
     private static String goldenName(String input, String[] options) {
-        final StringBuilder sb = new StringBuilder(input.replaceAll("\\.txt$", ""));
+        final StringBuilder sb = new StringBuilder(Paths.get(input).getFileName().toString().replaceAll("\\.txt$", ""));
         for (String option : options) {
             sb.append('_').append(option.replace("--", ""));
         }
