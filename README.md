@@ -162,7 +162,7 @@ The test suite (JUnit 5, in [src/test](src/test)) consists of:
 * **Causality tests**: which variable values are reported as the causes of a formula's value.
 * **Unit tests** for rational arithmetic.
 
-CI runs the build on Linux, Windows and macOS and checks that the jars run on Java 8.
+CI runs the build on Linux and Windows and checks that the jars run on Java 8.
 
 ## Citation
 

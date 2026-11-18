@@ -20,7 +20,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # No macOS: the code is pure Java, Linux covers Unix-like systems, and macOS runners were often
+        # unavailable for 15+ minutes, which blocked the Java 8 check.
+        os: [ubuntu-latest, windows-latest]
         java: [21]
         include:
           # Oldest JDK that can run Gradle 9
