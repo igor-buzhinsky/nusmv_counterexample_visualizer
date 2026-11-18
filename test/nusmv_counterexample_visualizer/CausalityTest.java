@@ -58,6 +58,17 @@ class CausalityTest {
     }
 
     @Test
+    void symbolicConstantsAreNotTreatedAsVariables() {
+        final VerificationResult result = TraceBuilder.evaluate("G state = idle",
+                "state=idle; >state=busy");
+        assertEquals(setOf(1, "state"), result.varNameCausalSet);
+        // console rendering lists only real variables among "values from the formula"
+        final String output = result.result(false, true);
+        assertTrue(output.contains("step 1: values from the formula \u2590state = busy\u258c"), output);
+        assertTrue(!output.contains("idle = "), output);
+    }
+
+    @Test
     void malformedSpecificationIsSkippedAndParsingContinues() {
         final List<String> lines = TraceBuilder.nusmvLines("G (p &", ">p=TRUE");
         lines.addAll(TraceBuilder.nusmvLines("G p", ">p=TRUE"));

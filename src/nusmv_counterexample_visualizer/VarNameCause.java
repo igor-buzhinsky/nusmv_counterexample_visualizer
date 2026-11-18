@@ -12,6 +12,10 @@ class VarNameCause {
         this.varName = varName;
     }
 
+    String varName() {
+        return varName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

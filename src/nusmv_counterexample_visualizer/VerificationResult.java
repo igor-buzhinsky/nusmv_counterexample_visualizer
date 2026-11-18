@@ -36,7 +36,9 @@ class VerificationResult {
         causalSet = ce != null ? ce.causalSet(normalizedF) : new HashSet<>();
         varNameCausalSet = new HashSet<>();
         for (Cause cause : causalSet) {
-            varNameCausalSet.addAll(cause.toVarNameClauses());
+            // symbolic constants in the formula look like variable names but are not trace variables
+            cause.toVarNameClauses().stream().filter(c -> ce.values().containsKey(c.varName()))
+                    .forEach(varNameCausalSet::add);
         }
     }
 

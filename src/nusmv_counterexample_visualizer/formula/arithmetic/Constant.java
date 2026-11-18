@@ -6,11 +6,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * Created by buzhinsky on 11/20/17.
  */
 public class Constant extends ArithmeticExpression {
+    // NuSMV symbolic constants (enumeration values) are identifiers
+    private static final Pattern SYMBOLIC_CONSTANT = Pattern.compile("[A-Za-z_][A-Za-z0-9_$#\\-]*");
+
     public Constant(String name) {
         super(name);
     }
@@ -26,6 +30,10 @@ public class Constant extends ArithmeticExpression {
         try {
             return Integer.parseInt(name);
         } catch (NumberFormatException ignored) {
+            // must be checked before the decimal format since identifiers may contain "e"
+            if (SYMBOLIC_CONSTANT.matcher(name).matches()) {
+                return new SymbolicValue(name);
+            }
             final BigRational result;
             // parse a rational number
             final String strValue = name.toLowerCase();

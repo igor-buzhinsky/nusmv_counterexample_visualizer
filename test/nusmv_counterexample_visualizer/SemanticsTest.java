@@ -1,12 +1,13 @@
 package nusmv_counterexample_visualizer;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Checks the computed truth value of LTL formulas on small hand-written lasso traces.
@@ -102,11 +103,36 @@ class SemanticsTest {
         check(formula, trace, expected);
     }
 
-    @Disabled("Known limitation: symbolic (enum) values are not supported; Constant.calculate only handles "
-            + "booleans and numbers, so this throws NumberFormatException")
+    @DisplayName("symbolic (enum) values")
+    @ParameterizedTest(name = "{0} on [{1}] is {2}")
+    @CsvSource(delimiterString = "::", value = {
+            "state = idle              :: >state=idle :: TRUE",
+            "idle = state              :: >state=idle :: TRUE",
+            "state != busy             :: >state=idle :: TRUE",
+            "G state = idle            :: state=idle; >state=busy :: FALSE",
+            "G F state = busy          :: state=idle; >state=busy; state=idle :: TRUE",
+            "state = idle U done       :: state=idle done=FALSE; >state=busy done=TRUE :: TRUE",
+            "state = prev_state        :: >state=idle prev_state=idle :: TRUE",
+            // an "e" in a symbol must not make it look like a decimal number
+            "mode = e1                 :: >mode=e1 :: TRUE",
+            // mixed enumerations of integers and symbols
+            "level = 3                 :: >level=low :: FALSE",
+            "level = low               :: >level=3 :: FALSE",
+    })
+    void symbolicValues(String formula, String trace, String expected) {
+        check(formula, trace, expected);
+    }
+
     @Test
-    void symbolicEnumValues() {
-        check("state = idle", ">state=idle", "TRUE");
+    void misspelledVariableIsStillReported() {
+        final RuntimeException e = assertThrows(RuntimeException.class,
+                () -> TraceBuilder.evaluate("stat = 1", ">state=1"));
+        assertTrue(e.getMessage().contains("Missing variable name: stat"), e.getMessage());
+    }
+
+    @Test
+    void symbolicValuesCannotBeOrdered() {
+        assertThrows(RuntimeException.class, () -> TraceBuilder.evaluate("state < busy", ">state=idle"));
     }
 
     @DisplayName("input format conventions")

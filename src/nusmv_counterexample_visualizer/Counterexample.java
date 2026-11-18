@@ -159,7 +159,8 @@ public class Counterexample {
     }
 
     void setImportant(Set<String> varNames) {
-        importantVars.addAll(varNames);
+        // symbolic constants in the formula look like variable names but are not trace variables
+        varNames.stream().filter(vars::contains).forEach(importantVars::add);
     }
 
     public Map<String, List<String>> values() {
