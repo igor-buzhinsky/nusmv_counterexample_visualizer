@@ -242,17 +242,18 @@ public class GUIMain extends JFrame {
                 "NuSMV LTL counterexample visualizer",
                 "By Igor Buzhinsky, Aalto University & ITMO University, igor.buzhinsky@gmail.com",
                 "",
-                "The top panel lists LTL specifications from the input file. Visualization is available only " +
-                        "for FALSE specifications. Select a FALSE specification to see the visualization of the " +
-                        "counterexample for this specification in the middle panel.",
+                "The top panel lists LTL specifications from the input file. Select a specification to see the " +
+                        "visualization of its trace in the middle panel. NuSMV provides traces only for FALSE " +
+                        "specifications, but with hand-written traces, TRUE specifications can be visualized too.",
                 "",
                 "In the middle panel, the values (T = true, F = false) of each subformula of the LTL specification are " +
-                        "shown for each step of the counterexample. Click on an annotation below a subformula to see " +
-                        "an explanation of its value. As a result, this and some other values will be highlighted. In " +
+                        "shown for each step of the counterexample. Click on a subformula value to see " +
+                        "an explanation of it. As a result, this and some other values will be highlighted. In " +
                         "addition, important atomic propositions are highlighted in the LTL formula.",
                 "",
-                "An additional compact highlighting mode is available which displays subformula values on the same " +
-                        "line where the formula is displayed. Explanations also work in this mode.",
+                "By default, compact annotations display subformula values as colors of the formula itself. Turn " +
+                        "them off (left bottom corner) to display the values below each subformula. Explanations " +
+                        "work in both modes.",
                 "",
                 "In the bottom panel, the values of all variables for all counterexample steps are provided. The " +
                         "values which are present in the LTL formula are shown on the left. Important values are " +

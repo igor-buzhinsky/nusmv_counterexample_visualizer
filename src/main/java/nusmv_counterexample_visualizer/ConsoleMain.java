@@ -41,7 +41,7 @@ public class ConsoleMain {
             parser.parseArgument(args);
             return true;
         } catch (CmdLineException e) {
-            System.out.print("Usage: java -jar visualizer.jar ");
+            System.out.print("Usage: java -jar visualizer-console.jar");
             parser.printSingleLineUsage(System.out);
             System.out.println();
             parser.printUsage(System.out);
