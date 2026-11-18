@@ -23,28 +23,29 @@ jobs:
             java: 17
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: ${{ matrix.java }}
 
-      # Also validates the checksum of the committed Gradle wrapper jar
-      - uses: gradle/actions/setup-gradle@v4
+      # Also validates the checksum of the committed Gradle wrapper jar. Staying on v5 (MIT): in v6, caching is
+      # subject to proprietary license terms (https://blog.gradle.org/github-actions-for-gradle-v6).
+      - uses: gradle/actions/setup-gradle@v5
 
       - run: ./gradlew build
 
       - name: Upload test reports
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-reports-${{ matrix.os }}-jdk${{ matrix.java }}
           path: build/reports/tests/
 
       - name: Upload jars
         if: matrix.os == 'ubuntu-latest' && matrix.java == 21
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: jars
           path: |
@@ -56,13 +57,13 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: jars
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: 8
