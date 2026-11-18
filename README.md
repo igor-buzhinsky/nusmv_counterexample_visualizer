@@ -1,6 +1,6 @@
 # NuSMV LTL counterexample visualizer
 
-[![Build](https://github.com/igor-buzhinsky/nusmv_counterexample_visualizer/actions/workflows/build.yml/badge.svg)](https://github.com/igor-buzhinsky/nusmv_counterexample_visualizer/actions/workflows/build.yml)
+[![Build](https://github.com/igor-buzhinsky/nusmv_counterexample_visualizer/actions/workflows/build.yml/badge.svg)](https://github.com/igor-buzhinsky/nusmv_counterexample_visualizer/actions/workflows/build.yml) [![License](https://img.shields.io/github/license/igor-buzhinsky/nusmv_counterexample_visualizer)](LICENSE)
 
 This tool explains why a particular LTL formula fails on a particular trace by means of causal analysis and structured visualization. Below you can see the explanation of the formula's false outcome (middle) and variable values that are important for this outcome (bottom).
 
