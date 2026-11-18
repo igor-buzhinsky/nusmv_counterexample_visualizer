@@ -21,14 +21,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * files (for the bundled examples, recorded from the released jar). Any change in formula evaluation, causality
  * analysis or rendering shows up as a diff here.
  *
- * <p>To re-record the snapshots after an intended change, run {@code ant update-golden} and review the diff.
+ * <p>To re-record the snapshots after an intended change, run {@code ./gradlew updateGolden} and review the diff.
  */
 class GoldenOutputTest {
-    private static final Path GOLDEN_DIR = Paths.get("test", "golden");
+    private static final Path GOLDEN_DIR = Paths.get("src", "test", "resources", "golden");
     private static final boolean UPDATE = Boolean.getBoolean("golden.update");
 
     private static final String[] INPUTS = {
-            "example-input.txt", "example-input-nuxmv-reals.txt", "test/inputs/symbolic-values.txt"};
+            "example-input.txt", "example-input-nuxmv-reals.txt", "src/test/resources/inputs/symbolic-values.txt"};
 
     private static final String[][] OPTION_SETS = {
             {},

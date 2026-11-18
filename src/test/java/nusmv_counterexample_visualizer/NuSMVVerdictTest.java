@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class NuSMVVerdictTest {
     @ParameterizedTest
-    @ValueSource(strings = {"example-input.txt", "example-input-nuxmv-reals.txt", "test/inputs/symbolic-values.txt"})
+    @ValueSource(strings = {"example-input.txt", "example-input-nuxmv-reals.txt", "src/test/resources/inputs/symbolic-values.txt"})
     void computedValuesAgreeWithModelChecker(String input) throws IOException {
         final List<String> lines = Files.readAllLines(Paths.get(input), StandardCharsets.UTF_8);
         final List<String> expected = new ArrayList<>();

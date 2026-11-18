@@ -53,18 +53,21 @@ Highlighting of important atomic propositions is implemented (with some enhancem
 
 ## Building
 
-If you need to modify the source of the tool and you have JDK 1.8 or higher, you can rebuild it with [ant](https://ant.apache.org/):
+The build uses [Gradle](https://gradle.org/) through the included wrapper, so only JDK 17 or higher is needed (the built jars still run on Java 8):
 
-> ant
+> ./gradlew build
+
+This generates the LTL parser from the ANTLR grammar ([src/main/antlr](/src/main/antlr)), compiles the code, runs the tests, and builds self-contained jars in build/libs. To update the downloadable jars in [jars/](/jars), run `./gradlew updateJars`. On Windows, use `gradlew.bat` instead of `./gradlew`.
 
 ## Testing
 
-> ant test
+> ./gradlew test
 
-The test suite (JUnit 5, in [test/](/test)) consists of:
+The test suite (JUnit 5, in [src/test](/src/test)) consists of:
 
-* **Snapshot tests**: the console tool runs on the bundled example inputs with different options, and the output is compared with the recorded files in [test/golden](/test/golden). Any change in formula evaluation, causality analysis or rendering shows up as a diff. After an intended change, re-record them with `ant update-golden` and review the diff.
-* **Semantics tests**: the truth values of LTL formulas (future and past operators, precedence, arithmetic, reals) on small hand-written lasso traces.
+* **Snapshot tests**: the console tool runs on the example inputs with different options, and the output is compared with the recorded files in [src/test/resources/golden](/src/test/resources/golden). Any change in formula evaluation, causality analysis or rendering shows up as a diff. After an intended change, re-record them with `./gradlew updateGolden` and review the diff.
+* **Model checker verdicts**: for every specification in the example inputs, the truth value computed by the tool must agree with the verdict printed by NuSMV/nuXmv.
+* **Semantics tests**: the truth values of LTL formulas (future and past operators, precedence, arithmetic, reals, enumeration types) on small hand-written lasso traces.
 * **Causality tests**: which variable values are reported as the causes of a formula's value.
 * **Unit tests** for rational arithmetic.
 
