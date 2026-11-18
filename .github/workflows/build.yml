@@ -9,6 +9,11 @@ on:
 permissions:
   contents: read
 
+# A newer push to the same branch or pull request cancels the older run
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build and test (${{ matrix.os }}, JDK ${{ matrix.java }})
@@ -22,6 +27,7 @@ jobs:
           - os: ubuntu-latest
             java: 17
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
 
@@ -41,13 +47,16 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: test-reports-${{ matrix.os }}-jdk${{ matrix.java }}
-          path: build/reports/tests/
+          path: |
+            build/reports/tests/
+            build/test-results/
 
       - name: Upload jars
         if: matrix.os == 'ubuntu-latest' && matrix.java == 21
         uses: actions/upload-artifact@v7
         with:
           name: jars
+          overwrite: true
           path: |
             build/libs/visualizer-console.jar
             build/libs/visualizer-gui.jar
@@ -56,6 +65,7 @@ jobs:
     name: Run jars on Java 8
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
 
@@ -72,7 +82,11 @@ jobs:
         run: |
           java -version
           check() {
-            java -Dfile.encoding=UTF-8 -jar visualizer-console.jar "$1" actual.out $3 > /dev/null
+            rm -f actual.out
+            # On a usage error, the tool prints the usage and exits with status 0
+            if java -Dfile.encoding=UTF-8 -jar visualizer-console.jar "$1" actual.out $3 | grep "Usage:"; then
+              exit 1
+            fi
             diff -u "src/test/resources/golden/$2" actual.out
           }
           check example-input.txt example-input_annotateFormulas.out --annotateFormulas
@@ -80,11 +94,19 @@ jobs:
           check src/test/resources/inputs/symbolic-values.txt symbolic-values.out ""
 
       - name: Start the GUI on a virtual display
-        # The GUI must still be running without exceptions when it is stopped after 10 seconds
+        # The GUI must have loaded the input and still be running without exceptions when it is stopped after
+        # 10 seconds. timeout runs inside xvfb-run so that the signal reaches java itself.
         run: |
           command -v xvfb-run > /dev/null || (sudo apt-get update && sudo apt-get install -y xvfb)
           status=0
-          timeout 10 xvfb-run -a java -jar visualizer-gui.jar example-input.txt > gui.log 2>&1 || status=$?
+          xvfb-run -a timeout -k 5 10 java -jar visualizer-gui.jar example-input.txt > gui.log 2>&1 || status=$?
           cat gui.log
-          test "$status" -eq 124
-          ! grep -E "Exception|Error:" gui.log
+          if [ "$status" -ne 124 ]; then
+            echo "Expected the GUI to be still running, but it exited with status $status"
+            exit 1
+          fi
+          if grep -E "Exception|Error:" gui.log; then
+            exit 1
+          fi
+          # The reader reports loop unwinding for the past-time properties of the example input
+          grep -q "the loop has been unwound" gui.log

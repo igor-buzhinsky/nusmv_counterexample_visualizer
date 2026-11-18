@@ -22,7 +22,7 @@ Cite:
 
 ## Running
 
-The tool can be run on Windows, Mac OS, Linux. Requires [Java 8 or higher](http://www.oracle.com/technetwork/java/javase/downloads/index.html) to be installed on your system.
+The tool can be run on Windows, Mac OS, Linux. Requires [Java 8 or higher](https://adoptium.net/) to be installed on your system.
 
 Simply run [jars/visualizer-gui.jar](/jars/visualizer-gui.jar). Alternatively, or if this does not work, you can run the tool from the console:
 
@@ -59,7 +59,7 @@ The build uses [Gradle](https://gradle.org/) through the included wrapper, so on
 
 > ./gradlew build
 
-This generates the LTL parser from the ANTLR grammar ([src/main/antlr](/src/main/antlr)), compiles the code, runs the tests, and builds self-contained jars in build/libs. To update the downloadable jars in [jars/](/jars), run `./gradlew updateJars`. On Windows, use `gradlew.bat` instead of `./gradlew`.
+This generates the LTL parser from the ANTLR grammar ([src/main/antlr](/src/main/antlr)), compiles the code, runs the tests, and builds self-contained jars (visualizer-console.jar and visualizer-gui.jar) in build/libs. To update the downloadable jars in [jars/](/jars), run `./gradlew updateJars`. On Windows, use `gradlew.bat` instead of `./gradlew`.
 
 ## Testing
 
@@ -67,7 +67,7 @@ This generates the LTL parser from the ANTLR grammar ([src/main/antlr](/src/main
 
 The test suite (JUnit 5, in [src/test](/src/test)) consists of:
 
-* **Snapshot tests**: the console tool runs on the example inputs with different options, and the output is compared with the recorded files in [src/test/resources/golden](/src/test/resources/golden). Any change in formula evaluation, causality analysis or rendering shows up as a diff. After an intended change, re-record them with `./gradlew updateGolden` and review the diff.
+* **Snapshot tests**: the console tool runs on the example inputs with different options, and the output is compared with the recorded files in [src/test/resources/golden](/src/test/resources/golden). Any change in formula evaluation, causality analysis or rendering shows up as a diff. After an intended change, re-record them with `./gradlew updateGolden` and review the diff. Snapshots of removed inputs or options are not deleted automatically.
 * **Model checker verdicts**: for every specification in the example inputs, the truth value computed by the tool must agree with the verdict printed by NuSMV/nuXmv.
 * **Semantics tests**: the truth values of LTL formulas (future and past operators, precedence, arithmetic, reals, enumeration types) on small hand-written lasso traces.
 * **Causality tests**: which variable values are reported as the causes of a formula's value.

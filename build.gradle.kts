@@ -48,6 +48,11 @@ fun registerFatJar(taskName: String, fileName: String, mainClass: String) =
         }
         from(sourceSets.main.get().output)
         from(configurations.runtimeClasspath.map { classpath -> classpath.map { zipTree(it) } })
+        // The project license; third-party licenses are in src/main/resources/META-INF/licenses
+        // (commons-lang3 ships its own META-INF/LICENSE.txt and NOTICE.txt).
+        from(layout.projectDirectory.file("LICENSE")) {
+            into("META-INF")
+        }
         exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
@@ -57,6 +62,11 @@ val guiJar = registerFatJar("guiJar", "visualizer-gui.jar", "nusmv_counterexampl
 
 tasks.assemble {
     dependsOn(consoleJar, guiJar)
+}
+
+// The plain jar has no dependencies or Main-Class and would only be confused with the runnable ones.
+tasks.jar {
+    enabled = false
 }
 
 tasks.register<Copy>("updateJars") {
@@ -80,7 +90,7 @@ tasks.withType<Test>().configureEach {
     }
 }
 
-tasks.register<Test>("updateGolden") {
+val updateGolden = tasks.register<Test>("updateGolden") {
     group = LifecycleBasePlugin.VERIFICATION_GROUP
     description = "Re-records the snapshot files in src/test/resources/golden. Review the diff afterwards."
     testClassesDirs = sourceSets.test.get().output.classesDirs
@@ -89,5 +99,10 @@ tasks.register<Test>("updateGolden") {
     filter {
         includeTestsMatching("*GoldenOutputTest")
     }
-    outputs.upToDateWhen { false }
+    doNotTrackState("Writes the snapshot files into src/test/resources/golden")
+}
+
+// "./gradlew updateGolden build" must test against the freshly recorded snapshots.
+tasks.test {
+    mustRunAfter(updateGolden)
 }
