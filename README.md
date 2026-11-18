@@ -56,6 +56,17 @@ If you need to modify the source of the tool and you have JDK 1.8 or higher, you
 
 > ant
 
+## Testing
+
+> ant test
+
+The test suite (JUnit 5, in [test/](/test)) consists of:
+
+* **Snapshot tests**: the console tool runs on the bundled example inputs with different options, and the output is compared with the recorded files in [test/golden](/test/golden). Any change in formula evaluation, causality analysis or rendering shows up as a diff. After an intended change, re-record them with `ant update-golden` and review the diff.
+* **Semantics tests**: the truth values of LTL formulas (future and past operators, precedence, arithmetic, reals) on small hand-written lasso traces.
+* **Causality tests**: which variable values are reported as the causes of a formula's value.
+* **Unit tests** for rational arithmetic.
+
 ## Extended input format & educational use of the tool
 
 The tool supports the extension of the NuSMV output format, namely:

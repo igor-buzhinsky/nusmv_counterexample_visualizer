@@ -1,0 +1,12 @@
+-- specification (G x > 0 | (i > 0 xnor j < 0)) is FALSE
+[prefix] step 0: values from the formula *i = 9* *j = 0* [x = 1.0]
+[ loop ] step 1: values from the formula [i = 5] [j = 2] *x = 0.0*
+
+-- specification G ((((((-f'1/2 + x) + 1.3e-2) + 0.1E+2) - f'1/3) + f'0/9) + 1) + 2e0 != 0 is FALSE
+[prefix] step 0: values from the formula [x =           1.0]
+[ loop ] step 1: values from the formula *x = -f'36539/3000*
+
+-- specification ((F y = (f'1/3 * -f'5/7) / f'11/13 & 0.12 = f'6/50) | 0.12 = -f'12/100) is FALSE
+[ loop ] step 0: values from the formula *y = 0.0*
+[ loop ] step 1: values from the formula *y = 0.0*
+

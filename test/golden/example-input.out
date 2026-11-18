@@ -1,0 +1,435 @@
+-- specification G(((!alarm & !criteria) & X (criteria & !ack_button)) -> X alarm) is FALSE
+[prefix] step 0: values from the formula [ack_button =  TRUE] [alarm = FALSE] [criteria =  TRUE]
+[prefix] step 1: values from the formula [ack_button =  TRUE] *alarm = FALSE* *criteria = FALSE*
+[ loop ] step 2: values from the formula *ack_button = FALSE* *alarm = FALSE* *criteria =  TRUE*
+[ loop ] step 3: values from the formula [ack_button =  TRUE] [alarm = FALSE] [criteria =  TRUE]
+[ loop ] step 4: values from the formula [ack_button = FALSE] [alarm = FALSE] [criteria =  TRUE]
+
+-- specification G (s -> F r) is FALSE
+[prefix] step 0: values from the formula [r =  TRUE] [s = TRUE]
+[prefix] step 1: values from the formula *r = FALSE* *s = TRUE*
+[ loop ] step 2: values from the formula *r = FALSE* [s = TRUE]
+
+-- specification G (p0 -> F (((f0 | !p0) | p1) | p2)) is FALSE
+[prefix] step 0: values from the formula [f0 =  TRUE] [p0 = TRUE] [p1 =  TRUE] [p2 =  TRUE]
+[ loop ] step 1: values from the formula *f0 = FALSE* *p0 = TRUE* *p1 = FALSE* *p2 = FALSE*
+
+-- specification G u = 2 is FALSE
+[ loop ] step 0: values from the formula *u = 0*
+[ loop ] step 1: values from the formula [u = 0]
+[ loop ] step 2: values from the formula [u = 0]
+
+-- specification u = 2 is FALSE
+[ loop ] step 0: values from the formula *u = 1*
+[ loop ] step 1: values from the formula [u = 0]
+[ loop ] step 2: values from the formula [u = 1]
+
+-- specification !(X (X (X ((x | y) | z)))) is FALSE
+[ loop ] step 0: values from the formula [x =  TRUE] [y =  TRUE] [z =  TRUE]
+[ loop ] step 1: values from the formula [x =  TRUE] [y = FALSE] [z = FALSE]
+[ loop ] step 2: values from the formula [x = FALSE] [y = FALSE] [z = FALSE]
+[ loop ] step 3: values from the formula *x =  TRUE* *y =  TRUE* *z =  TRUE*
+
+-- specification !(!z U !(!(!y U !(X u = 0)))) is FALSE
+[ loop ] step 0: values from the formula [u = 0] [y = TRUE] [z =  TRUE]
+[ loop ] step 1: values from the formula *u = 1* [y = TRUE] [z = FALSE]
+[ loop ] step 2: values from the formula [u = 0] [y = TRUE] [z =  TRUE]
+
+-- specification G (X (X (X ((FALSE | (G (G (F x)) & (TRUE U (X (F y))))) | (z & !(!z U !z)))))) is FALSE
+[prefix] step 0: values from the formula [x =  TRUE] [y =  TRUE] [z = FALSE]
+[prefix] step 1: values from the formula [x =  TRUE] [y = FALSE] [z =  TRUE]
+[prefix] step 2: values from the formula [x =  TRUE] [y = FALSE] [z = FALSE]
+[prefix] step 3: values from the formula [x =  TRUE] [y = FALSE] *z = FALSE*
+[prefix] step 4: values from the formula *x = FALSE* [y = FALSE] [z = FALSE]
+[prefix] step 5: values from the formula *x = FALSE* [y = FALSE] [z =  TRUE]
+[ loop ] step 6: values from the formula *x = FALSE* [y =  TRUE] [z =  TRUE]
+[ loop ] step 7: values from the formula *x = FALSE* [y =  TRUE] [z =  TRUE]
+
+-- specification X (G ((user_floor_button[8] | user_cabin_button[8]) -> (F on_floor[8] & door_open[8]))) is FALSE
+[prefix] step 0: values from the formula [door_open[8] = FALSE] [on_floor[8] = FALSE] [user_cabin_button[8] = FALSE] [user_floor_button[8] = FALSE]
+[prefix] step 1: values from the formula *door_open[8] = FALSE* *on_floor[8] = FALSE* *user_cabin_button[8] =  TRUE* *user_floor_button[8] =  TRUE*
+[ loop ] step 2: values from the formula [door_open[8] = FALSE] *on_floor[8] = FALSE* [user_cabin_button[8] = FALSE] [user_floor_button[8] = FALSE]
+[ loop ] step 3: values from the formula [door_open[8] = FALSE] *on_floor[8] = FALSE* [user_cabin_button[8] = FALSE] [user_floor_button[8] = FALSE]
+[ loop ] step 4: values from the formula [door_open[8] = FALSE] *on_floor[8] = FALSE* [user_cabin_button[8] = FALSE] [user_floor_button[8] = FALSE]
+[ loop ] step 5: values from the formula [door_open[8] = FALSE] *on_floor[8] = FALSE* [user_cabin_button[8] = FALSE] [user_floor_button[8] = FALSE]
+[ loop ] step 6: values from the formula [door_open[8] = FALSE] *on_floor[8] = FALSE* [user_cabin_button[8] = FALSE] [user_floor_button[8] = FALSE]
+[ loop ] step 7: values from the formula [door_open[8] = FALSE] *on_floor[8] = FALSE* [user_cabin_button[8] = FALSE] [user_floor_button[8] = FALSE]
+
+-- specification X (G (!door_open[6] -> X (door_open[6] -> X (door_open[6] & X !door_open[6])))) is FALSE
+[prefix] step  0: values from the formula [door_open[6] = FALSE]
+[prefix] step  1: values from the formula [door_open[6] = FALSE]
+[prefix] step  2: values from the formula [door_open[6] = FALSE]
+[prefix] step  3: values from the formula [door_open[6] = FALSE]
+[prefix] step  4: values from the formula [door_open[6] = FALSE]
+[prefix] step  5: values from the formula [door_open[6] = FALSE]
+[prefix] step  6: values from the formula [door_open[6] = FALSE]
+[prefix] step  7: values from the formula [door_open[6] = FALSE]
+[prefix] step  8: values from the formula [door_open[6] = FALSE]
+[prefix] step  9: values from the formula [door_open[6] = FALSE]
+[prefix] step 10: values from the formula [door_open[6] = FALSE]
+[prefix] step 11: values from the formula [door_open[6] = FALSE]
+[prefix] step 12: values from the formula [door_open[6] = FALSE]
+[prefix] step 13: values from the formula [door_open[6] = FALSE]
+[prefix] step 14: values from the formula [door_open[6] = FALSE]
+[prefix] step 15: values from the formula [door_open[6] = FALSE]
+[prefix] step 16: values from the formula [door_open[6] = FALSE]
+[prefix] step 17: values from the formula [door_open[6] = FALSE]
+[prefix] step 18: values from the formula [door_open[6] = FALSE]
+[prefix] step 19: values from the formula [door_open[6] = FALSE]
+[prefix] step 20: values from the formula *door_open[6] = FALSE*
+[prefix] step 21: values from the formula *door_open[6] =  TRUE*
+[prefix] step 22: values from the formula [door_open[6] =  TRUE]
+[prefix] step 23: values from the formula *door_open[6] =  TRUE*
+[prefix] step 24: values from the formula [door_open[6] = FALSE]
+[ loop ] step 25: values from the formula [door_open[6] = FALSE]
+[ loop ] step 26: values from the formula [door_open[6] = FALSE]
+[ loop ] step 27: values from the formula [door_open[6] = FALSE]
+[ loop ] step 28: values from the formula [door_open[6] = FALSE]
+[ loop ] step 29: values from the formula [door_open[6] = FALSE]
+[ loop ] step 30: values from the formula [door_open[6] = FALSE]
+[ loop ] step 31: values from the formula [door_open[6] = FALSE]
+[ loop ] step 32: values from the formula [door_open[6] = FALSE]
+[ loop ] step 33: values from the formula [door_open[6] = FALSE]
+[ loop ] step 34: values from the formula [door_open[6] = FALSE]
+[ loop ] step 35: values from the formula [door_open[6] = FALSE]
+[ loop ] step 36: values from the formula [door_open[6] = FALSE]
+[ loop ] step 37: values from the formula [door_open[6] = FALSE]
+[ loop ] step 38: values from the formula [door_open[6] = FALSE]
+[ loop ] step 39: values from the formula [door_open[6] = FALSE]
+[ loop ] step 40: values from the formula [door_open[6] = FALSE]
+[ loop ] step 41: values from the formula [door_open[6] = FALSE]
+[ loop ] step 42: values from the formula [door_open[6] = FALSE]
+[ loop ] step 43: values from the formula [door_open[6] = FALSE]
+[ loop ] step 44: values from the formula [door_open[6] = FALSE]
+[ loop ] step 45: values from the formula [door_open[6] = FALSE]
+[ loop ] step 46: values from the formula [door_open[6] = FALSE]
+[ loop ] step 47: values from the formula [door_open[6] = FALSE]
+[ loop ] step 48: values from the formula [door_open[6] = FALSE]
+[ loop ] step 49: values from the formula [door_open[6] = FALSE]
+
+-- specification X (G (!door_open[8] -> X (door_open[8] -> X (door_open[8] & X (door_open[8] & X !door_open[8]))))) is TRUE
+
+-- specification X (G (door_open[1] -> X ((!door_open[1] & (user_floor_button[1] | user_cabin_button[1])) -> X (X door_open[1])))) is TRUE
+
+-- specification G (plant.CONT_ButtonPressed0 -> F (((plant.CONT_CarAtFloor0 | !plant.CONT_ButtonPressed0) | plant.CONT_ButtonPressed1) | plant.CONT_ButtonPressed2)) is FALSE
+[prefix] step 0: values from the formula [plant.CONT_ButtonPressed0 =  TRUE] [plant.CONT_ButtonPressed1 =  TRUE] [plant.CONT_ButtonPressed2 =  TRUE] [plant.CONT_CarAtFloor0 =  TRUE]
+[prefix] step 1: values from the formula [plant.CONT_ButtonPressed0 = FALSE] [plant.CONT_ButtonPressed1 =  TRUE] [plant.CONT_ButtonPressed2 =  TRUE] [plant.CONT_CarAtFloor0 =  TRUE]
+[prefix] step 2: values from the formula [plant.CONT_ButtonPressed0 = FALSE] [plant.CONT_ButtonPressed1 = FALSE] [plant.CONT_ButtonPressed2 = FALSE] [plant.CONT_CarAtFloor0 = FALSE]
+[prefix] step 3: values from the formula *plant.CONT_ButtonPressed0 =  TRUE* *plant.CONT_ButtonPressed1 = FALSE* *plant.CONT_ButtonPressed2 = FALSE* *plant.CONT_CarAtFloor0 = FALSE*
+[ loop ] step 4: values from the formula *plant.CONT_ButtonPressed0 =  TRUE* *plant.CONT_ButtonPressed1 = FALSE* *plant.CONT_ButtonPressed2 = FALSE* *plant.CONT_CarAtFloor0 = FALSE*
+[ loop ] step 5: values from the formula *plant.CONT_ButtonPressed0 =  TRUE* *plant.CONT_ButtonPressed1 = FALSE* *plant.CONT_ButtonPressed2 = FALSE* *plant.CONT_CarAtFloor0 = FALSE*
+
+-- specification G (plant.CONT_ButtonPressed1 -> F (((plant.CONT_CarAtFloor1 | !plant.CONT_ButtonPressed1) | plant.CONT_ButtonPressed0) | plant.CONT_ButtonPressed2)) is FALSE
+[prefix] step 0: values from the formula [plant.CONT_ButtonPressed0 =  TRUE] [plant.CONT_ButtonPressed1 = TRUE] [plant.CONT_ButtonPressed2 =  TRUE] [plant.CONT_CarAtFloor1 = FALSE]
+[prefix] step 1: values from the formula [plant.CONT_ButtonPressed0 =  TRUE] [plant.CONT_ButtonPressed1 = TRUE] [plant.CONT_ButtonPressed2 =  TRUE] [plant.CONT_CarAtFloor1 = FALSE]
+[prefix] step 2: values from the formula *plant.CONT_ButtonPressed0 = FALSE* *plant.CONT_ButtonPressed1 = TRUE* *plant.CONT_ButtonPressed2 = FALSE* *plant.CONT_CarAtFloor1 = FALSE*
+[ loop ] step 3: values from the formula *plant.CONT_ButtonPressed0 = FALSE* *plant.CONT_ButtonPressed1 = TRUE* *plant.CONT_ButtonPressed2 = FALSE* *plant.CONT_CarAtFloor1 = FALSE*
+[ loop ] step 4: values from the formula *plant.CONT_ButtonPressed0 = FALSE* *plant.CONT_ButtonPressed1 = TRUE* *plant.CONT_ButtonPressed2 = FALSE* *plant.CONT_CarAtFloor1 = FALSE*
+
+-- specification G (plant.CONT_ButtonPressed2 -> F (((plant.CONT_CarAtFloor2 | !plant.CONT_ButtonPressed2) | plant.CONT_ButtonPressed0) | plant.CONT_ButtonPressed1)) is FALSE
+[prefix] step 0: values from the formula [plant.CONT_ButtonPressed0 =  TRUE] [plant.CONT_ButtonPressed1 =  TRUE] [plant.CONT_ButtonPressed2 = TRUE] [plant.CONT_CarAtFloor2 = FALSE]
+[prefix] step 1: values from the formula [plant.CONT_ButtonPressed0 =  TRUE] [plant.CONT_ButtonPressed1 =  TRUE] [plant.CONT_ButtonPressed2 = TRUE] [plant.CONT_CarAtFloor2 = FALSE]
+[prefix] step 2: values from the formula *plant.CONT_ButtonPressed0 = FALSE* *plant.CONT_ButtonPressed1 = FALSE* *plant.CONT_ButtonPressed2 = TRUE* *plant.CONT_CarAtFloor2 = FALSE*
+[ loop ] step 3: values from the formula *plant.CONT_ButtonPressed0 = FALSE* *plant.CONT_ButtonPressed1 = FALSE* *plant.CONT_ButtonPressed2 = TRUE* *plant.CONT_CarAtFloor2 = FALSE*
+[ loop ] step 4: values from the formula *plant.CONT_ButtonPressed0 = FALSE* *plant.CONT_ButtonPressed1 = FALSE* *plant.CONT_ButtonPressed2 = TRUE* *plant.CONT_CarAtFloor2 = FALSE*
+
+-- specification G (plant.CONT_ButtonPressed0 -> F plant.CONT_CarAtFloor0) is FALSE
+[prefix] step 0: values from the formula [plant.CONT_ButtonPressed0 =  TRUE] [plant.CONT_CarAtFloor0 =  TRUE]
+[prefix] step 1: values from the formula [plant.CONT_ButtonPressed0 = FALSE] [plant.CONT_CarAtFloor0 =  TRUE]
+[prefix] step 2: values from the formula *plant.CONT_ButtonPressed0 =  TRUE* *plant.CONT_CarAtFloor0 = FALSE*
+[prefix] step 3: values from the formula [plant.CONT_ButtonPressed0 = FALSE] *plant.CONT_CarAtFloor0 = FALSE*
+[prefix] step 4: values from the formula [plant.CONT_ButtonPressed0 = FALSE] *plant.CONT_CarAtFloor0 = FALSE*
+[ loop ] step 5: values from the formula [plant.CONT_ButtonPressed0 = FALSE] *plant.CONT_CarAtFloor0 = FALSE*
+[ loop ] step 6: values from the formula [plant.CONT_ButtonPressed0 = FALSE] *plant.CONT_CarAtFloor0 = FALSE*
+[ loop ] step 7: values from the formula [plant.CONT_ButtonPressed0 = FALSE] *plant.CONT_CarAtFloor0 = FALSE*
+[ loop ] step 8: values from the formula [plant.CONT_ButtonPressed0 = FALSE] *plant.CONT_CarAtFloor0 = FALSE*
+[ loop ] step 9: values from the formula [plant.CONT_ButtonPressed0 = FALSE] *plant.CONT_CarAtFloor0 = FALSE*
+
+-- specification G (plant.CONT_ButtonPressed1 -> F plant.CONT_CarAtFloor1) is FALSE
+[prefix] step 0: values from the formula *plant.CONT_ButtonPressed1 =  TRUE* *plant.CONT_CarAtFloor1 = FALSE*
+[prefix] step 1: values from the formula [plant.CONT_ButtonPressed1 =  TRUE] *plant.CONT_CarAtFloor1 = FALSE*
+[prefix] step 2: values from the formula [plant.CONT_ButtonPressed1 = FALSE] *plant.CONT_CarAtFloor1 = FALSE*
+[prefix] step 3: values from the formula [plant.CONT_ButtonPressed1 = FALSE] *plant.CONT_CarAtFloor1 = FALSE*
+[ loop ] step 4: values from the formula [plant.CONT_ButtonPressed1 = FALSE] *plant.CONT_CarAtFloor1 = FALSE*
+[ loop ] step 5: values from the formula [plant.CONT_ButtonPressed1 = FALSE] *plant.CONT_CarAtFloor1 = FALSE*
+[ loop ] step 6: values from the formula [plant.CONT_ButtonPressed1 = FALSE] *plant.CONT_CarAtFloor1 = FALSE*
+
+-- specification G (plant.CONT_ButtonPressed2 -> F plant.CONT_CarAtFloor2) is FALSE
+[prefix] step 0: values from the formula *plant.CONT_ButtonPressed2 =  TRUE* *plant.CONT_CarAtFloor2 = FALSE*
+[prefix] step 1: values from the formula [plant.CONT_ButtonPressed2 =  TRUE] *plant.CONT_CarAtFloor2 = FALSE*
+[prefix] step 2: values from the formula [plant.CONT_ButtonPressed2 = FALSE] *plant.CONT_CarAtFloor2 = FALSE*
+[prefix] step 3: values from the formula [plant.CONT_ButtonPressed2 = FALSE] *plant.CONT_CarAtFloor2 = FALSE*
+[ loop ] step 4: values from the formula [plant.CONT_ButtonPressed2 = FALSE] *plant.CONT_CarAtFloor2 = FALSE*
+[ loop ] step 5: values from the formula [plant.CONT_ButtonPressed2 = FALSE] *plant.CONT_CarAtFloor2 = FALSE*
+[ loop ] step 6: values from the formula [plant.CONT_ButtonPressed2 = FALSE] *plant.CONT_CarAtFloor2 = FALSE*
+[ loop ] step 7: values from the formula [plant.CONT_ButtonPressed2 = FALSE] *plant.CONT_CarAtFloor2 = FALSE*
+[ loop ] step 8: values from the formula [plant.CONT_ButtonPressed2 = FALSE] *plant.CONT_CarAtFloor2 = FALSE*
+
+-- specification !(F (G DoMotorDown)) is TRUE
+
+-- specification !(F (G DoMotorUp)) is TRUE
+
+-- specification ((G (F r[-1][2]) xor r[1][4]) xnor b) is FALSE
+[ loop ] step 0: values from the formula *b =  TRUE* [r[-1][2] = FALSE] *r[1][4] =  TRUE*
+[ loop ] step 1: values from the formula [b = FALSE] *r[-1][2] =  TRUE* [r[1][4] = FALSE]
+[ loop ] step 2: values from the formula [b =  TRUE] [r[-1][2] = FALSE] [r[1][4] =  TRUE]
+
+-- specification G (y -> O x) is FALSE
+[prefix] step 0: values from the formula *x = FALSE* *y =  TRUE*
+[prefix] step 1: values from the formula [x =  TRUE] [y = FALSE]
+[prefix] step 2: values from the formula [x =  TRUE] [y = FALSE]
+[prefix] step 3: values from the formula [x =  TRUE] [y = FALSE]
+[ loop ] step 4: values from the formula [x =  TRUE] [y = FALSE]
+[ loop ] step 5: values from the formula [x =  TRUE] [y = FALSE]
+
+-- specification G (y -> Y x) is FALSE
+[prefix] step 0: values from the formula [x = FALSE] *y =  TRUE*
+[prefix] step 1: values from the formula [x = FALSE] [y = FALSE]
+[ loop ] step 2: values from the formula [x =  TRUE] [y = FALSE]
+[ loop ] step 3: values from the formula [x = FALSE] [y =  TRUE]
+[ loop ] step 4: values from the formula [x = FALSE] [y = FALSE]
+[ loop ] step 5: values from the formula [x = FALSE] [y = FALSE]
+
+-- specification G (y -> Z x) is FALSE
+[prefix] step 0: values from the formula *x = FALSE* [y =  TRUE]
+[prefix] step 1: values from the formula [x = FALSE] *y =  TRUE*
+[prefix] step 2: values from the formula [x =  TRUE] [y = FALSE]
+[ loop ] step 3: values from the formula [x = FALSE] [y =  TRUE]
+[ loop ] step 4: values from the formula [x =  TRUE] [y = FALSE]
+[ loop ] step 5: values from the formula [x =  TRUE] [y = FALSE]
+
+-- specification G (y -> H x) is FALSE
+[prefix] step 0: values from the formula [x =  TRUE] [y =  TRUE]
+[prefix] step 1: values from the formula *x = FALSE* *y =  TRUE*
+[prefix] step 2: values from the formula [x = FALSE] [y = FALSE]
+[prefix] step 3: values from the formula [x =  TRUE] [y = FALSE]
+[prefix] step 4: values from the formula [x =  TRUE] [y = FALSE]
+[prefix] step 5: values from the formula [x = FALSE] [y = FALSE]
+[ loop ] step 6: values from the formula [x = FALSE] [y = FALSE]
+[ loop ] step 7: values from the formula [x =  TRUE] [y = FALSE]
+[ loop ] step 8: values from the formula [x =  TRUE] [y = FALSE]
+[ loop ] step 9: values from the formula [x = FALSE] [y = FALSE]
+
+-- specification (y -> H (Y x)) is FALSE
+[prefix] step 0: values from the formula [x = FALSE] *y =  TRUE*
+[prefix] step 1: values from the formula [x = FALSE] [y = FALSE]
+[prefix] step 2: values from the formula [x =  TRUE] [y = FALSE]
+[prefix] step 3: values from the formula [x = FALSE] [y =  TRUE]
+[prefix] step 4: values from the formula [x = FALSE] [y = FALSE]
+[prefix] step 5: values from the formula [x = FALSE] [y = FALSE]
+[ loop ] step 6: values from the formula [x =  TRUE] [y = FALSE]
+[ loop ] step 7: values from the formula [x = FALSE] [y =  TRUE]
+[ loop ] step 8: values from the formula [x = FALSE] [y = FALSE]
+[ loop ] step 9: values from the formula [x = FALSE] [y = FALSE]
+
+-- specification (y -> H (Y (Z x))) is FALSE
+[prefix] step  0: values from the formula [x = FALSE] *y =  TRUE*
+[prefix] step  1: values from the formula [x = FALSE] [y = FALSE]
+[prefix] step  2: values from the formula [x =  TRUE] [y = FALSE]
+[prefix] step  3: values from the formula [x = FALSE] [y =  TRUE]
+[prefix] step  4: values from the formula [x = FALSE] [y = FALSE]
+[prefix] step  5: values from the formula [x = FALSE] [y = FALSE]
+[prefix] step  6: values from the formula [x =  TRUE] [y = FALSE]
+[ loop ] step  7: values from the formula [x = FALSE] [y =  TRUE]
+[ loop ] step  8: values from the formula [x = FALSE] [y = FALSE]
+[ loop ] step  9: values from the formula [x = FALSE] [y = FALSE]
+[ loop ] step 10: values from the formula [x =  TRUE] [y = FALSE]
+
+-- specification (y -> O (H (Y (Z x)))) is FALSE
+[prefix] step  0: values from the formula [x = FALSE] *y =  TRUE*
+[prefix] step  1: values from the formula [x = FALSE] [y = FALSE]
+[prefix] step  2: values from the formula [x =  TRUE] [y = FALSE]
+[prefix] step  3: values from the formula [x = FALSE] [y =  TRUE]
+[prefix] step  4: values from the formula [x = FALSE] [y = FALSE]
+[prefix] step  5: values from the formula [x = FALSE] [y = FALSE]
+[prefix] step  6: values from the formula [x =  TRUE] [y = FALSE]
+[prefix] step  7: values from the formula [x = FALSE] [y =  TRUE]
+[prefix] step  8: values from the formula [x = FALSE] [y = FALSE]
+[prefix] step  9: values from the formula [x = FALSE] [y = FALSE]
+[prefix] step 10: values from the formula [x =  TRUE] [y = FALSE]
+[ loop ] step 11: values from the formula [x = FALSE] [y =  TRUE]
+[ loop ] step 12: values from the formula [x = FALSE] [y = FALSE]
+[ loop ] step 13: values from the formula [x = FALSE] [y = FALSE]
+[ loop ] step 14: values from the formula [x =  TRUE] [y = FALSE]
+
+-- specification G (X (y -> O (H (Y (Z x))))) is FALSE
+[prefix] step  0: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  1: values from the formula [x = FALSE] *y = TRUE*
+[prefix] step  2: values from the formula [x =  TRUE] [y = TRUE]
+[prefix] step  3: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  4: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  5: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  6: values from the formula [x =  TRUE] [y = TRUE]
+[prefix] step  7: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  8: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  9: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step 10: values from the formula [x =  TRUE] [y = TRUE]
+[ loop ] step 11: values from the formula [x = FALSE] [y = TRUE]
+[ loop ] step 12: values from the formula [x = FALSE] [y = TRUE]
+[ loop ] step 13: values from the formula [x = FALSE] [y = TRUE]
+[ loop ] step 14: values from the formula [x =  TRUE] [y = TRUE]
+
+-- specification G (X ((x & y) -> Z (H (O (Y x))))) is FALSE
+[prefix] step  0: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  1: values from the formula *x =  TRUE* *y = TRUE*
+[prefix] step  2: values from the formula [x =  TRUE] [y = TRUE]
+[prefix] step  3: values from the formula [x =  TRUE] [y = TRUE]
+[prefix] step  4: values from the formula [x =  TRUE] [y = TRUE]
+[prefix] step  5: values from the formula [x =  TRUE] [y = TRUE]
+[prefix] step  6: values from the formula [x =  TRUE] [y = TRUE]
+[prefix] step  7: values from the formula [x =  TRUE] [y = TRUE]
+[prefix] step  8: values from the formula [x =  TRUE] [y = TRUE]
+[ loop ] step  9: values from the formula [x =  TRUE] [y = TRUE]
+[ loop ] step 10: values from the formula [x =  TRUE] [y = TRUE]
+
+-- specification X (y -> O (H (Y (Z x)))) is FALSE
+[prefix] step  0: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  1: values from the formula [x = FALSE] *y = TRUE*
+[prefix] step  2: values from the formula [x =  TRUE] [y = TRUE]
+[prefix] step  3: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  4: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  5: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  6: values from the formula [x =  TRUE] [y = TRUE]
+[prefix] step  7: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  8: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  9: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step 10: values from the formula [x =  TRUE] [y = TRUE]
+[ loop ] step 11: values from the formula [x = FALSE] [y = TRUE]
+[ loop ] step 12: values from the formula [x = FALSE] [y = TRUE]
+[ loop ] step 13: values from the formula [x = FALSE] [y = TRUE]
+[ loop ] step 14: values from the formula [x =  TRUE] [y = TRUE]
+
+-- specification X (Y (X (Z u < 5))) is FALSE
+[prefix] step 0: values from the formula *u = 7*
+[prefix] step 1: values from the formula [u = 3]
+[prefix] step 2: values from the formula [u = 3]
+[ loop ] step 3: values from the formula [u = 7]
+[ loop ] step 4: values from the formula [u = 3]
+[ loop ] step 5: values from the formula [u = 3]
+[ loop ] step 6: values from the formula [u = 3]
+
+-- specification G (X (y -> O (H (Y (Z x))))) is FALSE
+[prefix] step  0: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  1: values from the formula [x = FALSE] *y = TRUE*
+[prefix] step  2: values from the formula [x =  TRUE] [y = TRUE]
+[prefix] step  3: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  4: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  5: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  6: values from the formula [x =  TRUE] [y = TRUE]
+[prefix] step  7: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  8: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step  9: values from the formula [x = FALSE] [y = TRUE]
+[prefix] step 10: values from the formula [x =  TRUE] [y = TRUE]
+[ loop ] step 11: values from the formula [x = FALSE] [y = TRUE]
+[ loop ] step 12: values from the formula [x = FALSE] [y = TRUE]
+[ loop ] step 13: values from the formula [x = FALSE] [y = TRUE]
+[ loop ] step 14: values from the formula [x =  TRUE] [y = TRUE]
+
+-- specification (TRUE U (X y)) is FALSE
+[ loop ] step 0: values from the formula *y = FALSE*
+[ loop ] step 1: values from the formula *y = FALSE*
+
+-- specification G (X (X (X ((G x & F (X y)) | (z & !(!z U !z)))))) is FALSE
+[ loop ] step 0: values from the formula [x =  TRUE] [y = TRUE] [z =  TRUE]
+[ loop ] step 1: values from the formula *x = FALSE* [y = TRUE] *z = FALSE*
+[ loop ] step 2: values from the formula [x =  TRUE] [y = TRUE] [z =  TRUE]
+
+-- specification G (X (X (X ((FALSE | (G (G (F x)) & (TRUE U (X (F y))))) | (z & !(!z U !z)))))) is FALSE
+[prefix] step 0: values from the formula [x = TRUE] [y =  TRUE] [z = FALSE]
+[ loop ] step 1: values from the formula [x = TRUE] *y = FALSE* *z = FALSE*
+[ loop ] step 2: values from the formula [x = TRUE] *y = FALSE* [z = FALSE]
+
+-- specification !(X (X (X ((x | y) | z)))) is FALSE
+[ loop ] step 0: values from the formula [x = FALSE] [y = TRUE] [z = TRUE]
+[ loop ] step 1: values from the formula [x = FALSE] *y = TRUE* *z = TRUE*
+
+-- specification u.v.w = 2 is FALSE
+[ loop ] step 0: values from the formula *u.v.w = 0*
+
+-- specification G u.v.w = 2 is FALSE
+[ loop ] step 0: values from the formula *u.v.w = 0*
+
+-- specification ((((X x != -(-9) | b) | x = 0) | (6 >= z U (G (X (x * 2 + 2 / y) - z < 10 * x)))) | 5 mod 2 >= 3) is FALSE
+[ loop ] step 0: values from the formula *b = FALSE* *x = 1* [y = -8] [z = -1]
+[ loop ] step 1: values from the formula [b = FALSE] *x = 9* [y = -8] [z = -1]
+[ loop ] step 2: values from the formula [b = FALSE] *x = 0* *y = -7* *z =  0*
+[ loop ] step 3: values from the formula [b = FALSE] [x = 1] [y = -8] [z = -1]
+
+-- specification ((b | x = 0) | (6 >= z U (G (X (x * 2 + 2 / y) - z < 10 * x)))) is FALSE
+[ loop ] step 0: values from the formula *b = FALSE* *x = 1* [y = -8] [z = -1]
+[ loop ] step 1: values from the formula [b = FALSE] *x = 0* *y = -7* *z =  0*
+[ loop ] step 2: values from the formula [b = FALSE] [x = 1] [y = -8] [z = -1]
+
+-- specification G (X (x * 2 + 2 / y) - z < 10 * x) is FALSE
+[ loop ] step 0: values from the formula [x = 0] [y = -8] [z = -1]
+[ loop ] step 1: values from the formula *x = 0* *y = -8* *z = -1*
+
+-- specification x + 2 < 10 is FALSE
+[ loop ] step 0: values from the formula *x = 9*
+[ loop ] step 1: values from the formula [x = 9]
+
+-- specification (FALSE | (TRUE & FALSE)) is FALSE
+[ loop ] step 0: values from the formula 
+
+-- specification FALSE is FALSE
+[ loop ] step 0: values from the formula 
+
+-- specification ((b xor b) xor b) is FALSE
+[ loop ] step 0: values from the formula *b = FALSE*
+[ loop ] step 1: values from the formula [b = FALSE]
+
+-- specification ((b <-> b) <-> b) is FALSE
+[ loop ] step 0: values from the formula *b = FALSE*
+[ loop ] step 1: values from the formula [b = FALSE]
+
+-- specification ((b xnor b) xnor b) is FALSE
+[ loop ] step 0: values from the formula *b = FALSE*
+[ loop ] step 1: values from the formula [b = FALSE]
+
+-- specification (b = b) = b is FALSE
+[ loop ] step 0: values from the formula *b = FALSE*
+[ loop ] step 1: values from the formula [b = FALSE]
+
+-- specification (b ? b : y >= z) is FALSE
+[ loop ] step 0: values from the formula *b = FALSE* *y = -8* *z = -1*
+[ loop ] step 1: values from the formula [b = FALSE] [y = -8] [z = -1]
+
+-- specification F ((b ? (y < 2 -> !b) : y >= z) <-> TRUE) is FALSE
+[ loop ] step 0: values from the formula *b = FALSE* *y = -8* *z = -1*
+[ loop ] step 1: values from the formula *b = FALSE* *y = -8* *z = -1*
+
+-- specification F (b ? TRUE : FALSE) is FALSE
+[ loop ] step 0: values from the formula *b = FALSE*
+[ loop ] step 1: values from the formula *b = FALSE*
+
+-- specification (b | x = 0) is FALSE
+[ loop ] step 0: values from the formula *b = FALSE* *x = 1*
+[ loop ] step 1: values from the formula [b = FALSE] [x = 1]
+
+-- specification !b is FALSE
+[ loop ] step 0: values from the formula *b = TRUE*
+[ loop ] step 1: values from the formula [b = TRUE]
+
+-- specification !(F (((r[0][2] <-> b) -> !b) ? x + 1 : x * y) < -2) is FALSE
+[prefix] step 0: values from the formula *b = TRUE* *r[0][2] =  TRUE* *x = 3* *y = -8*
+[ loop ] step 1: values from the formula [b = TRUE] [r[0][2] = FALSE] [x = 3] [y = -8]
+[ loop ] step 2: values from the formula [b = TRUE] [r[0][2] = FALSE] [x = 3] [y = -8]
+
+-- specification (!(G b) -> (!b -> b)) is FALSE
+[prefix] step 0: values from the formula *b = FALSE*
+[ loop ] step 1: values from the formula [b =  TRUE]
+[ loop ] step 2: values from the formula [b =  TRUE]
+
+-- specification (b ? 2 : 5) > 8 is FALSE
+[ loop ] step 0: values from the formula *b = FALSE*
+[ loop ] step 1: values from the formula [b = FALSE]
+
+-- specification (b ? (!b ? 2 : 3) : 1) > 4 is FALSE
+[ loop ] step 0: values from the formula *b = FALSE*
+[ loop ] step 1: values from the formula [b = FALSE]
+
+-- specification (z V (y V (X u = 0))) is FALSE
+[ loop ] step 0: values from the formula [u = 0] [y = TRUE] [z =  TRUE]
+[ loop ] step 1: values from the formula *u = 1* [y = TRUE] [z = FALSE]
+[ loop ] step 2: values from the formula [u = 0] [y = TRUE] [z =  TRUE]
+
