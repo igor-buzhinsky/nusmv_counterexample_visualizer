@@ -1,0 +1,89 @@
+name: Build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and test (${{ matrix.os }}, JDK ${{ matrix.java }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        java: [21]
+        include:
+          # Oldest JDK that can run Gradle 9
+          - os: ubuntu-latest
+            java: 17
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+
+      # Also validates the checksum of the committed Gradle wrapper jar
+      - uses: gradle/actions/setup-gradle@v4
+
+      - run: ./gradlew build
+
+      - name: Upload test reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-${{ matrix.os }}-jdk${{ matrix.java }}
+          path: build/reports/tests/
+
+      - name: Upload jars
+        if: matrix.os == 'ubuntu-latest' && matrix.java == 21
+        uses: actions/upload-artifact@v4
+        with:
+          name: jars
+          path: |
+            build/libs/visualizer-console.jar
+            build/libs/visualizer-gui.jar
+
+  java8-compatibility:
+    name: Run jars on Java 8
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: jars
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 8
+
+      - name: Compare console output with snapshots
+        run: |
+          java -version
+          check() {
+            java -Dfile.encoding=UTF-8 -jar visualizer-console.jar "$1" actual.out $3 > /dev/null
+            diff -u "src/test/resources/golden/$2" actual.out
+          }
+          check example-input.txt example-input_annotateFormulas.out --annotateFormulas
+          check example-input-nuxmv-reals.txt example-input-nuxmv-reals_allVars_annotateFormulas.out "--allVars --annotateFormulas"
+          check src/test/resources/inputs/symbolic-values.txt symbolic-values.out ""
+
+      - name: Start the GUI on a virtual display
+        # The GUI must still be running without exceptions when it is stopped after 10 seconds
+        run: |
+          command -v xvfb-run > /dev/null || (sudo apt-get update && sudo apt-get install -y xvfb)
+          status=0
+          timeout 10 xvfb-run -a java -jar visualizer-gui.jar example-input.txt > gui.log 2>&1 || status=$?
+          cat gui.log
+          test "$status" -eq 124
+          ! grep -E "Exception|Error:" gui.log
