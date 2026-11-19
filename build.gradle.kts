@@ -13,7 +13,7 @@ dependencies {
     implementation("org.antlr:antlr4-runtime:4.7.1")
     // 2.0.21, used before the Gradle migration, was never published to Maven Central.
     implementation("args4j:args4j:2.0.22")
-    implementation("org.apache.commons:commons-lang3:3.1")
+    implementation("org.apache.commons:commons-lang3:3.21.0")
 
     testImplementation(platform("org.junit:junit-bom:5.11.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
@@ -54,6 +54,9 @@ fun registerFatJar(taskName: String, fileName: String, mainClass: String) =
             into("META-INF")
         }
         exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
+        // Module descriptors of dependencies do not describe the merged jar
+        exclude("**/module-info.class")
+        includeEmptyDirs = false
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
 
