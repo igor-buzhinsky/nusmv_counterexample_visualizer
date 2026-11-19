@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: "If you use this tool in research, please cite the paper below."
+title: "NuSMV LTL counterexample visualizer"
+type: software
+authors:
+  - family-names: Buzhinsky
+    given-names: Igor
+license: MIT
+repository-code: "https://github.com/igor-buzhinsky/nusmv_counterexample_visualizer"
+abstract: >-
+  Explains why an LTL property fails on a counterexample produced by the NuSMV or nuXmv model checker,
+  using causal analysis and structured visualization of subformula values.
+keywords:
+  - model checking
+  - linear temporal logic
+  - counterexample explanation
+  - causality
+  - NuSMV
+preferred-citation:
+  type: conference-paper
+  authors:
+    - family-names: Pakonen
+      given-names: Antti
+    - family-names: Buzhinsky
+      given-names: Igor
+    - family-names: Vyatkin
+      given-names: Valeriy
+  title: "Counterexample visualization and explanation for function block diagrams"
+  collection-title: "2018 IEEE 16th International Conference on Industrial Informatics (INDIN)"
+  conference:
+    name: "16th IEEE International Conference on Industrial Informatics (INDIN)"
+    city: Porto
+    country: PT
+    date-start: "2018-07-18"
+    date-end: "2018-07-20"
+  publisher:
+    name: IEEE
+  start: 747
+  end: 753
+  year: 2018
+  doi: "10.1109/INDIN.2018.8472025"
