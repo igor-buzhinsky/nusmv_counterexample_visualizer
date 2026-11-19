@@ -15,6 +15,12 @@ This tool reads the model checker's output and shows:
 
 It was developed for explaining counterexamples in the verification of function block diagrams, a common language of industrial automation software (see [Citation](#citation)). It also works as a teaching aid for LTL semantics on hand-written traces.
 
+## Demo
+
+Explaining why the first specification of [example-input.txt](example-input.txt) is FALSE: G fails on step 0 because the implication fails on step 1, and the implication fails because its premise holds while its conclusion `X(alarm)` does not.
+
+<img src="docs/demo.gif" width="800" alt="Selecting a FALSE specification, clicking its G operator and then the implication to follow the explanation, and switching to full annotations to see the value of every subformula">
+
 ## Quick start
 
 1. Install [Java 8 or higher](https://adoptium.net/).
