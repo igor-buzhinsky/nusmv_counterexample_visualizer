@@ -16,9 +16,6 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
-/**
- * Created by buzhinsky on 10/17/17.
- */
 class Reader {
     private String strOriginalF;
     private Boolean originalValue;

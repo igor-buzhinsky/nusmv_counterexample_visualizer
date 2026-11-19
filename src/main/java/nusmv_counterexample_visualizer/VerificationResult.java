@@ -6,9 +6,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 
-/**
- * Created by buzhinsky on 9/3/17.
- */
 class VerificationResult {
     final String strOriginalF;
     private final Boolean originalValue;

@@ -10,9 +10,6 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * Created by buzhinsky on 11/20/17.
- */
 public class CountArithmeticOperator extends ArithmeticExpression {
     private final List<ArithmeticExpression> arguments;
 

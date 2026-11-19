@@ -9,9 +9,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.*;
 import java.util.function.Function;
 
-/**
- * Created by buzhinsky on 4/18/17.
- */
 public abstract class LTLFormula {
     private static final List<LTLFormula> INT_TO_FORMULA = new ArrayList<>();
     private static final Map<LTLFormula, Integer> FORMULA_TO_INT = new HashMap<>();

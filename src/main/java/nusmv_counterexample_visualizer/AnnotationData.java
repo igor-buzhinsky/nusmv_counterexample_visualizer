@@ -7,9 +7,6 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by buzhinsky on 10/17/17.
- */
 class AnnotationData {
     final List<String> longAnnotations;
     final List<String> shortAnnotations;

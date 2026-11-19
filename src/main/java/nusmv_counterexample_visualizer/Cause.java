@@ -5,9 +5,6 @@ import nusmv_counterexample_visualizer.formula.ltl.Proposition;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by buzhinsky on 9/3/17.
- */
 public class Cause {
     private final int position;
     private final Proposition p;

@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by buzhinsky on 11/20/17.
- */
 public class Variable extends ArithmeticExpression {
     public Variable(String name) {
         super(name);

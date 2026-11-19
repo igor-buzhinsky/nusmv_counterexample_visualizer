@@ -10,9 +10,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by buzhinsky on 11/19/17.
- */
 public class Util {
     public static int lengthWithoutTags(String s) {
         return s.replaceAll("</?\\w+[^>]*>","").replaceAll("&(nbsp|lt|gt);", " ").length();

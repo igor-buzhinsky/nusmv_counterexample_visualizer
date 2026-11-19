@@ -1,8 +1,5 @@
 package nusmv_counterexample_visualizer;
 
-/**
- * Created by buzhinsky on 9/3/17.
- */
 class VarNameCause {
     private final int position;
     private final String varName;

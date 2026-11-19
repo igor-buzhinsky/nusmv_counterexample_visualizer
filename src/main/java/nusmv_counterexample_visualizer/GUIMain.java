@@ -22,9 +22,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-/**
- * Created by buzhinsky on 10/16/17.
- */
 public class GUIMain extends JFrame {
     @Argument(usage = "NuSMV output file (input for the tool)", metaVar = "<in>")
     private String input;

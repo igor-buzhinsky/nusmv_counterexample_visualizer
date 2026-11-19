@@ -3,28 +3,13 @@ Copied from https://introcs.cs.princeton.edu/java/92symbolic/BigRational.java
  */
 
 /******************************************************************************
- *  Compilation:  javac BigRational.java
- *  Execution:    java BigRational
+ *  Immutable ADT for arbitrarily large Rational numbers.
  *
- *  Immutable ADT for arbitrarily large Rational numbers. 
- * 
  *  Invariants
  *  ----------
  *   -  gcd(num, den) = 1, i.e., rational number is in reduced form
  *   -  den >= 1, i.e., the denominator is always a positive integer
  *   -  0/1 is the unique representation of zero
- *
- *  % java BigRational
- *  5/6
- *  1
- *  1/120000000
- *  1073741789/12
- *  1
- *  841/961
- *  -1/3
- *  0
- *  true
- *  Exception in thread "main" java.lang.ArithmeticException: Denominator is zero
  *
  ******************************************************************************/
 
@@ -171,67 +156,6 @@ public class BigRational implements Comparable<BigRational> {
         BigDecimal denominator = new BigDecimal(den);
         BigDecimal quotient    = numerator.divide(denominator, SCALE, RoundingMode.HALF_EVEN);
         return quotient.doubleValue();
-    }
-
-
-    // test client
-    public static void main(String[] args) {
-        BigRational x, y, z;
-
-        // 1/2 + 1/3 = 5/6
-        x = new BigRational(1, 2);
-        y = new BigRational(1, 3);
-        z = x.plus(y);
-        System.out.println(z);
-
-        // 8/9 + 1/9 = 1
-        x = new BigRational(8, 9);
-        y = new BigRational(1, 9);
-        z = x.plus(y);
-        System.out.println(z);
-
-        // 1/200000000 + 1/300000000 = 1/120000000
-        x = new BigRational(1, 200000000);
-        y = new BigRational(1, 300000000);
-        z = x.plus(y);
-        System.out.println(z);
-
-        // 1073741789/20 + 1073741789/30 = 1073741789/12
-        x = new BigRational(1073741789, 20);
-        y = new BigRational(1073741789, 30);
-        z = x.plus(y);
-        System.out.println(z);
-
-        //  4/17 * 17/4 = 1
-        x = new BigRational(4, 17);
-        y = new BigRational(17, 4);
-        z = x.times(y);
-        System.out.println(z);
-
-        // 3037141/3247033 * 3037547/3246599 = 841/961 
-        x = new BigRational(3037141, 3247033);
-        y = new BigRational(3037547, 3246599);
-        z = x.times(y);
-        System.out.println(z);
-
-        // 1/6 - -4/-8 = -1/3
-        x = new BigRational( 1,  6);
-        y = new BigRational(-4, -8);
-        z = x.minus(y);
-        System.out.println(z);
-
-        // 0
-        x = new BigRational(0,  5);
-        System.out.println(x);
-        System.out.println(x.plus(x).compareTo(x) == 0);
-        /// StdOut.println(x.reciprocal());   // divide-by-zero
-
-        // -1/200000000 + 1/300000000 = 1/120000000
-        x = new BigRational(-1, 200000000);
-        y = new BigRational(1, 300000000);
-        z = x.plus(y);
-        System.out.println(z);
-
     }
 
 }

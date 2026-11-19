@@ -4,9 +4,6 @@ import nusmv_counterexample_visualizer.Util;
 
 import java.util.*;
 
-/**
- * Created by buzhinsky on 11/15/17.
- */
 public abstract class HighlightingMode {
     public abstract String name();
     abstract String visualizeValueNoUrl(String s, boolean value, boolean highlight);

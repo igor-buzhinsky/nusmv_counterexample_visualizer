@@ -7,9 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- * Created by buzhinsky on 11/20/17.
- */
 public class TernaryArithmeticOperator extends ArithmeticExpression {
     private final ArithmeticExpression condition;
     private final ArithmeticExpression leftOption;

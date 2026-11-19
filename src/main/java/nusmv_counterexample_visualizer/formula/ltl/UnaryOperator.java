@@ -12,9 +12,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-/**
- * Created by buzhinsky on 4/18/17.
- */
 public class UnaryOperator extends LTLFormula {
     public final String name;
     public final LTLFormula argument;

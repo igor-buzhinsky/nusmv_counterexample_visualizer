@@ -6,9 +6,6 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by buzhinsky on 11/15/17.
- */
 public class DefaultHighlightingMode extends HighlightingMode {
     private static final String WHITE = "#ffffff";
     private static final String BLACK = "#000000";

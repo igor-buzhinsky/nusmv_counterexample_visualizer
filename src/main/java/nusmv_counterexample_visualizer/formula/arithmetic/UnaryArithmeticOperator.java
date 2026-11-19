@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by buzhinsky on 11/20/17.
- */
 public class UnaryArithmeticOperator extends ArithmeticExpression {
     private final ArithmeticExpression argument;
 

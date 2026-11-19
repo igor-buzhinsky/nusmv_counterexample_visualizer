@@ -8,9 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-/**
- * Created by buzhinsky on 11/20/17.
- */
 public class Constant extends ArithmeticExpression {
     // NuSMV symbolic constants (enumeration values) are identifiers. Unlike the formula grammar, dashes are
     // accepted here so that traces with such values can still be loaded (NuSMV allows dashes in identifiers).
@@ -61,7 +58,6 @@ public class Constant extends ArithmeticExpression {
             } else {
                 throw new RuntimeException("Unknown type/format of constant " + name + ".");
             }
-            // System.out.println(name + " -> " + result);
             return result;
         }
     }

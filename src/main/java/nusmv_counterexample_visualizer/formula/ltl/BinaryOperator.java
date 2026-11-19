@@ -9,9 +9,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.*;
 import java.util.function.Function;
 
-/**
- * Created by buzhinsky on 4/18/17.
- */
 public class BinaryOperator extends LTLFormula {
     public final String name;
     public final LTLFormula leftArgument;

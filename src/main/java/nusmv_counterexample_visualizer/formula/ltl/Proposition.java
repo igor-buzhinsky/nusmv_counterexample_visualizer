@@ -13,9 +13,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- * Created by buzhinsky on 4/18/17.
- */
 public class Proposition extends LTLFormula {
     private final ArithmeticExpression expression;
     private final Proposition originalVersion;

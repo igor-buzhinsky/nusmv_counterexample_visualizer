@@ -6,9 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
-/**
- * Created by buzhinsky on 11/15/17.
- */
 class ModchkHighlightingMode extends HighlightingMode {
     @Override
     public String name() {

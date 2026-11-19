@@ -10,9 +10,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-/**
- * Created by buzhinsky on 6/29/17.
- */
 public class Counterexample {
     private final Set<String> vars = new LinkedHashSet<>();
     private final Set<String> importantVars = new LinkedHashSet<>();
@@ -289,7 +286,6 @@ public class Counterexample {
             }
 
             causalSetCache.put(Pair.of(i, f), result);
-            //System.out.println("c(" + i + ", " + f + ") = " + result);
         }
         return result;
     }
@@ -297,9 +293,6 @@ public class Counterexample {
     Set<Cause> causalSet(LTLFormula f) {
         final Set<Cause> set = new LinkedHashSet<>(c(0, f));
         set.remove(null);
-        //System.out.println(f);
-        //System.out.println(set.stream().map(Object::toString).sorted().collect(Collectors.toList()));
-        //System.exit(0);
         return set;
     }
 
