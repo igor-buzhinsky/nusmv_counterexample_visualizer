@@ -1,2 +1,6 @@
 build/
 .gradle/
+
+# Jars are built by Gradle and published as release assets
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
