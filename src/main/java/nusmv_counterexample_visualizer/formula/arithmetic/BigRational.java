@@ -43,10 +43,11 @@ public final class BigRational implements Comparable<BigRational> {
     }
 
     /**
-     * Parses an integer ("-5") or a fraction ("-3/4").
+     * Parses an integer ("-5") or a fraction ("-3/4"), as split by {@link String#split(String)} on "/". As a
+     * consequence, trailing slashes are ignored: "1/" is parsed as 1 and "1/2/" as 1/2.
      *
-     * @throws NumberFormatException if a part is not an integer
-     * @throws IllegalArgumentException if there is more than one "/"
+     * @throws NumberFormatException if a part is not an integer, e.g. empty as in "/2" or with whitespace
+     * @throws IllegalArgumentException if there are more than two parts, e.g. "1/2/3" or "1//2"
      * @throws ArithmeticException if the denominator is zero
      */
     public BigRational(String s) {
@@ -62,7 +63,7 @@ public final class BigRational implements Comparable<BigRational> {
         switch (tokens.length) {
             case 1: return new BigInteger[] {new BigInteger(tokens[0]), BigInteger.ONE};
             case 2: return new BigInteger[] {new BigInteger(tokens[0]), new BigInteger(tokens[1])};
-            default: throw new IllegalArgumentException("Not a rational number: \"" + s + "\"");
+            default: throw new IllegalArgumentException("For input string: \"" + s + "\"");
         }
     }
 
@@ -110,7 +111,8 @@ public final class BigRational implements Comparable<BigRational> {
     }
 
     /**
-     * The nearest double, computed with 34 significant decimal digits.
+     * An approximation as a double: the quotient is rounded to 34 significant decimal digits and then to a double,
+     * so the result may differ from the nearest double in the last bit.
      */
     public double doubleValue() {
         return new BigDecimal(numerator).divide(new BigDecimal(denominator), MathContext.DECIMAL128).doubleValue();

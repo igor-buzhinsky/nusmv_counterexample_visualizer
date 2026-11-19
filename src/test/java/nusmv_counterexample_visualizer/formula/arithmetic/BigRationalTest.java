@@ -60,8 +60,8 @@ class BigRationalTest {
 
     @Test
     void zeroHasOneRepresentation() {
-        assertEquals(BigRational.ZERO, new BigRational(0, -7));
-        assertEquals(BigRational.ZERO, new BigRational(3, 4).minus(new BigRational(6, 8)));
+        assertEquals("0", new BigRational(0, -7).toString());
+        assertEquals("0", new BigRational(3, 4).minus(new BigRational(6, 8)).toString());
         assertEquals(BigRational.ZERO.hashCode(), new BigRational(0, 5).hashCode());
         assertFalse(BigRational.ZERO.isNegative());
     }
@@ -71,12 +71,33 @@ class BigRationalTest {
         assertTrue(new BigRational(-1, 2).compareTo(new BigRational(-1, 3)) < 0);
         assertTrue(new BigRational(-1, 2).compareTo(BigRational.ZERO) < 0);
         assertEquals(new BigRational(1, 2), new BigRational(-1, 2).negate());
-        assertEquals(new BigRational(-2), new BigRational(1, 2).divides(new BigRational(-1, 4)));
+        assertEquals("-2", new BigRational(1, 2).divides(new BigRational(-1, 4)).toString());
+    }
+
+    @Test
+    void parsesSignsAndTrailingSlashes() {
+        assertEquals("-1/2", new BigRational("1/-2").toString());
+        assertEquals("5", new BigRational("+5").toString());
+        assertEquals("0", new BigRational("-0").toString());
+        // String.split drops trailing empty parts
+        assertEquals("1", new BigRational("1/").toString());
+        assertEquals("1/2", new BigRational("1/2/").toString());
+    }
+
+    @Test
+    void longExtremesAreExact() {
+        assertEquals("-9223372036854775808", new BigRational(Long.MIN_VALUE).toString());
+        assertEquals("9223372036854775808", new BigRational(Long.MIN_VALUE).negate().toString());
+        assertEquals("1/9223372036854775808", new BigRational(-1, Long.MIN_VALUE).toString());
     }
 
     @Test
     void invalidInputIsRejected() {
         assertThrows(NumberFormatException.class, () -> new BigRational("a/2"));
+        assertThrows(NumberFormatException.class, () -> new BigRational("/2"));
+        assertThrows(NumberFormatException.class, () -> new BigRational(" 1"));
+        assertEquals("For input string: \"1//2\"",
+                assertThrows(IllegalArgumentException.class, () -> new BigRational("1//2")).getMessage());
         assertThrows(ArithmeticException.class, () -> new BigRational("1/0"));
         assertThrows(ArithmeticException.class, () -> BigRational.ONE.divides(BigRational.ZERO));
     }
@@ -85,8 +106,8 @@ class BigRationalTest {
     void largeValuesAreExact() {
         final BigRational big = new BigRational("123456789012345678901234567890/11");
         assertEquals("123456789012345678901234567890/11", big.toString());
-        assertEquals(BigRational.ONE, big.divides(big));
-        assertEquals(new BigRational("-123456789012345678901234567890"), big.times(new BigRational(-11)));
+        assertEquals("1", big.divides(big).toString());
+        assertEquals("-123456789012345678901234567890", big.times(new BigRational(-11)).toString());
     }
 
     @Test
