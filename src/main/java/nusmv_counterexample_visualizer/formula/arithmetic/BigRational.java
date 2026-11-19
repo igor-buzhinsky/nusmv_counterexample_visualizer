@@ -1,5 +1,7 @@
 /*
 Copied from https://introcs.cs.princeton.edu/java/92symbolic/BigRational.java
+Copyright Robert Sedgewick and Kevin Wayne, from "Computer Science: An Interdisciplinary Approach".
+This file is not covered by the MIT license of this project.
  */
 
 /******************************************************************************

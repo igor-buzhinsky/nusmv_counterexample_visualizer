@@ -56,6 +56,7 @@ fun registerFatJar(taskName: String, fileName: String, mainClass: String) =
         exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
         // Module descriptors of dependencies do not describe the merged jar
         exclude("**/module-info.class")
+        // Drops META-INF/versions/9/, which is empty once module-info.class is excluded
         includeEmptyDirs = false
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }

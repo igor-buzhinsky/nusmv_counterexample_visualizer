@@ -36,6 +36,13 @@ class BigRationalTest {
         assertEquals(new BigRational(1073741789, 12),
                 new BigRational(1073741789, 20).plus(new BigRational(1073741789, 30)));
         assertEquals(new BigRational(2, 3), new BigRational(-2, 3).abs());
+        assertEquals(BigRational.ONE, new BigRational(8, 9).plus(new BigRational(1, 9)));
+        assertEquals(new BigRational(1, 120000000),
+                new BigRational(1, 200000000).plus(new BigRational(1, 300000000)));
+        assertEquals(new BigRational(-1, 600000000),
+                new BigRational(-1, 200000000).plus(new BigRational(1, 300000000)));
+        assertEquals(new BigRational(841, 961),
+                new BigRational(3037141, 3247033).times(new BigRational(3037547, 3246599)));
     }
 
     @Test

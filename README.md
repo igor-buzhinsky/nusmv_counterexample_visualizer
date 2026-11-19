@@ -152,7 +152,7 @@ The build uses [Gradle](https://gradle.org/) through the included wrapper, so on
 
 This generates the LTL parser from the ANTLR grammar, compiles the code, runs the tests, and builds self-contained jars (visualizer-console.jar and visualizer-gui.jar) in build/libs. On Windows, use `gradlew.bat` instead of `./gradlew`.
 
-To publish a release, push an annotated tag such as `v1.2.3`: the [release workflow](.github/workflows/release.yml) builds and tests the project and attaches the jars and their SHA-256 checksums to a new GitHub release, using the tag message as release notes.
+To publish a release, push an annotated tag such as `v1.2.3`: the [release workflow](.github/workflows/release.yml) builds and tests the project and attaches the jars and their SHA-256 checksums to a new GitHub release, using the tag message as release notes. Create the tag with `git tag -a v1.2.3 --cleanup=verbatim -F notes.md`: by default, git strips lines starting with `#`, i.e. Markdown headings, from tag messages.
 
 ### Testing
 
