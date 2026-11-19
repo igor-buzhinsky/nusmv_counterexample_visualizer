@@ -59,6 +59,37 @@ class BigRationalTest {
     }
 
     @Test
+    void zeroHasOneRepresentation() {
+        assertEquals(BigRational.ZERO, new BigRational(0, -7));
+        assertEquals(BigRational.ZERO, new BigRational(3, 4).minus(new BigRational(6, 8)));
+        assertEquals(BigRational.ZERO.hashCode(), new BigRational(0, 5).hashCode());
+        assertFalse(BigRational.ZERO.isNegative());
+    }
+
+    @Test
+    void negativeNumbersAreOrdered() {
+        assertTrue(new BigRational(-1, 2).compareTo(new BigRational(-1, 3)) < 0);
+        assertTrue(new BigRational(-1, 2).compareTo(BigRational.ZERO) < 0);
+        assertEquals(new BigRational(1, 2), new BigRational(-1, 2).negate());
+        assertEquals(new BigRational(-2), new BigRational(1, 2).divides(new BigRational(-1, 4)));
+    }
+
+    @Test
+    void invalidInputIsRejected() {
+        assertThrows(NumberFormatException.class, () -> new BigRational("a/2"));
+        assertThrows(ArithmeticException.class, () -> new BigRational("1/0"));
+        assertThrows(ArithmeticException.class, () -> BigRational.ONE.divides(BigRational.ZERO));
+    }
+
+    @Test
+    void largeValuesAreExact() {
+        final BigRational big = new BigRational("123456789012345678901234567890/11");
+        assertEquals("123456789012345678901234567890/11", big.toString());
+        assertEquals(BigRational.ONE, big.divides(big));
+        assertEquals(new BigRational("-123456789012345678901234567890"), big.times(new BigRational(-11)));
+    }
+
+    @Test
     void doubleValue() {
         assertEquals(0.5, new BigRational(1, 2).doubleValue());
         assertEquals(1.0 / 3, new BigRational(1, 3).doubleValue(), 1e-15);
